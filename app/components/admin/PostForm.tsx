@@ -7,11 +7,11 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import slugify from "slugify";
-import { uploadFileFirebase } from "../services/firebaseService";
-import Spinner from "./Spinner";
-import { Editor } from "./Editor";
 import Dropzone from "react-dropzone";
+import { Editor } from "./Editor";
+import { uploadFileFirebase } from "@/app/services/firebaseService";
 import CategorySelect from "./CategorySelect";
+import Spinner from "../Spinner";
 
 type FormData = {
   title: string;
@@ -110,8 +110,6 @@ function PostForm({ editedPost }: Props) {
     router.push("dashboard/posts");
   };
 
-  if (isSubmitting) return <Spinner />;
-
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="mb-5">
@@ -189,6 +187,7 @@ function PostForm({ editedPost }: Props) {
                     alt="Main Image"
                     fill
                     className="object-cover"
+                    priority
                   />
 
                   <button
@@ -226,7 +225,9 @@ function PostForm({ editedPost }: Props) {
 
       <button
         type="submit"
-        className={isSubmitting ? "btn btn-disabled" : "btn btn-primary"}
+        className={
+          isSubmitting ? "btn btn-primary btn-disabled" : "btn btn-primary "
+        }
       >
         Save
       </button>

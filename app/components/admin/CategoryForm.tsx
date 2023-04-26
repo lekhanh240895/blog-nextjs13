@@ -1,7 +1,7 @@
-import CategorySelect from "@/app/components/CategorySelect";
 import axios from "axios";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import CategorySelect from "./CategorySelect";
 
 type FormData = {
   title: string;

@@ -1,5 +1,5 @@
 "use client";
-import PostForm from "@/app/components/PostForm";
+import PostForm from "@/app/components/admin/PostForm";
 import { ChevronLeftIcon } from "@heroicons/react/24/outline";
 import axios from "axios";
 import { useParams, useRouter } from "next/navigation";
@@ -26,7 +26,7 @@ function EditPost() {
         </h2>
 
         <button
-          className="btn btn-secondary flex items-center justify-between px-2 gap-x-1"
+          className="btn  flex items-center justify-between px-2 gap-x-1"
           onClick={() => router.back()}
         >
           <ChevronLeftIcon className="w-5 h-5" />

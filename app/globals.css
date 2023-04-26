@@ -22,26 +22,25 @@
   }
 
   .btn {
-    @apply border border-gray-200 px-4 bg-blue-900 text-white py-1 rounded-md hover:bg-blue-800 transition-all;
+    @apply inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2;
   }
 
   .btn-primary {
-    @apply bg-primary hover:bg-primary/90;
-  }
-
-  .btn-secondary {
-    @apply bg-gray-500  hover:bg-gray-200 hover:text-gray-900;
+    @apply bg-primary/90 hover:bg-primary/100 text-white focus-visible:ring-primary/100;
   }
 
   .btn-disabled {
-    @apply bg-gray-200 pointer-events-none opacity-50;
+    @apply pointer-events-none opacity-50;
   }
 
   table.basic {
     @apply w-full text-center;
   }
+  table.basic tr {
+    @apply hover:bg-gray-300;
+  }
   table.basic tr th {
-    @apply bg-blue-200 border px-2 py-1;
+    @apply bg-blue-900 text-white border px-2 py-1;
   }
   table.basic tr td {
     @apply border border-gray-300 px-2 py-1;

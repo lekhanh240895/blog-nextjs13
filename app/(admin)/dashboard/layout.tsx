@@ -1,9 +1,8 @@
 "use client";
 
+import DashboardLayout from "@/app/components/admin/DashboardLayout";
+import DeletePost from "@/app/modal/DeletePost";
 import { signIn, useSession } from "next-auth/react";
-import DashboardLayout from "@/app/components/DashboardLayout";
-import { Provider } from "react-redux";
-import { store } from "@/app/redux/store";
 
 export default function AdminLayout({
   children,
@@ -33,8 +32,9 @@ export default function AdminLayout({
     );
 
   return (
-    <Provider store={store}>
-      <DashboardLayout>{children}</DashboardLayout>
-    </Provider>
+    <DashboardLayout>
+      <DeletePost />
+      {children}
+    </DashboardLayout>
   );
 }

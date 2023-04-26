@@ -2,27 +2,23 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { useDispatch, useSelector } from "react-redux";
+import { openDeletePostModal } from "@/app/features/appSlice";
+import { appSelector, postSelector } from "@/app/redux/selector";
+import { fetchPosts } from "@/app/features/postSlice";
+import { AppDispatch } from "@/app/redux/store";
 
 function PostsTable() {
-  const [posts, setPosts] = useState<Post[]>([]);
+  const { posts } = useSelector(postSelector);
   const router = useRouter();
-
-  const fetchPost = async () => {
-    const res = await axios.get("/api/posts");
-    setPosts(res.data);
-  };
+  const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
-    fetchPost();
-  }, []);
+    dispatch(fetchPosts());
+  }, [dispatch]);
 
   const handleEdit = (post: Post) => {
     router.push("/dashboard/post/" + post._id + "/edit");
-  };
-
-  const handleDelete = async (id: string) => {
-    await axios.delete("/api/posts?id=" + id);
-    fetchPost();
   };
 
   return (
@@ -41,12 +37,12 @@ function PostsTable() {
             <td>{post.title}</td>
             <td>Love</td>
             <td className="align-middle space-y-1 space-x-1 text-center">
-              <button className="btn grow" onClick={() => handleEdit(post)}>
+              <button className="btn" onClick={() => handleEdit(post)}>
                 Edit
               </button>
               <button
-                className="btn grow"
-                onClick={() => handleDelete(post._id)}
+                className="btn"
+                onClick={() => dispatch(openDeletePostModal(post))}
               >
                 Delete
               </button>

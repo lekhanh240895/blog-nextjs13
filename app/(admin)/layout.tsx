@@ -1,6 +1,8 @@
 import "../globals.css";
 import { Vollkorn } from "next/font/google";
 import AuthContext from "./AuthContext";
+import ReduxProvider from "../components/admin/Provider";
+import DeletePost from "../modal/DeletePost";
 
 const vollkorn = Vollkorn({
   weight: ["500", "600", "400", "700", "800", "900"],
@@ -39,7 +41,9 @@ export default function RootLayout({
       />
 
       <body className={vollkorn.className}>
-        <AuthContext>{children}</AuthContext>
+        <ReduxProvider>
+          <AuthContext>{children}</AuthContext>
+        </ReduxProvider>
       </body>
     </html>
   );

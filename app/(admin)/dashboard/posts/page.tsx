@@ -1,4 +1,4 @@
-import PostsTable from "@/app/components/PostsTable";
+import PostsTable from "@/app/components/admin/PostsTable";
 import Link from "next/link";
 
 export default async function Posts() {

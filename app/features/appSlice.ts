@@ -1,16 +1,31 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-interface AppState {}
+interface AppState {
+  deletePostModalOpened: boolean;
+  selectedPost: Post | null;
+}
 
-const initialState: AppState = {};
+const initialState: AppState = {
+  deletePostModalOpened: false,
+  selectedPost: null,
+};
 
 export const appSlice = createSlice({
   name: "app",
   initialState,
-  reducers: {},
+  reducers: {
+    openDeletePostModal: (state, action) => {
+      state.deletePostModalOpened = true;
+      state.selectedPost = action.payload;
+    },
+    closeDeletePostModal: (state) => {
+      state.deletePostModalOpened = false;
+      state.selectedPost = null;
+    },
+  },
 });
 
 // Action creators are generated for each case reducer function
-export const {} = appSlice.actions;
+export const { openDeletePostModal, closeDeletePostModal } = appSlice.actions;
 
 export default appSlice;
