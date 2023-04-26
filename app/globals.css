@@ -14,7 +14,7 @@
 
   input,
   textarea {
-    @apply w-full outline-none border border-gray-200 focus:border-blue-900 p-2 rounded-lg;
+    @apply relative w-full rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-blue-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-blue-300 sm:text-sm;
   }
 
   label {
@@ -22,14 +22,28 @@
   }
 
   .btn {
-    @apply border border-gray-200 px-4 bg-blue-900 text-white py-1 rounded-md opacity-95 hover:opacity-100 transition-all;
+    @apply border border-gray-200 px-4 bg-blue-900 text-white py-1 rounded-md hover:bg-blue-800 transition-all;
   }
 
   .btn-primary {
-    @apply bg-primary  text-white;
+    @apply bg-primary hover:bg-primary/90;
+  }
+
+  .btn-secondary {
+    @apply bg-gray-500  hover:bg-gray-200 hover:text-gray-900;
   }
 
   .btn-disabled {
     @apply bg-gray-200 pointer-events-none opacity-50;
+  }
+
+  table.basic {
+    @apply w-full text-center;
+  }
+  table.basic tr th {
+    @apply bg-blue-200 border px-2 py-1;
+  }
+  table.basic tr td {
+    @apply border border-gray-300 px-2 py-1;
   }
 }

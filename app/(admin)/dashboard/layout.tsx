@@ -1,9 +1,11 @@
 "use client";
 
-import Sidebar from "@/app/components/Sidebar";
 import { signIn, useSession } from "next-auth/react";
+import DashboardLayout from "@/app/components/DashboardLayout";
+import { Provider } from "react-redux";
+import { store } from "@/app/redux/store";
 
-export default function DashboardLayout({
+export default function AdminLayout({
   children,
 }: {
   children: React.ReactNode;
@@ -13,24 +15,26 @@ export default function DashboardLayout({
   if (!session)
     return (
       <div className="w-screen h-screen bg-blue-900 grid place-items-center">
-        <button
-          className="btn px-6 py-2 min-w-[200px] bg-white text-slate-900"
-          onClick={() => signIn("google")}
-        >
-          Log in with Google
-        </button>
+        <div className="flex flex-col space-y-4">
+          <button
+            className="btn px-6 py-2 min-w-[200px] bg-white text-slate-900"
+            onClick={() => signIn("google")}
+          >
+            Log in with Google
+          </button>
+          <button
+            className="btn px-6 py-2 min-w-[200px] bg-white text-slate-900"
+            onClick={() => signIn("github")}
+          >
+            Log in with Github
+          </button>
+        </div>
       </div>
     );
 
   return (
-    <div className="bg-blue-900 min-h-screen grid grid-cols-4">
-      <div className="h-full text-white">
-        <Sidebar />
-      </div>
-
-      <div className="bg-white m-4 ml-0 col-span-3 rounded-md p-4">
-        {children}
-      </div>
-    </div>
+    <Provider store={store}>
+      <DashboardLayout>{children}</DashboardLayout>
+    </Provider>
   );
 }

@@ -8,10 +8,11 @@ const PostSchema = new Schema(
     user: { type: Schema.Types.ObjectId, ref: "User" },
     mainImage: { type: String },
     slug: { type: String },
+    category: { type: Schema.Types.ObjectId, ref: "Category" },
   },
   {
     timestamps: true,
   }
 );
 
-export default models.Post || model("Post", PostSchema);
+export default models.Post || model<Post>("Post", PostSchema);

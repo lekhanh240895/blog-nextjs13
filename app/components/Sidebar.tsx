@@ -6,7 +6,6 @@ import {
   DocumentChartBarIcon,
   ListBulletIcon,
 } from "@heroicons/react/24/outline";
-import {} from "@heroicons/react/24/solid";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
 
@@ -22,7 +21,7 @@ function Sidebar() {
         <ul>
           <li>
             <Link
-              className="flex items-center gap-x-2 px-2 py-3 rounded-l-md hover:bg-white hover:text-gray-700"
+              className="flex items-center gap-x-2 px-2 py-3 rounded-l-md hover:bg-white hover:text-gray-700 transition-all"
               href="/dashboard/"
             >
               <ChartBarIcon className="w-5 h-5" />
@@ -31,7 +30,7 @@ function Sidebar() {
           </li>
           <li>
             <Link
-              className="flex items-center gap-x-2 px-2 py-3 rounded-l-md hover:bg-white hover:text-gray-700"
+              className="flex items-center gap-x-2 px-2 py-3 rounded-l-md hover:bg-white hover:text-gray-700 transition-all"
               href="/dashboard/posts"
             >
               <DocumentChartBarIcon className="w-5 h-5" />
@@ -40,7 +39,7 @@ function Sidebar() {
           </li>
           <li>
             <Link
-              className="flex items-center gap-x-2 px-2 py-3 rounded-l-md hover:bg-white hover:text-gray-700"
+              className="flex items-center gap-x-2 px-2 py-3 rounded-l-md hover:bg-white hover:text-gray-700 transition-all"
               href="/dashboard/categories"
             >
               <ListBulletIcon className="w-5 h-5" />
@@ -49,7 +48,7 @@ function Sidebar() {
           </li>
           <li>
             <Link
-              className="flex items-center gap-x-2 px-2 py-3 rounded-l-md hover:bg-white hover:text-gray-700"
+              className="flex items-center gap-x-2 px-2 py-3 rounded-l-md hover:bg-white hover:text-gray-700 transition-all"
               href="/dashboard/settings"
             >
               <Cog8ToothIcon className="w-5 h-5" />
@@ -58,7 +57,7 @@ function Sidebar() {
           </li>
           <li>
             <button
-              className="w-full flex items-center gap-x-2 px-2 py-3 rounded-l-md hover:bg-white hover:text-gray-700"
+              className="w-full flex items-center gap-x-2 px-2 py-3 rounded-l-md hover:bg-white hover:text-gray-700 transition-all"
               onClick={() => signOut()}
             >
               <ArrowLeftOnRectangleIcon className="w-5 h-5" />

@@ -5,9 +5,9 @@ interface Base {
 }
 
 interface Post extends Base {
-  categories: Category[];
+  category: Category;
   mainImage: string;
-  slug: Slug;
+  slug: string;
   title: string;
   description: string;
   content: string;
@@ -23,11 +23,6 @@ interface User extends Base {
 interface Reference {
   _ref: string;
   _type: "reference";
-}
-
-interface Slug {
-  _type: "slug";
-  current: string;
 }
 
 interface Block {
@@ -48,7 +43,7 @@ interface Span {
 interface Category extends Base {
   description: string;
   title: string;
-  slug: Slug;
+  parent: Category;
 }
 
 interface MainImage {

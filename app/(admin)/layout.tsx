@@ -12,7 +12,7 @@ export const metadata = {
   description: "Quản lý trang",
 };
 
-export default function DashboardLayout({
+export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;

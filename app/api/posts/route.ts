@@ -1,6 +1,8 @@
 import { mongooseConnect } from "@/app/lib/mongoose";
+import Category from "@/app/models/Category";
 import Post from "@/app/models/Post";
 import User from "@/app/models/User";
+import mongoose from "mongoose";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: Request) {
@@ -10,18 +12,30 @@ export async function GET(req: Request) {
   const id = searchParams.get("id");
 
   if (id) {
-    const post = await Post.findById(id).populate({
-      path: "user",
-      model: User,
-    });
+    const post = await Post.findById(id).populate([
+      {
+        path: "user",
+        model: User,
+      },
+      {
+        path: "category",
+        model: Category,
+      },
+    ]);
 
     return NextResponse.json(post);
   }
 
-  const posts = await Post.find({}).populate({
-    path: "user",
-    model: User,
-  });
+  const posts = await Post.find({}).populate([
+    {
+      path: "user",
+      model: User,
+    },
+    {
+      path: "category",
+      model: Category,
+    },
+  ]);
 
   return NextResponse.json(posts);
 }
@@ -31,7 +45,21 @@ export async function POST(req: Request) {
 
   const request = await req.json();
 
-  const { title, description, content, user, mainImage, slug } = request;
+  const { title, description, content, user, mainImage, slug, category } =
+    request;
+
+  if (!mongoose.Types.ObjectId.isValid(category)) {
+    const newPost = await Post.create({
+      title,
+      description,
+      content,
+      user,
+      mainImage,
+      slug,
+    });
+
+    return NextResponse.json(newPost);
+  }
 
   const newPost = await Post.create({
     title,
@@ -40,6 +68,7 @@ export async function POST(req: Request) {
     user,
     mainImage,
     slug,
+    category,
   });
 
   return NextResponse.json(newPost);
@@ -52,7 +81,27 @@ export async function PUT(req: Request) {
   const id = searchParams.get("id");
 
   const res = await req.json();
-  const { title, description, content, user, mainImage, slug } = res;
+  const { title, description, content, user, mainImage, slug, category } = res;
+
+  if (!mongoose.Types.ObjectId.isValid(category)) {
+    const updatedPost = await Post.findByIdAndUpdate(
+      id,
+      {
+        title,
+        description,
+        content,
+        user,
+        mainImage,
+        slug,
+        $unset: { category: 1 },
+      },
+      {
+        new: true,
+      }
+    );
+
+    return NextResponse.json(updatedPost);
+  }
 
   const updatedPost = await Post.findByIdAndUpdate(
     id,
@@ -63,6 +112,7 @@ export async function PUT(req: Request) {
       user,
       mainImage,
       slug,
+      category,
     },
     {
       new: true,

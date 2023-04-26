@@ -1,46 +1,31 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef } from "react";
 import "react-quill/dist/quill.snow.css";
 import ReactQuill from "react-quill";
 import Quill from "quill";
+import { PlusCircleIcon } from "@heroicons/react/24/outline";
 
-const toolbarOptions = [
-  [{ font: [] }],
-  [{ header: [1, 2, 3, 4, 5, 6, false] }],
-  ["bold", "italic", "underline", "strike"], // toggled buttons
-  ["blockquote", "code-block"],
-  [{ list: "ordered" }, { list: "bullet" }, { indent: "-1" }, { indent: "+1" }],
-  [{ script: "sub" }, { script: "super" }], // superscript/subscript
-  [{ indent: "-1" }, { indent: "+1" }], // outdent/indent
-  [{ direction: "rtl" }], // text direction
-  ["link", "image", "video"],
-  [{ color: [] }, { background: [] }], // dropdown with defaults from theme
-  [{ align: [] }],
-  ["clean"], // remove formatting button
-];
-
-const ImgUrlIcon = () => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    fill="none"
-    viewBox="0 0 24 24"
-    strokeWidth={1.5}
-    stroke="currentColor"
-    className="w-6 h-6"
-  >
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      d="M9 8.25H7.5a2.25 2.25 0 00-2.25 2.25v9a2.25 2.25 0 002.25 2.25h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25H15M9 12l3 3m0 0l3-3m-3 3V2.25"
-    />
-  </svg>
-);
+// const toolbarOptions = [
+//   [{ font: [] }],
+//   [{ header: [1, 2, 3, 4, 5, 6, false] }],
+//   ["bold", "italic", "underline", "strike"], // toggled buttons
+//   ["blockquote", "code-block"],
+//   [{ list: "ordered" }, { list: "bullet" }, { indent: "-1" }, { indent: "+1" }],
+//   [{ script: "sub" }, { script: "super" }], // superscript/subscript
+//   [{ indent: "-1" }, { indent: "+1" }], // outdent/indent
+//   [{ direction: "rtl" }], // text direction
+//   ["link", "image", "video"],
+//   [{ image: "ImageUrl" }],
+//   [{ color: [] }, { background: [] }], // dropdown with defaults from theme
+//   [{ align: [] }],
+//   ["clean"], // remove formatting button
+// ];
 
 const CustomComponent = () => (
   <div id="toolbar">
-    <select className="ql-font">
-      <option value=""></option>
-      <option value=""></option>
-      <option value=""></option>
+    <select className="ql-font ql-picker" defaultValue="">
+      <option value="" />
+      <option value="serif" />
+      <option value="monospace" />
     </select>
     <select className="ql-header" defaultValue="" onChange={(e) => e.persist()}>
       <option value="1"></option>
@@ -49,21 +34,29 @@ const CustomComponent = () => (
       <option value="4"></option>
       <option value=""></option>
     </select>
+    <select className="ql-align" />
+    <button className="ql-direction" />
     <button className="ql-bold"></button>
-    <button className="ql-list"></button>
     <button className="ql-italic"></button>
-    <select className="ql-color">
-      <option value="red"></option>
-      <option value="green"></option>
-      <option value="blue"></option>
-      <option value="orange"></option>
-      <option value="violet"></option>
-      <option value="#d0d1d2"></option>
-      <option selected></option>
-    </select>
+    <button className="ql-underline"></button>
+    <button className="ql-strike"></button>
+    <select className="ql-color" />
+    <select className="ql-background" />
+    <button className="ql-script" value="super" />
+    <button className="ql-script" value="sub" />
+    <button className="ql-list" value="ordered"></button>
+    <button className="ql-list" value="bullet"></button>
+    <button className="ql-blockquote" />
+    <button className="ql-code-block" />
+    <button className="ql-indent" value="-1"></button>
+    <button className="ql-indent" value="+1"></button>
+    <button className="ql-link" />
+    <button className="ql-image" />
+    <button className="ql-video" />
     <button className="ql-imgUrl">
-      <ImgUrlIcon />
+      <PlusCircleIcon className="w-[18px] h-[18px]" />
     </button>
+    <button className="ql-clean" />
   </div>
 );
 
@@ -74,7 +67,7 @@ export const Editor = ({ value, onChange }: any) => {
   const attachQuillRefs = () => {
     if (reactQuillRef.current) {
       if (typeof reactQuillRef.current.getEditor !== "function") return;
-      quillRef.current = reactQuillRef.current.getEditor();
+      quillRef.current = reactQuillRef.current.getEditor() as unknown as Quill;
     }
   };
 
@@ -94,27 +87,10 @@ export const Editor = ({ value, onChange }: any) => {
     }
   }
 
-  const formats = [
-    "header",
-    "font",
-    "size",
-    "bold",
-    "italic",
-    "underline",
-    "strike",
-    "blockquote",
-    "list",
-    "bullet",
-    "indent",
-    "link",
-    "image",
-    "color",
-  ];
-
   const modules = useMemo(() => {
     return {
       toolbar: {
-        container: toolbarOptions,
+        container: "#toolbar",
         handlers: {
           imgUrl: imageUrlHandler,
         },
@@ -125,16 +101,14 @@ export const Editor = ({ value, onChange }: any) => {
   return (
     <div className="text-editor">
       <CustomComponent />
-
       <ReactQuill
         ref={(el) => {
           reactQuillRef.current = el;
         }}
         theme="snow"
-        defaultValue={value}
         onChange={onChange}
         modules={modules}
-        formats={formats}
+        value={value}
       />
     </div>
   );
