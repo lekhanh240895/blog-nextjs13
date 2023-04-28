@@ -1,9 +1,14 @@
 import BlogList from "../components/BlogList";
+import { getPosts } from "../lib/getApi";
 
-export default function Home() {
+export default async function Home() {
+  const posts = await getPosts();
+
+  if (!posts) return;
+
   return (
     <main>
-      <BlogList posts={[]} />
+      <BlogList posts={posts} />
     </main>
   );
 }

@@ -10,6 +10,7 @@ export async function GET(req: Request) {
 
   const { searchParams } = new URL(req.url);
   const id = searchParams.get("id");
+  const slug = searchParams.get("slug");
 
   if (id) {
     const post = await Post.findById(id).populate([
@@ -20,6 +21,31 @@ export async function GET(req: Request) {
       {
         path: "category",
         model: Category,
+        populate: {
+          path: "parent",
+          model: "Category",
+        },
+      },
+    ]);
+
+    return NextResponse.json(post);
+  }
+
+  if (slug) {
+    const post = await Post.findOne({
+      slug,
+    }).populate([
+      {
+        path: "user",
+        model: User,
+      },
+      {
+        path: "category",
+        model: Category,
+        populate: {
+          path: "parent",
+          model: "Category",
+        },
       },
     ]);
 
@@ -34,6 +60,10 @@ export async function GET(req: Request) {
     {
       path: "category",
       model: Category,
+      populate: {
+        path: "parent",
+        model: "Category",
+      },
     },
   ]);
 

@@ -3,18 +3,16 @@ import { ChevronUpIcon } from "@heroicons/react/24/solid";
 
 import Link from "next/link";
 import { Fragment, useEffect, useState } from "react";
+import { getCategories } from "../lib/getApi";
 
 export default function CategoryMenu() {
   const [categories, setCategories] = useState<Category[]>([]);
 
-  // useEffect(() => {
-  //   const query = groq`
-  //     *[_type=='category']
-
-  //   `;
-
-  //   client.fetch(query).then((data) => setCategories(data));
-  // }, []);
+  useEffect(() => {
+    (async () => {
+      setCategories(await getCategories());
+    })();
+  }, []);
 
   const handleMouseEnter = (ev: React.MouseEvent, open: boolean) => {
     const target = ev.target as HTMLButtonElement;
@@ -58,7 +56,7 @@ export default function CategoryMenu() {
                     <Menu.Item>
                       {({ active }) => (
                         <Link
-                          href={"/category/" + category.slug.current}
+                          href={"/category/" + category.title.toLowerCase()}
                           className={`${
                             active ? "bg-primary text-white" : "text-gray-900"
                           } flex w-full items-center rounded-md px-2 py-2`}

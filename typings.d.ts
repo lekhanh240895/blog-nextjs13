@@ -1,7 +1,7 @@
 interface Base {
-  _createdAt: string;
+  createdAt: string;
   _id: string;
-  _updatedAt: string;
+  updatedAt: string;
 }
 
 interface Post extends Base {

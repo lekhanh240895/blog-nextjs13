@@ -90,7 +90,7 @@ function PostForm({ editedPost }: Props) {
     if (file) {
       mainImageUrl = await uploadFileFirebase("images", file);
     } else {
-      mainImageUrl = "";
+      mainImageUrl = editedPost?.mainImage;
     }
 
     const newData = {
@@ -107,7 +107,7 @@ function PostForm({ editedPost }: Props) {
       await axios.post("/api/posts", newData);
     }
 
-    router.push("dashboard/posts");
+    router.back();
   };
 
   return (
@@ -193,6 +193,7 @@ function PostForm({ editedPost }: Props) {
                   <button
                     className="btn absolute top-3 right-3 p-2 z-10 shadow-sm"
                     onClick={() => setPreview("")}
+                    type="button"
                   >
                     <XMarkIcon className="w-5 h-5" />
                   </button>

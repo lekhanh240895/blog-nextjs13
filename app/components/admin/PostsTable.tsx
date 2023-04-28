@@ -1,10 +1,10 @@
 "use client";
-import axios from "axios";
-import { useEffect, useState } from "react";
+
+import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { openDeletePostModal } from "@/app/features/appSlice";
-import { appSelector, postSelector } from "@/app/redux/selector";
+import { postSelector } from "@/app/redux/selector";
 import { fetchPosts } from "@/app/features/postSlice";
 import { AppDispatch } from "@/app/redux/store";
 
@@ -12,6 +12,8 @@ function PostsTable() {
   const { posts } = useSelector(postSelector);
   const router = useRouter();
   const dispatch = useDispatch<AppDispatch>();
+
+  console.log({ posts });
 
   useEffect(() => {
     dispatch(fetchPosts());
@@ -35,7 +37,10 @@ function PostsTable() {
         {posts.map((post) => (
           <tr key={post._id}>
             <td>{post.title}</td>
-            <td>Love</td>
+            <td>
+              {post.category?.title}{" "}
+              {post.category?.parent ? `, ${post.category.parent?.title}` : ""}
+            </td>
             <td className="align-middle space-y-1 space-x-1 text-center">
               <button className="btn" onClick={() => handleEdit(post)}>
                 Edit

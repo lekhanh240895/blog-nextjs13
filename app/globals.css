@@ -11,28 +11,22 @@
   h6 {
     @apply font-bold leading-normal;
   }
-
   input,
   textarea {
     @apply relative w-full rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-blue-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-blue-300 sm:text-sm;
   }
-
   label {
     @apply mb-4;
   }
-
   .btn {
     @apply inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2;
   }
-
   .btn-primary {
     @apply bg-primary/90 hover:bg-primary/100 text-white focus-visible:ring-primary/100;
   }
-
   .btn-disabled {
     @apply pointer-events-none opacity-50;
   }
-
   table.basic {
     @apply w-full text-center;
   }
@@ -40,9 +34,44 @@
     @apply hover:bg-gray-300;
   }
   table.basic tr th {
-    @apply bg-blue-900 text-white border px-2 py-1;
+    @apply bg-blue-900 text-white border border-gray-200 px-2 py-1;
   }
   table.basic tr td {
-    @apply border border-gray-300 px-2 py-1;
+    @apply border border-gray-200 px-2 py-1;
+  }
+  .post .post-content h1 {
+    @apply text-5xl py-5 font-bold leading-normal;
+  }
+  .post .post-content h2 {
+    @apply text-4xl py-4 font-bold leading-normal;
+  }
+  .post .post-content h3 {
+    @apply text-3xl py-3 font-bold leading-normal;
+  }
+  .post .post-content h4 {
+    @apply text-2xl py-2 font-bold leading-normal;
+  }
+
+  .post .post-content ul {
+    @apply ml-10 py-4 list-disc space-y-4;
+  }
+  .post .post-content ol {
+    @apply ml-10 py-4 list-decimal space-y-4;
+  }
+  .post .post-content blockquote {
+    @apply border-l-primary border-l-4 pl-5 py-3 my-3;
+  }
+  .post .post-content a {
+    @apply underline decoration-primary !text-black hover:decoration-black;
+  }
+  .post .post-content pre {
+    @apply bg-black text-gray-100 font-mono whitespace-pre-wrap my-2 py-1 px-2 overflow-visible;
+  }
+  .post .post-content img {
+    @apply my-6 mx-auto;
+  }
+
+  .post .post-content iframe {
+    @apply max-w-full w-[80%] h-[60vh] my-10 mx-auto;
   }
 }
