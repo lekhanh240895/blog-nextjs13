@@ -39,7 +39,7 @@ function PostsTable() {
             <td>{post.title}</td>
             <td>
               {post.category?.title}{" "}
-              {post.category?.parent ? `, ${post.category.parent?.title}` : ""}
+              {post.category?.parent ? `, ${post.category?.parent?.title}` : ""}
             </td>
             <td className="align-middle space-y-1 space-x-1 text-center">
               <button className="btn" onClick={() => handleEdit(post)}>

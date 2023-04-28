@@ -84,19 +84,19 @@ async function Post({ params }: Props) {
 
             <div className="flex items-center justify-end space-x-2 mt-auto">
               <ClientSiteRoute
-                route={`/category/${post.category.title.toLowerCase()}`}
+                route={`/category/${post.category?.title.toLowerCase()}`}
               >
                 <button className="btn btn-primary text-white">
-                  {post.category.title}
+                  {post.category?.title}
                 </button>
               </ClientSiteRoute>
 
-              {post.category.parent && (
+              {post.category?.parent && (
                 <ClientSiteRoute
-                  route={`/category/${post.category.title.toLowerCase()}`}
+                  route={`/category/${post.category?.title.toLowerCase()}`}
                 >
                   <button className="btn btn-primary text-white">
-                    {post.category.parent.title}
+                    {post.category?.parent.title}
                   </button>
                 </ClientSiteRoute>
               )}

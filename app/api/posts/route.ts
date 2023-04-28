@@ -4,9 +4,12 @@ import Post from "@/app/models/Post";
 import User from "@/app/models/User";
 import mongoose from "mongoose";
 import { NextRequest, NextResponse } from "next/server";
+import { isAdminRequest } from "../auth/[...nextauth]/route";
 
-export async function GET(req: Request) {
+export async function GET(req: Request, res: Response) {
   await mongooseConnect();
+
+  await isAdminRequest();
 
   const { searchParams } = new URL(req.url);
   const id = searchParams.get("id");

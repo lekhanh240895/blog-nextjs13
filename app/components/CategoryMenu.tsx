@@ -14,8 +14,11 @@ export default function CategoryMenu() {
     })();
   }, []);
 
-  const handleMouseEnter = (ev: React.MouseEvent, open: boolean) => {
-    const target = ev.target as HTMLButtonElement;
+  const handleMouseEnter = (
+    ev: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    open: boolean
+  ) => {
+    const target = ev.currentTarget;
 
     open ? "" : target.click();
 
@@ -52,14 +55,14 @@ export default function CategoryMenu() {
             <Menu.Items className="absolute right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
               {categories.length > 0 &&
                 categories.map((category) => (
-                  <div className="px-1 py-1" key={category._id}>
+                  <div className="p-1" key={category._id}>
                     <Menu.Item>
                       {({ active }) => (
                         <Link
                           href={"/category/" + category.title.toLowerCase()}
                           className={`${
                             active ? "bg-primary text-white" : "text-gray-900"
-                          } flex w-full items-center rounded-md px-2 py-2`}
+                          } flex w-full items-center rounded-md px-2 py-2 transition-all`}
                         >
                           {category.title}
                         </Link>

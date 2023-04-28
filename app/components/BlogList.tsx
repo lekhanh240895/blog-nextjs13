@@ -62,7 +62,7 @@ function BlogList({ posts }: Props) {
 
             <span className="">
               {post.category?.title}
-              {post.category?.parent ? `, ${post.category.parent?.title}` : ""}
+              {post.category?.parent ? `, ${post.category?.parent?.title}` : ""}
             </span>
           </div>
         </li>
