@@ -1,40 +1,27 @@
-"use client";
+import Sidebar from "@/app/components/admin/Sidebar";
+import { Metadata } from "next";
 
-import DashboardLayout from "@/app/components/admin/DashboardLayout";
-import DeletePost from "@/app/modal/DeletePost";
-import { signIn, useSession } from "next-auth/react";
+export const metadata: Metadata = {
+  title: {
+    default: "Dashboard | KhanhReview",
+    template: "%s | KhanhReview",
+  },
+};
 
-export default function AdminLayout({
+export default function DashboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const { data: session } = useSession();
+  return (
+    <main>
+      <div className="bg-blue-900 min-h-screen grid grid-cols-4">
+        <Sidebar />
 
-  if (!session)
-    return (
-      <div className="w-screen h-screen bg-blue-900 grid place-items-center">
-        <div className="flex flex-col space-y-4">
-          <button
-            className="btn px-6 py-2 min-w-[200px] bg-white text-slate-900"
-            onClick={() => signIn("google")}
-          >
-            Log in with Google
-          </button>
-          <button
-            className="btn px-6 py-2 min-w-[200px] bg-white text-slate-900"
-            onClick={() => signIn("github")}
-          >
-            Log in with Github
-          </button>
+        <div className="bg-white m-4 ml-0 col-span-3 rounded-md p-4">
+          {children}
         </div>
       </div>
-    );
-
-  return (
-    <DashboardLayout>
-      <DeletePost />
-      {children}
-    </DashboardLayout>
+    </main>
   );
 }
