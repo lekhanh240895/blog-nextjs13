@@ -1,5 +1,10 @@
 import PostsTable from "@/app/components/admin/PostsTable";
+import { Metadata } from "next";
 import Link from "next/link";
+
+export const metadata: Metadata = {
+  title: "Posts",
+};
 
 export default async function Posts() {
   return (

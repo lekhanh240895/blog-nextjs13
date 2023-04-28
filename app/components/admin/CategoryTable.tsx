@@ -1,25 +1,19 @@
-import axios from "axios";
+import { openDeleteCategoryModal } from "@/app/features/appSlice";
+import { AppDispatch } from "@/app/redux/store";
 import React, { Dispatch, SetStateAction } from "react";
+import { useDispatch } from "react-redux";
 
 type Props = {
   categories: Category[];
   setEditedCategory: Dispatch<SetStateAction<Category | null>>;
-  fetchCategories: () => Promise<void>;
 };
 
-function CategoryTable({
-  categories,
-  setEditedCategory,
-  fetchCategories,
-}: Props) {
+function CategoryTable({ categories, setEditedCategory }: Props) {
   const handleEdit = (category: Category) => {
     setEditedCategory(category);
   };
 
-  const handleDelete = async (id: string) => {
-    await axios.delete("/api/categories?id=" + id);
-    fetchCategories();
-  };
+  const dispatch = useDispatch<AppDispatch>();
 
   return (
     <table className="basic table-auto">
@@ -42,7 +36,7 @@ function CategoryTable({
               </button>
               <button
                 className="btn grow"
-                onClick={() => handleDelete(category._id)}
+                onClick={() => dispatch(openDeleteCategoryModal(category))}
               >
                 Delete
               </button>

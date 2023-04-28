@@ -1,22 +1,51 @@
-"use client";
+import BackButton from "@/app/components/BackButton";
 import PostForm from "@/app/components/admin/PostForm";
-import { ChevronLeftIcon } from "@heroicons/react/24/outline";
-import axios from "axios";
-import { useParams, useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
 
-function EditPost() {
-  const params = useParams();
+type Props = {
+  params: {
+    id: string;
+  };
+};
+
+export async function generateMetadata({ params }: Props) {
   const { id } = params;
-  const [editedPost, setEditedPost] = useState<Post | null>(null);
-  const router = useRouter();
+  const res = await fetch("http://localhost:3000/api/posts?id=" + id, {
+    next: {
+      revalidate: 30,
+    },
+  });
 
-  useEffect(() => {
-    (async () => {
-      const res = await axios.get("/api/posts?id=" + id);
-      setEditedPost(res.data);
-    })();
-  }, [id]);
+  const post: Post = await res.json();
+
+  return {
+    title: post.title,
+  };
+}
+
+export async function generateStaticParams() {
+  const res = await fetch("http://localhost:3000/api/posts", {
+    next: {
+      revalidate: 30,
+    },
+  });
+
+  const posts: Post[] = await res.json();
+
+  return posts.map((post) => ({
+    id: post._id,
+  }));
+}
+
+async function EditPost({ params }: Props) {
+  const { id } = params;
+
+  const res = await fetch("http://localhost:3000/api/posts?id=" + id, {
+    next: {
+      revalidate: 30,
+    },
+  });
+
+  const editedPost = await res.json();
 
   return (
     <main>
@@ -25,13 +54,7 @@ function EditPost() {
           Edit post - {editedPost?.title}
         </h2>
 
-        <button
-          className="btn  flex items-center justify-between px-2 gap-x-1"
-          onClick={() => router.back()}
-        >
-          <ChevronLeftIcon className="w-5 h-5" />
-          <span>Back</span>
-        </button>
+        <BackButton />
       </div>
 
       <PostForm editedPost={editedPost} />

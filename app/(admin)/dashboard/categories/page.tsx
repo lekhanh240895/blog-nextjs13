@@ -2,24 +2,23 @@
 
 import CategoryForm from "@/app/components/admin/CategoryForm";
 import CategoryTable from "@/app/components/admin/CategoryTable";
+import { fetchCategories } from "@/app/features/categorySlice";
+import { categorySelector } from "@/app/redux/selector";
+import { AppDispatch } from "@/app/redux/store";
 import { ChevronLeftIcon } from "@heroicons/react/24/outline";
-import axios from "axios";
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function Categories() {
-  const [categories, setCategories] = useState<Category[]>([]);
+  const { categories } = useSelector(categorySelector);
   const [editedCategory, setEditedCategory] = useState<Category | null>(null);
   const [createCategoryOpened, setCreateCategoryOpened] =
     useState<boolean>(false);
-
-  const fetchCategories = async () => {
-    const res = await axios.get("/api/categories");
-    setCategories(res.data);
-  };
+  const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
-    fetchCategories();
-  }, []);
+    dispatch(fetchCategories());
+  }, [dispatch]);
 
   const handleBack = () => {
     setEditedCategory(null);
@@ -47,9 +46,7 @@ export default function Categories() {
 
           <CategoryForm
             categories={categories}
-            setCategories={setCategories}
             editedCategory={editedCategory}
-            fetchCategories={fetchCategories}
           />
         </>
       )}
@@ -66,10 +63,10 @@ export default function Categories() {
           </button>
         )}
       </div>
+
       <CategoryTable
         categories={categories}
         setEditedCategory={setEditedCategory}
-        fetchCategories={fetchCategories}
       />
     </main>
   );

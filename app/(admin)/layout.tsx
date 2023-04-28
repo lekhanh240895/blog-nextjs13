@@ -1,50 +1,41 @@
-import "../globals.css";
-import { Vollkorn } from "next/font/google";
-import AuthContext from "./AuthContext";
-import ReduxProvider from "../components/admin/Provider";
-import DeletePost from "../modal/DeletePost";
+"use client";
+import DeleteCategory from "@/app/modal/DeleteCategory";
+import DeletePost from "@/app/modal/DeletePost";
+import { signIn, useSession } from "next-auth/react";
 
-const vollkorn = Vollkorn({
-  weight: ["500", "600", "400", "700", "800", "900"],
-  subsets: ["latin"],
-});
-
-export const metadata = {
-  title: "Admin - KhanhReview",
-  description: "Quản lý trang",
-};
-
-export default function RootLayout({
+export default function AdminLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  return (
-    <html lang="en">
-      <link rel="manifest" href="/site.webmanifest" />
-      <link
-        rel="apple-touch-icon"
-        sizes="180x180"
-        href="/apple-touch-icon.png"
-      />
-      <link
-        rel="icon"
-        type="image/png"
-        sizes="32x32"
-        href="/favicon-32x32.png"
-      />
-      <link
-        rel="icon"
-        type="image/png"
-        sizes="16x16"
-        href="/favicon-16x16.png"
-      />
+  const { data: session } = useSession();
 
-      <body className={vollkorn.className}>
-        <ReduxProvider>
-          <AuthContext>{children}</AuthContext>
-        </ReduxProvider>
-      </body>
-    </html>
+  if (!session)
+    return (
+      <main className="w-screen h-screen bg-blue-900 grid place-items-center">
+        <div className="flex flex-col space-y-4">
+          <button
+            className="btn px-6 py-2 min-w-[200px] bg-white text-slate-900"
+            onClick={() => signIn("google")}
+          >
+            Log in with Google
+          </button>
+          <button
+            className="btn px-6 py-2 min-w-[200px] bg-white text-slate-900"
+            onClick={() => signIn("github")}
+          >
+            Log in with Github
+          </button>
+        </div>
+      </main>
+    );
+
+  return (
+    <>
+      <DeletePost />
+      <DeleteCategory />
+
+      {children}
+    </>
   );
 }

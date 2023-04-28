@@ -2,6 +2,9 @@ import axios from "axios";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import CategorySelect from "./CategorySelect";
+import { useDispatch } from "react-redux";
+import { fetchCategories } from "@/app/features/categorySlice";
+import { AppDispatch } from "@/app/redux/store";
 
 type FormData = {
   title: string;
@@ -10,16 +13,10 @@ type FormData = {
 
 type Props = {
   categories: Category[];
-  setCategories: Dispatch<SetStateAction<Category[]>>;
   editedCategory: Category | null;
-  fetchCategories: () => Promise<void>;
 };
 
-export default function CategoryForm({
-  categories,
-  editedCategory,
-  fetchCategories,
-}: Props) {
+export default function CategoryForm({ categories, editedCategory }: Props) {
   const [parent, setParent] = useState<string>("");
 
   const {
@@ -29,6 +26,8 @@ export default function CategoryForm({
     reset,
     formState: { isSubmitting },
   } = useForm<FormData>();
+
+  const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
     if (editedCategory) {
@@ -56,7 +55,7 @@ export default function CategoryForm({
     }
     reset({ title: "", description: "" });
     setParent("");
-    fetchCategories();
+    dispatch(fetchCategories());
   };
 
   return (

@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useEffect, useState } from "react";
 import "react-quill/dist/quill.snow.css";
 import { useForm } from "react-hook-form";
@@ -200,13 +202,17 @@ function PostForm({ editedPost }: Props) {
                 </div>
               )}
 
-              <div
-                className="bg-blue-900 text-gray-300 hover:bg-blue-800 hover:text-gray-200 h-96 w-2/3 mx-auto flex flex-col items-center justify-center rounded-md cursor-pointer space-y-4"
-                {...getRootProps()}
-              >
-                <PlusIcon className="w-14 h-1w-14 border border-gray-200 rounded-full p-3" />
-                <div>Click or Drag/Drop your image here</div>
-              </div>
+              {isSubmitting ? (
+                <Spinner />
+              ) : (
+                <div
+                  className="bg-blue-900 text-gray-300 hover:bg-blue-800 hover:text-gray-200 h-96 w-2/3 mx-auto flex flex-col items-center justify-center rounded-md cursor-pointer space-y-4"
+                  {...getRootProps()}
+                >
+                  <PlusIcon className="w-14 h-1w-14 border border-gray-200 rounded-full p-3" />
+                  <div>Click or Drag/Drop your image here</div>
+                </div>
+              )}
               <input
                 type="file"
                 hidden
