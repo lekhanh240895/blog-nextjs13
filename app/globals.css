@@ -9,7 +9,7 @@
   h4,
   h5,
   h6 {
-    @apply font-bold leading-normal;
+    @apply font-bold leading-normal text-black md:text-blue-900;
   }
 
   input,
@@ -22,7 +22,11 @@
   }
 
   .btn {
-    @apply inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2;
+    @apply inline-flex justify-center rounded-md border border-transparent px-4 py-2 text-sm font-medium bg-gray-300 text-black hover:bg-slate-300 md:bg-blue-100 md:text-blue-900 md:hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 transition-all;
+  }
+
+  .btn-secondary {
+    @apply bg-gray-300 hover:bg-slate-300 text-black focus-visible:ring-gray-300;
   }
 
   .btn-primary {
@@ -37,10 +41,10 @@
     @apply w-full text-center;
   }
   table.basic tr {
-    @apply hover:bg-gray-300;
+    @apply hover:bg-white md:hover:bg-gray-300;
   }
   table.basic tr th {
-    @apply bg-blue-900 text-white border px-2 py-1;
+    @apply bg-gray-300 text-black md:bg-blue-900 md:text-white border px-2 py-1;
   }
   table.basic tr td {
     @apply border border-gray-300 px-2 py-1;

@@ -8,9 +8,9 @@ export const metadata: Metadata = {
 
 export default async function Posts() {
   return (
-    <main>
+    <section>
       <div className="flex justify-between items-center">
-        <h2 className="text-3xl text-blue-900 uppercase mb-4">Posts</h2>
+        <h2 className="text-3xl uppercase mb-4">Posts</h2>
 
         <Link
           href="/dashboard/posts/create"
@@ -21,6 +21,6 @@ export default async function Posts() {
       </div>
 
       <PostsTable />
-    </main>
+    </section>
   );
 }

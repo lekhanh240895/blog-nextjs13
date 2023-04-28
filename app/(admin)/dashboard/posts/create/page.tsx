@@ -9,7 +9,7 @@ export default function CreatePost() {
   return (
     <main>
       <div className="flex items-center justify-between mb-4">
-        <h2 className="text-3xl text-blue-900">Create new post</h2>
+        <h2 className="text-3xl">Create new post</h2>
 
         <button
           className="btn flex items-center justify-between px-2 gap-x-1"

@@ -1,3 +1,4 @@
+import Header from "@/app/components/admin/Header";
 import Sidebar from "@/app/components/admin/Sidebar";
 import { Metadata } from "next";
 
@@ -15,12 +16,14 @@ export default function DashboardLayout({
 }) {
   return (
     <main>
-      <div className="bg-blue-900 min-h-screen grid grid-cols-4">
+      <div className="bg-blue-900 min-h-screen grid grid-cols-1 md:grid-cols-4 pt-14 md:pt-0">
+        <Header />
+
         <Sidebar />
 
-        <div className="bg-white m-4 ml-0 col-span-3 rounded-md p-4">
+        <main className="bg-gray-200 md:text-black md:bg-white md:m-4 md:ml-0 md:col-span-3 md:rounded-md p-4">
           {children}
-        </div>
+        </main>
       </div>
     </main>
   );

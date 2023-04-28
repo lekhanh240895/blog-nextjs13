@@ -50,9 +50,7 @@ async function EditPost({ params }: Props) {
   return (
     <main>
       <div className="flex items-start justify-between mb-4 gap-x-4">
-        <h2 className="text-3xl text-blue-900">
-          Edit post - {editedPost?.title}
-        </h2>
+        <h2 className="text-3xl">Edit post - {editedPost?.title}</h2>
 
         <BackButton />
       </div>

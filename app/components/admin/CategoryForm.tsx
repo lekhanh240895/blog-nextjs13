@@ -24,10 +24,13 @@ export default function CategoryForm({ categories, editedCategory }: Props) {
     handleSubmit,
     setValue,
     reset,
+    watch,
     formState: { isSubmitting },
   } = useForm<FormData>();
 
   const dispatch = useDispatch<AppDispatch>();
+  const watchAllValues = watch();
+  console.log({ watchAllValues });
 
   useEffect(() => {
     if (editedCategory) {
@@ -60,7 +63,7 @@ export default function CategoryForm({ categories, editedCategory }: Props) {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="mb-5 flex space-x-2 items-end">
+      <div className="mb-5 flex flex-col md:flex-row gap-2 md:items-end">
         <label className="flex-1 mb-0">
           Title
           <input
@@ -86,7 +89,12 @@ export default function CategoryForm({ categories, editedCategory }: Props) {
           />
         </label>
 
-        <button className="btn inline-block items-stretch h-9" type="submit">
+        <button
+          className={`btn inline-block h-9 mt-4 ${
+            watchAllValues.title ? "btn-primary" : "btn-disabled"
+          }`}
+          type="submit"
+        >
           Save
         </button>
       </div>
