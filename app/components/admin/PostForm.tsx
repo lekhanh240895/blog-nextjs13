@@ -104,8 +104,8 @@ function PostForm({ editedPost }: Props) {
       await axios.put("/api/posts?id=" + editedPost._id, newData);
     } else {
       await axios.post("/api/posts", newData);
+      setPreview("");
     }
-
     router.back();
   };
 

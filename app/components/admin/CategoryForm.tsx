@@ -17,6 +17,8 @@ import { AppDispatch } from "@/app/redux/store";
 type FormData = {
   title: string;
   description: string;
+  propertyName: string;
+  propertyValues: string;
 };
 
 type Props = {
@@ -27,8 +29,6 @@ type Props = {
 export default function CategoryForm({ categories, editedCategory }: Props) {
   const [parent, setParent] = useState<string>("");
   const [properties, setProperties] = useState<Property[]>([]);
-  const [propertyName, setPropertyName] = useState("");
-  const [propertyValues, setPropertyValues] = useState("");
   const {
     register,
     handleSubmit,
@@ -46,24 +46,46 @@ export default function CategoryForm({ categories, editedCategory }: Props) {
       setValue("title", editedCategory.title);
       setValue("description", editedCategory.description);
 
+      if (editedCategory.properties?.length > 0) {
+        setProperties(
+          editedCategory.properties.map((p) => ({
+            ...p,
+            values: p.values.join(", "),
+          }))
+        );
+      } else if (editedCategory.parent?.properties?.length > 0) {
+        setProperties(
+          editedCategory.parent.properties.map((p) => ({
+            ...p,
+            values: p.values.join(", "),
+          }))
+        );
+      } else {
+        setProperties([]);
+      }
+
       if (editedCategory.parent) {
         setParent(editedCategory.parent._id);
       } else {
         setParent("");
       }
     } else {
-      reset({ title: "", description: "" });
+      reset();
       setParent("");
+      setProperties([]);
     }
   }, [editedCategory, reset, setValue]);
 
   const handleAddProperty = () => {
     setProperties([
       ...properties,
-      { name: propertyName, values: propertyValues },
+      {
+        name: watchAllValues.propertyName,
+        values: watchAllValues.propertyValues,
+      },
     ]);
-    setPropertyName("");
-    setPropertyValues("");
+    setValue("propertyName", "");
+    setValue("propertyValues", "");
   };
 
   const handleRemoveProperty = (removeIndex: number) => {
@@ -71,15 +93,24 @@ export default function CategoryForm({ categories, editedCategory }: Props) {
   };
 
   const onSubmit = async (data: FormData) => {
-    const formData = { ...data, parent, properties };
+    const formData = {
+      ...data,
+      parent,
+      properties: properties.map((property) => ({
+        name: property.name,
+        values: property.values.includes(",")
+          ? property.values.split(",")
+          : [property.values],
+      })),
+    };
 
     if (editedCategory) {
       await axios.put("/api/categories?id=" + editedCategory._id, formData);
     } else {
       await axios.post("/api/categories", formData);
+      reset({ title: "", description: "" });
+      setParent("");
     }
-    reset({ title: "", description: "" });
-    setParent("");
     dispatch(fetchCategories());
   };
 
@@ -119,16 +150,14 @@ export default function CategoryForm({ categories, editedCategory }: Props) {
           <input
             type="text"
             placeholder="Enter name of property"
-            value={propertyName}
-            onChange={(ev) => setPropertyName(ev.target.value)}
             className="flex-[1_0_128px]"
+            {...register("propertyName")}
           />
 
           <input
             type="text"
             placeholder="Enter values of property"
-            onChange={(ev) => setPropertyValues(ev.target.value)}
-            value={propertyValues}
+            {...register("propertyValues")}
             className="flex-[1_0_128px]"
           />
 
@@ -152,20 +181,21 @@ export default function CategoryForm({ categories, editedCategory }: Props) {
         </thead>
 
         <tbody>
-          {properties.map((property, index) => (
-            <tr key={property.name + index}>
-              <td>{property.name}</td>
-              <td>{property.values}</td>
-              <td className="space-y-1 space-x-1">
-                <button
-                  className="btn grow"
-                  onClick={() => handleRemoveProperty(index)}
-                >
-                  Remove
-                </button>
-              </td>
-            </tr>
-          ))}
+          {properties.length > 0 &&
+            properties.map((property, index) => (
+              <tr key={property.name + index}>
+                <td>{property.name}</td>
+                <td>{property.values}</td>
+                <td className="space-y-1 space-x-1">
+                  <button
+                    className="btn grow"
+                    onClick={() => handleRemoveProperty(index)}
+                  >
+                    Remove
+                  </button>
+                </td>
+              </tr>
+            ))}
         </tbody>
       </table>
 

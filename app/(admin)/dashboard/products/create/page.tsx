@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 export default function CreateProduct() {
   const router = useRouter();
   return (
-    <>
+    <section>
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-3xl">Create new product</h2>
 
@@ -21,6 +21,6 @@ export default function CreateProduct() {
       </div>
 
       <ProductForm />
-    </>
+    </section>
   );
 }

@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 export default function CreatePost() {
   const router = useRouter();
   return (
-    <main>
+    <section>
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-3xl">Create new post</h2>
 
@@ -21,6 +21,6 @@ export default function CreatePost() {
       </div>
 
       <PostForm />
-    </main>
+    </section>
   );
 }

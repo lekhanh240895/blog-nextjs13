@@ -24,6 +24,7 @@ interface Category extends Base {
   description: string;
   title: string;
   parent: Category;
+  properties: Property[];
 }
 
 interface Product extends Base {

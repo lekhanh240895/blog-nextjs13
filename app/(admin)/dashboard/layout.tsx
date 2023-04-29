@@ -15,7 +15,7 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   return (
-    <main>
+    <>
       <div className="bg-blue-900 min-h-screen grid grid-cols-1 md:grid-cols-4 pt-14 md:pt-0">
         <Header />
 
@@ -25,6 +25,6 @@ export default function DashboardLayout({
           {children}
         </main>
       </div>
-    </main>
+    </>
   );
 }

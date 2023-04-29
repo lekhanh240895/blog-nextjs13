@@ -1,11 +1,11 @@
 "use client";
 
-import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
-import { openDeletePostModal } from "@/app/features/appSlice";
+import { openDeleteProductModal } from "@/app/features/appSlice";
 import { productSelector } from "@/app/redux/selector";
 import { AppDispatch } from "@/app/redux/store";
+import { useEffect } from "react";
 import { fetchProducts } from "@/app/features/productSlice";
 
 function ProductsTable() {
@@ -13,14 +13,13 @@ function ProductsTable() {
   const router = useRouter();
   const dispatch = useDispatch<AppDispatch>();
 
-  useEffect(() => {
-    dispatch(fetchProducts());
-  }, [dispatch]);
-
   const handleEdit = (product: Product) => {
     router.push("/dashboard/products/" + product._id + "/edit");
   };
 
+  useEffect(() => {
+    dispatch(fetchProducts());
+  }, [dispatch]);
   return (
     <table className="basic table-auto">
       <thead>
@@ -41,7 +40,7 @@ function ProductsTable() {
               </button>
               <button
                 className="btn"
-                onClick={() => dispatch(openDeletePostModal(product))}
+                onClick={() => dispatch(openDeleteProductModal(product))}
               >
                 Delete
               </button>

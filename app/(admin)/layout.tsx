@@ -1,7 +1,14 @@
 "use client";
 import DeleteCategory from "@/app/modal/DeleteCategory";
 import DeletePost from "@/app/modal/DeletePost";
+import DeleteProduct from "../modal/DeleteProduct";
 import { signIn, useSession } from "next-auth/react";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { fetchCategories } from "../features/categorySlice";
+import { fetchPosts } from "../features/postSlice";
+import { fetchProducts } from "../features/productSlice";
+import { AppDispatch } from "../redux/store";
 
 export default function AdminLayout({
   children,
@@ -9,6 +16,13 @@ export default function AdminLayout({
   children: React.ReactNode;
 }) {
   const { data: session } = useSession();
+  const dispatch = useDispatch<AppDispatch>();
+
+  useEffect(() => {
+    dispatch(fetchCategories());
+    dispatch(fetchPosts());
+    dispatch(fetchProducts());
+  }, [dispatch]);
 
   if (!session)
     return (
@@ -31,11 +45,12 @@ export default function AdminLayout({
     );
 
   return (
-    <>
+    <div>
       <DeletePost />
       <DeleteCategory />
+      <DeleteProduct />
 
       {children}
-    </>
+    </div>
   );
 }

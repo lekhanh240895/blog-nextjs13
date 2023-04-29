@@ -66,7 +66,7 @@ export const uploadDataUrlFirebase = (path: string, dataUrlString: string) => {
   });
 };
 
-export const handleDeleteFilesFirebase = (urls: string[]) => {
+export const handleDeleteFilesFirebase = (urls: string[] | string) => {
   let promises = [];
 
   if (Array.isArray(urls)) {
@@ -81,7 +81,7 @@ export const handleDeleteFilesFirebase = (urls: string[]) => {
 
   Promise.all(promises)
     .then(() => {
-      console.log("File deleted");
+      console.log("Files deleted");
     })
     .catch((err) => console.log(err));
 };

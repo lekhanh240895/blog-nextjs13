@@ -1,20 +1,23 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
+import { createSlice } from "@reduxjs/toolkit";
 
 interface AppState {
   deletePostModalOpened: boolean;
   deleteCategoryModalOpened: boolean;
+  deleteProductModalOpened: boolean;
   selectedPost: Post | null;
   selectedCategory: Category | null;
+  selectedProduct: Product | null;
   sidebarOpened: boolean;
 }
 
 const initialState: AppState = {
   deletePostModalOpened: false,
   deleteCategoryModalOpened: false,
+  deleteProductModalOpened: false,
   selectedPost: null,
   selectedCategory: null,
   sidebarOpened: false,
+  selectedProduct: null,
 };
 
 export const appSlice = createSlice({
@@ -37,6 +40,15 @@ export const appSlice = createSlice({
       state.deleteCategoryModalOpened = false;
       state.selectedCategory = null;
     },
+    openDeleteProductModal: (state, action) => {
+      state.deleteProductModalOpened = true;
+      state.selectedProduct = action.payload;
+    },
+    closeDeleteProductModal: (state) => {
+      state.deleteProductModalOpened = false;
+      state.selectedProduct = null;
+    },
+
     setSidebarOpened: (state, action) => {
       state.sidebarOpened = action.payload;
     },
@@ -50,6 +62,8 @@ export const {
   openDeleteCategoryModal,
   closeDeleteCategoryModal,
   setSidebarOpened,
+  openDeleteProductModal,
+  closeDeleteProductModal,
 } = appSlice.actions;
 
 export default appSlice;

@@ -31,7 +31,7 @@ async function EditPost({ params }: Props) {
   const editedPost: Post = await getPosts(id);
 
   return (
-    <main>
+    <section>
       <div className="flex items-start justify-between mb-4 gap-x-4">
         <h2 className="text-3xl">Edit post - {editedPost?.title}</h2>
 
@@ -39,7 +39,7 @@ async function EditPost({ params }: Props) {
       </div>
 
       <PostForm editedPost={editedPost} />
-    </main>
+    </section>
   );
 }
 

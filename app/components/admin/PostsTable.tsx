@@ -1,12 +1,12 @@
 "use client";
 
-import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { openDeletePostModal } from "@/app/features/appSlice";
 import { postSelector } from "@/app/redux/selector";
-import { fetchPosts } from "@/app/features/postSlice";
 import { AppDispatch } from "@/app/redux/store";
+import { useEffect } from "react";
+import { fetchPosts } from "@/app/features/postSlice";
 
 function PostsTable() {
   const { posts } = useSelector(postSelector);

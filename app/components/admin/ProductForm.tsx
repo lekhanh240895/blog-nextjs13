@@ -6,13 +6,18 @@ import { useForm } from "react-hook-form";
 import { PlusIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import NextImage from "next/image";
+import Image from "next/image";
 import Dropzone from "react-dropzone";
-import { uploadFileFirebase } from "@/app/services/firebaseService";
+import {
+  handleDeleteFilesFirebase,
+  uploadFileFirebase,
+} from "@/app/services/firebaseService";
 import CategorySelect from "./CategorySelect";
-import Spinner from "../Spinner";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { categorySelector } from "@/app/redux/selector";
+import { getImageUrl } from "@/app/lib/getImageUrl";
+import { fetchProducts } from "@/app/features/productSlice";
+import { AppDispatch } from "@/app/redux/store";
 
 type FormData = {
   title: string;
@@ -28,7 +33,7 @@ type Props = {
 function ProductForm({ editedProduct }: Props) {
   const [category, setCategory] = useState("");
   const { categories } = useSelector(categorySelector);
-  const [files, setFiles] = useState<File[] | null>([]);
+  const [images, setImages] = useState<string[]>([]);
   const {
     register,
     handleSubmit,
@@ -37,36 +42,58 @@ function ProductForm({ editedProduct }: Props) {
     formState: { isSubmitting },
   } = useForm<FormData>();
   const router = useRouter();
+  const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
     if (editedProduct) {
       setValue("title", editedProduct.title);
       setValue("description", editedProduct.description);
       setValue("price", editedProduct.price);
+      setImages(editedProduct.images);
       if (editedProduct.category) {
         setCategory(editedProduct.category?._id);
       }
     } else {
-      reset({ title: "", description: "" });
+      reset({ title: "", description: "", price: undefined });
       setCategory("");
     }
   }, [editedProduct, reset, setValue]);
 
-  console.log({ files });
+  const handleAddFiles = async (files: File[]) => {
+    if (files.length > 0) {
+      for (const file of files) {
+        const url = (await uploadFileFirebase(
+          "images/products/",
+          file
+        )) as unknown as string;
+        if (url) {
+          setImages((prev) => [...prev, url]);
+        }
+      }
+    }
+  };
+
+  const handleRemovePreview = async (image: string) => {
+    await handleDeleteFilesFirebase(image);
+
+    setImages(images.filter((img) => img !== image));
+  };
 
   const onSubmit = async (data: FormData) => {
     const newData = {
       ...data,
       category,
+      images,
     };
 
     if (editedProduct) {
       await axios.put("/api/products?id=" + editedProduct._id, newData);
     } else {
       await axios.post("/api/products", newData);
+      setImages([]);
     }
-
     router.back();
+    dispatch(fetchProducts());
   };
 
   return (
@@ -98,7 +125,7 @@ function ProductForm({ editedProduct }: Props) {
           Price (in VND)
           <input
             placeholder="Enter price of product"
-            {...register("description")}
+            {...register("price")}
             className=""
           />
         </label>
@@ -120,42 +147,44 @@ function ProductForm({ editedProduct }: Props) {
       <div className="mb-5">
         <label>Images</label>
 
-        <Dropzone onDrop={(acceptedFiles) => setFiles(acceptedFiles)}>
+        <Dropzone onDrop={(acceptedFiles) => handleAddFiles(acceptedFiles)}>
           {({ getRootProps, getInputProps }) => (
-            <>
-              {/* {preview && (
-                <div className="relative w-full h-96 mt-4 p-4 shadow-lg">
-                  <NextImage
-                    src={preview}
-                    alt="Main Image"
-                    fill
-                    className="object-cover"
-                    priority
-                  />
-
-                  <button
-                    className="btn absolute top-3 right-3 p-2 z-10 shadow-sm"
-                    onClick={() => setPreview("")}
-                    type="button"
+            <div className="flex flex-wrap gap-2 mt-4">
+              {images.length > 0 &&
+                images.map((preview) => (
+                  <div
+                    className="relative w-32 h-64 p-4 shadow-lg"
+                    key={preview}
                   >
-                    <XMarkIcon className="w-5 h-5" />
-                  </button>
-                </div>
-              )} */}
+                    <Image
+                      src={preview}
+                      alt="Main Image"
+                      fill
+                      className="object-cover"
+                      priority
+                      sizes="100%"
+                    />
 
-              {isSubmitting ? (
-                <Spinner />
-              ) : (
-                <div
-                  className="bg-blue-900 text-gray-300 hover:bg-blue-800 hover:text-gray-200 h-96 w-2/3 mx-auto flex flex-col items-center justify-center rounded-md cursor-pointer space-y-4 my-6"
-                  {...getRootProps()}
-                >
-                  <PlusIcon className="w-10 h-1w-10 border border-gray-200 rounded-full p-2" />
-                  <div className="text-center">
-                    Attach file by dragging & dropping or selecting it.
+                    <button
+                      className="btn absolute top-3 right-3 p-2 z-10 shadow-sm"
+                      type="button"
+                      onClick={() => handleRemovePreview(preview)}
+                    >
+                      <XMarkIcon className="w-5 h-5" />
+                    </button>
                   </div>
+                ))}
+
+              <div
+                className="relative bg-blue-900 text-gray-300 hover:bg-blue-800 hover:text-gray-200 h-64 w-64 flex flex-col items-center justify-center rounded-md cursor-pointer gap-2"
+                {...getRootProps()}
+              >
+                <PlusIcon className="w-6 h-6 p-1 border border-gray-200 rounded-full" />
+                <div className="text-center">
+                  Attach file by dragging & dropping or selecting it.
                 </div>
-              )}
+              </div>
+
               <input
                 type="file"
                 hidden
@@ -163,7 +192,7 @@ function ProductForm({ editedProduct }: Props) {
                 multiple
                 {...getInputProps()}
               />
-            </>
+            </div>
           )}
         </Dropzone>
       </div>

@@ -1,11 +1,11 @@
-import { Vollkorn } from "next/font/google";
+import { Roboto_Slab } from "next/font/google";
 import "./globals.css";
 import ReduxProvider from "./components/admin/Provider";
 import AuthContext from "./AuthContext";
 
-const vollkorn = Vollkorn({
+const robotoSlab = Roboto_Slab({
   weight: ["500", "600", "400", "700", "800", "900"],
-  subsets: ["latin"],
+  subsets: ["vietnamese"],
 });
 
 export default function RootLayout({
@@ -34,7 +34,7 @@ export default function RootLayout({
         href="/favicon-16x16.png"
       />
 
-      <body className={vollkorn.className}>
+      <body className={robotoSlab.className}>
         <AuthContext>
           <ReduxProvider>{children}</ReduxProvider>
         </AuthContext>

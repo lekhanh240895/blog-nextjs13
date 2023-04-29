@@ -31,14 +31,15 @@ export async function POST(req: Request) {
 
   const request = await req.json();
 
-  const { title, description, parent } = request;
+  const { title, description, parent, properties } = request;
 
-  if (!mongoose.Types.ObjectId.isValid(parent)) {
-    const newCategory = await Category.create({ title, description });
-    return NextResponse.json(newCategory);
-  }
+  const newCategory = await Category.create({
+    title,
+    description,
+    parent: parent || undefined,
+    properties,
+  });
 
-  const newCategory = await Category.create({ title, description, parent });
   return NextResponse.json(newCategory);
 }
 
@@ -49,23 +50,16 @@ export async function PUT(req: Request) {
   const id = searchParams.get("id");
 
   const res = await req.json();
-  const { title, description, parent } = res;
-
-  if (!mongoose.Types.ObjectId.isValid(parent)) {
-    const updatedCategory = await Category.findByIdAndUpdate(
-      id,
-      { title, description, $unset: { parent: 1 } },
-      {
-        new: true,
-      }
-    );
-
-    return NextResponse.json(updatedCategory);
-  }
+  const { title, description, parent, properties } = res;
 
   const updatedCategory = await Category.findByIdAndUpdate(
     id,
-    { title, description, parent },
+    {
+      title,
+      description,
+      parent: parent || undefined,
+      properties,
+    },
     {
       new: true,
     }

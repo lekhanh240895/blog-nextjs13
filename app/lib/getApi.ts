@@ -3,14 +3,14 @@ export const getPosts = async (id?: string) => {
     if (id) {
       const res = await fetch("http://localhost:3000/api/posts?id=" + id, {
         next: {
-          revalidate: 30,
+          revalidate: 5,
         },
       });
       return res.json();
     }
     const res = await fetch("http://localhost:3000/api/posts", {
       next: {
-        revalidate: 30,
+        revalidate: 5,
       },
     });
     return res.json();
@@ -23,7 +23,7 @@ export const getCategories = async () => {
   try {
     const res = await fetch("http://localhost:3000/api/categories", {
       next: {
-        revalidate: 30,
+        revalidate: 5,
       },
     });
     return res.json();
@@ -36,7 +36,7 @@ export const getPostBySlug = async (slug: string) => {
   try {
     const res = await fetch("http://localhost:3000/api/posts?slug=" + slug, {
       next: {
-        revalidate: 30,
+        revalidate: 5,
       },
     });
     return res.json();
@@ -50,14 +50,14 @@ export const getProducts = async (id?: string) => {
     if (id) {
       const res = await fetch("http://localhost:3000/api/products?id=" + id, {
         next: {
-          revalidate: 30,
+          revalidate: 5,
         },
       });
       return res.json();
     }
     const res = await fetch("http://localhost:3000/api/products", {
       next: {
-        revalidate: 30,
+        revalidate: 5,
       },
     });
     return res.json();
