@@ -25,24 +25,24 @@ export default function Categories() {
     setCreateCategoryOpened(false);
   };
   return (
-    <main>
+    <div>
       {(editedCategory || createCategoryOpened) && (
         <>
           <div className="flex justify-between items-center mb-4">
-            <h2 className="text-3xl text-blue-900">
+            <h2 className="text-3xl">
               {editedCategory
                 ? `Edit category - ${editedCategory.title}`
                 : "Create new category"}
             </h2>
-
-            <button
-              className="btn  flex items-center justify-between px-2 gap-x-1"
-              onClick={handleBack}
-            >
-              <ChevronLeftIcon className="w-5 h-5" />
-              <span>Back</span>
-            </button>
           </div>
+
+          <button
+            className="btn absolute top-4 right-4 md:top-8 md:right-8 h-8 flex items-center justify-between p-1 gap-x-1"
+            onClick={handleBack}
+          >
+            <ChevronLeftIcon className="w-4 h-4" />
+            <span>Back</span>
+          </button>
 
           <CategoryForm
             categories={categories}
@@ -51,8 +51,8 @@ export default function Categories() {
         </>
       )}
 
-      <div className="flex items-center justify-between">
-        <h2 className="text-3xl text-blue-900 uppercase mb-4">Categories</h2>
+      <div className="flex flex-col md:flex-row md:items-center justify-between">
+        <h2 className="text-3xl uppercase mb-4">Categories</h2>
 
         {!editedCategory && (
           <button
@@ -68,6 +68,6 @@ export default function Categories() {
         categories={categories}
         setEditedCategory={setEditedCategory}
       />
-    </main>
+    </div>
   );
 }

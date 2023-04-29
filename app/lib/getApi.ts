@@ -1,5 +1,13 @@
-export const getPosts = async () => {
+export const getPosts = async (id?: string) => {
   try {
+    if (id) {
+      const res = await fetch("http://localhost:3000/api/posts?id=" + id, {
+        next: {
+          revalidate: 30,
+        },
+      });
+      return res.json();
+    }
     const res = await fetch("http://localhost:3000/api/posts", {
       next: {
         revalidate: 30,
@@ -27,6 +35,27 @@ export const getCategories = async () => {
 export const getPostBySlug = async (slug: string) => {
   try {
     const res = await fetch("http://localhost:3000/api/posts?slug=" + slug, {
+      next: {
+        revalidate: 30,
+      },
+    });
+    return res.json();
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getProducts = async (id?: string) => {
+  try {
+    if (id) {
+      const res = await fetch("http://localhost:3000/api/products?id=" + id, {
+        next: {
+          revalidate: 30,
+        },
+      });
+      return res.json();
+    }
+    const res = await fetch("http://localhost:3000/api/products", {
       next: {
         revalidate: 30,
       },

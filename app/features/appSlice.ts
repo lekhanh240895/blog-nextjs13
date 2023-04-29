@@ -6,6 +6,7 @@ interface AppState {
   deleteCategoryModalOpened: boolean;
   selectedPost: Post | null;
   selectedCategory: Category | null;
+  sidebarOpened: boolean;
 }
 
 const initialState: AppState = {
@@ -13,6 +14,7 @@ const initialState: AppState = {
   deleteCategoryModalOpened: false,
   selectedPost: null,
   selectedCategory: null,
+  sidebarOpened: false,
 };
 
 export const appSlice = createSlice({
@@ -35,6 +37,9 @@ export const appSlice = createSlice({
       state.deleteCategoryModalOpened = false;
       state.selectedCategory = null;
     },
+    setSidebarOpened: (state, action) => {
+      state.sidebarOpened = action.payload;
+    },
   },
 });
 
@@ -44,6 +49,7 @@ export const {
   closeDeletePostModal,
   openDeleteCategoryModal,
   closeDeleteCategoryModal,
+  setSidebarOpened,
 } = appSlice.actions;
 
 export default appSlice;

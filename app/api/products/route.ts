@@ -1,7 +1,6 @@
 import { mongooseConnect } from "@/app/lib/mongoose";
 import Category from "@/app/models/Category";
-import Post from "@/app/models/Post";
-import User from "@/app/models/User";
+import Product from "@/app/models/Product";
 import mongoose from "mongoose";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -10,14 +9,9 @@ export async function GET(req: Request, res: Response) {
 
   const { searchParams } = new URL(req.url);
   const id = searchParams.get("id");
-  const slug = searchParams.get("slug");
 
   if (id) {
-    const post = await Post.findById(id).populate([
-      {
-        path: "user",
-        model: User,
-      },
+    const product = await Product.findById(id).populate([
       {
         path: "category",
         model: Category,
@@ -28,35 +22,10 @@ export async function GET(req: Request, res: Response) {
       },
     ]);
 
-    return NextResponse.json(post);
+    return NextResponse.json(product);
   }
 
-  if (slug) {
-    const post = await Post.findOne({
-      slug,
-    }).populate([
-      {
-        path: "user",
-        model: User,
-      },
-      {
-        path: "category",
-        model: Category,
-        populate: {
-          path: "parent",
-          model: "Category",
-        },
-      },
-    ]);
-
-    return NextResponse.json(post);
-  }
-
-  const posts = await Post.find({}).populate([
-    {
-      path: "user",
-      model: User,
-    },
+  const products = await Product.find({}).populate([
     {
       path: "category",
       model: Category,
@@ -67,7 +36,7 @@ export async function GET(req: Request, res: Response) {
     },
   ]);
 
-  return NextResponse.json(posts);
+  return NextResponse.json(products);
 }
 
 export async function POST(req: Request) {
@@ -75,33 +44,30 @@ export async function POST(req: Request) {
 
   const request = await req.json();
 
-  const { title, description, content, user, mainImage, slug, category } =
-    request;
+  const { title, description, price, images, category, properties } = request;
 
   if (!mongoose.Types.ObjectId.isValid(category)) {
-    const newPost = await Post.create({
+    const newProduct = await Product.create({
       title,
       description,
-      content,
-      user,
-      mainImage,
-      slug,
+      price,
+      images,
+      properties,
     });
 
-    return NextResponse.json(newPost);
+    return NextResponse.json(newProduct);
   }
 
-  const newPost = await Post.create({
+  const newProduct = await Product.create({
     title,
     description,
-    content,
-    user,
-    mainImage,
-    slug,
+    price,
+    images,
     category,
+    properties,
   });
 
-  return NextResponse.json(newPost);
+  return NextResponse.json(newProduct);
 }
 
 export async function PUT(req: Request) {
@@ -111,18 +77,17 @@ export async function PUT(req: Request) {
   const id = searchParams.get("id");
 
   const res = await req.json();
-  const { title, description, content, user, mainImage, slug, category } = res;
+  const { title, description, price, images, category, properties } = res;
 
   if (!mongoose.Types.ObjectId.isValid(category)) {
-    const updatedPost = await Post.findByIdAndUpdate(
+    const updatedProduct = await Product.findByIdAndUpdate(
       id,
       {
         title,
         description,
-        content,
-        user,
-        mainImage,
-        slug,
+        price,
+        images,
+        properties,
         $unset: { category: 1 },
       },
       {
@@ -130,26 +95,25 @@ export async function PUT(req: Request) {
       }
     );
 
-    return NextResponse.json(updatedPost);
+    return NextResponse.json(updatedProduct);
   }
 
-  const updatedPost = await Post.findByIdAndUpdate(
+  const updatedProduct = await Product.findByIdAndUpdate(
     id,
     {
       title,
       description,
-      content,
-      user,
-      mainImage,
-      slug,
+      price,
+      images,
       category,
+      properties,
     },
     {
       new: true,
     }
   );
 
-  return NextResponse.json(updatedPost);
+  return NextResponse.json(updatedProduct);
 }
 
 export async function DELETE(req: Request) {
@@ -158,6 +122,6 @@ export async function DELETE(req: Request) {
   const { searchParams } = new URL(req.url);
   const id = searchParams.get("id");
 
-  await Post.findByIdAndDelete(id);
+  await Product.findByIdAndDelete(id);
   return NextResponse.json(true);
 }

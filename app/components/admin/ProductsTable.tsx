@@ -4,48 +4,44 @@ import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { openDeletePostModal } from "@/app/features/appSlice";
-import { postSelector } from "@/app/redux/selector";
-import { fetchPosts } from "@/app/features/postSlice";
+import { productSelector } from "@/app/redux/selector";
 import { AppDispatch } from "@/app/redux/store";
+import { fetchProducts } from "@/app/features/productSlice";
 
-function PostsTable() {
-  const { posts } = useSelector(postSelector);
+function ProductsTable() {
+  const { products } = useSelector(productSelector);
   const router = useRouter();
   const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
-    dispatch(fetchPosts());
+    dispatch(fetchProducts());
   }, [dispatch]);
 
-  const handleEdit = (post: Post) => {
-    router.push("/dashboard/posts/" + post._id + "/edit");
+  const handleEdit = (product: Product) => {
+    router.push("/dashboard/products/" + product._id + "/edit");
   };
 
   return (
     <table className="basic table-auto">
       <thead>
         <tr>
-          <th>Name</th>
-          <th>Categories</th>
+          <th>Product Name</th>
           <th>Actions</th>
         </tr>
       </thead>
 
       <tbody>
-        {posts.map((post) => (
-          <tr key={post._id}>
-            <td>{post.title}</td>
-            <td>
-              {post.category?.title}{" "}
-              {post.category?.parent ? `, ${post.category?.parent?.title}` : ""}
-            </td>
+        {products.map((product) => (
+          <tr key={product._id}>
+            <td>{product.title}</td>
+
             <td className="align-middle space-y-1 space-x-1 text-center">
-              <button className="btn" onClick={() => handleEdit(post)}>
+              <button className="btn" onClick={() => handleEdit(product)}>
                 Edit
               </button>
               <button
                 className="btn"
-                onClick={() => dispatch(openDeletePostModal(post))}
+                onClick={() => dispatch(openDeletePostModal(product))}
               >
                 Delete
               </button>
@@ -57,4 +53,4 @@ function PostsTable() {
   );
 }
 
-export default PostsTable;
+export default ProductsTable;

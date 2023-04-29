@@ -20,38 +20,21 @@ interface User extends Base {
   email: string;
 }
 
-interface Reference {
-  _ref: string;
-  _type: "reference";
-}
-
-interface Block {
-  _key: string;
-  _type: "block";
-  children: Span[];
-  markDefs: any[];
-  style: "normal" | "hi" | "h2" | "h3" | "h4" | "blockquote";
-}
-
-interface Span {
-  _key: string;
-  _type: "span";
-  marks: string[];
-  text: string;
-}
-
 interface Category extends Base {
   description: string;
   title: string;
   parent: Category;
 }
 
-interface MainImage {
-  _type: "image";
-  assets: Reference;
+interface Product extends Base {
+  title: string;
+  description: string;
+  price: number;
+  images: string[];
+  category: Category;
+  properties: object;
 }
 
-interface Title {
-  _type: "string";
-  current: string;
+interface Property {
+  [key: string]: any;
 }

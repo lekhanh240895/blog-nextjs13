@@ -1,77 +1,96 @@
 "use client";
 
+import { setSidebarOpened } from "@/app/features/appSlice";
+import { appSelector } from "@/app/redux/selector";
 import {
   ArrowLeftOnRectangleIcon,
-  BoltIcon,
+  BuildingStorefrontIcon,
   ChartBarIcon,
   Cog8ToothIcon,
   DocumentChartBarIcon,
   ListBulletIcon,
+  XMarkIcon,
 } from "@heroicons/react/24/outline";
 import { signOut } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useDispatch, useSelector } from "react-redux";
 
 function Sidebar() {
+  const { sidebarOpened } = useSelector(appSelector);
+  const dispatch = useDispatch();
+  const pathname = usePathname();
+
+  const links = [
+    {
+      title: "Dashboard",
+      href: "/dashboard",
+      icon: <ChartBarIcon className="w-5 h-5" />,
+    },
+    {
+      title: "Posts",
+      href: "/dashboard/posts",
+      icon: <DocumentChartBarIcon className="w-5 h-5" />,
+    },
+    {
+      title: "Products",
+      href: "/dashboard/products",
+      icon: <BuildingStorefrontIcon className="w-5 h-5" />,
+    },
+    {
+      title: "Categories",
+      href: "/dashboard/categories",
+      icon: <ListBulletIcon className="w-5 h-5" />,
+    },
+    {
+      title: "Settings",
+      href: "/dashboard/settings",
+      icon: <Cog8ToothIcon className="w-5 h-5" />,
+    },
+  ];
   return (
-    <aside>
-      <div className="h-full text-white py-5 pl-5">
+    <aside
+      className={`bg-white text-black h-full shadow-lg md:bg-inherit md:text-white py-5 pl-5 absolute ${
+        sidebarOpened ? "left-0" : "-left-full"
+      } md:static top-0 z-50 transition-all rounded-r-md w-2/3 md:w-full`}
+    >
+      <div>
+        <button
+          className="btn btn-secondary p-1 w-8 h-8 absolute top-2 md:top-5 right-2 md:right-5 block md:hidden"
+          onClick={() => dispatch(setSidebarOpened(false))}
+        >
+          <XMarkIcon />
+        </button>
+
         <div className="flex items-center gap-x-2 mb-4">
           <div className="w-10 h-10 relative">
             <Image alt="logo" src="/logo.png" fill sizes="100%" />
           </div>
-          <h1 className="text-4xl leading-normal">Admin</h1>
+          <h1 className="text-3xl sm:text-4xl leading-normal md:text-white">
+            Admin
+          </h1>
         </div>
 
-        <ul>
-          <li>
+        <ul className="pr-4 sm:pr-16 md:pr-0 space-y-1">
+          {links.map((link, index) => (
             <Link
-              className="flex items-center gap-x-2 px-2 py-3 rounded-l-md hover:bg-white hover:text-gray-700 transition-all"
-              href="/dashboard/"
+              key={link.title + index}
+              className={`flex items-center gap-x-2 px-2 py-3 rounded-md md:rounded-r-none ${
+                pathname === link.href && "bg-slate-300 text-gray-700"
+              } hover:bg-slate-300 hover:text-gray-700 transition-all`}
+              href={link.href}
+              onClick={() => dispatch(setSidebarOpened(false))}
             >
-              <ChartBarIcon className="w-5 h-5" />
-              Dashboard
+              {link.icon}
+              {link.title}
             </Link>
-          </li>
-          <li>
-            <Link
-              className="flex items-center gap-x-2 px-2 py-3 rounded-l-md hover:bg-white hover:text-gray-700 transition-all"
-              href="/dashboard/posts"
-            >
-              <DocumentChartBarIcon className="w-5 h-5" />
-              Posts
-            </Link>
-          </li>
-          <li>
-            <Link
-              className="flex items-center gap-x-2 px-2 py-3 rounded-l-md hover:bg-white hover:text-gray-700 transition-all"
-              href="/dashboard/products/"
-            >
-              <ChartBarIcon className="w-5 h-5" />
-              Products
-            </Link>
-          </li>
-          <li>
-            <Link
-              className="flex items-center gap-x-2 px-2 py-3 rounded-l-md hover:bg-white hover:text-gray-700 transition-all"
-              href="/dashboard/categories"
-            >
-              <ListBulletIcon className="w-5 h-5" />
-              Categories
-            </Link>
-          </li>
-          <li>
-            <Link
-              className="flex items-center gap-x-2 px-2 py-3 rounded-l-md hover:bg-white hover:text-gray-700 transition-all"
-              href="/dashboard/settings"
-            >
-              <Cog8ToothIcon className="w-5 h-5" />
-              Settings
-            </Link>
-          </li>
+          ))}
+
           <li>
             <button
-              className="w-full flex items-center gap-x-2 px-2 py-3 rounded-l-md hover:bg-white hover:text-gray-700 transition-all"
+              className={`w-full flex items-center gap-x-2 px-2 py-3 rounded-md md:rounded-r-none
+              hover:bg-slate-300 hover:text-gray-700 transition-all`}
               onClick={() => signOut()}
             >
               <ArrowLeftOnRectangleIcon className="w-5 h-5" />

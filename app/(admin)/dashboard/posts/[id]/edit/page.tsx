@@ -1,5 +1,6 @@
 import BackButton from "@/app/components/BackButton";
 import PostForm from "@/app/components/admin/PostForm";
+import { getPosts } from "@/app/lib/getApi";
 
 type Props = {
   params: {
@@ -9,13 +10,7 @@ type Props = {
 
 export async function generateMetadata({ params }: Props) {
   const { id } = params;
-  const res = await fetch("http://localhost:3000/api/posts?id=" + id, {
-    next: {
-      revalidate: 30,
-    },
-  });
-
-  const post: Post = await res.json();
+  const post = await getPosts(id);
 
   return {
     title: post.title,
@@ -23,13 +18,7 @@ export async function generateMetadata({ params }: Props) {
 }
 
 export async function generateStaticParams() {
-  const res = await fetch("http://localhost:3000/api/posts", {
-    next: {
-      revalidate: 30,
-    },
-  });
-
-  const posts: Post[] = await res.json();
+  const posts: Post[] = await getPosts();
 
   return posts.map((post) => ({
     id: post._id,
@@ -39,20 +28,12 @@ export async function generateStaticParams() {
 async function EditPost({ params }: Props) {
   const { id } = params;
 
-  const res = await fetch("http://localhost:3000/api/posts?id=" + id, {
-    next: {
-      revalidate: 30,
-    },
-  });
-
-  const editedPost = await res.json();
+  const editedPost: Post = await getPosts(id);
 
   return (
     <main>
       <div className="flex items-start justify-between mb-4 gap-x-4">
-        <h2 className="text-3xl text-blue-900">
-          Edit post - {editedPost?.title}
-        </h2>
+        <h2 className="text-3xl">Edit post - {editedPost?.title}</h2>
 
         <BackButton />
       </div>

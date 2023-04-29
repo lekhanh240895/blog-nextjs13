@@ -3,6 +3,7 @@ import GoogleProvider from "next-auth/providers/google";
 import GithubProvider from "next-auth/providers/github";
 import { MongoDBAdapter } from "@next-auth/mongodb-adapter";
 import clientPromise from "@/app/lib/mongodb";
+import { NextRequest, NextResponse } from "next/server";
 
 const adminEmails = ["lekhanh240895@gmail.com"];
 
@@ -29,10 +30,11 @@ const authOptions: NextAuthOptions = {
     },
     async session({ session, token, user }) {
       // Send properties to the client, like an access_token from a provider.
-      session.user.id = user.id;
       if (!adminEmails.includes(session.user.email)) {
         throw new Error("Only admin can access this page!");
       }
+
+      session.user.id = user.id;
       return session;
     },
   },
@@ -41,15 +43,3 @@ const authOptions: NextAuthOptions = {
 const handler = NextAuth(authOptions);
 
 export { handler as GET, handler as POST };
-
-export async function isAdminRequest() {
-  const session = await getServerSession(authOptions);
-  console.log({ session });
-  if (!adminEmails.includes(session?.user?.email)) {
-    new Response("Only admin can access this page!", {
-      status: 401,
-      statusText: "Status text",
-    });
-    throw new Error("Only admin can access this page!");
-  }
-}

@@ -1,6 +1,6 @@
+import ClientSiteRoute from "@/app/components/ClientSiteRoute";
 import PostsTable from "@/app/components/admin/PostsTable";
 import { Metadata } from "next";
-import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Posts",
@@ -8,19 +8,19 @@ export const metadata: Metadata = {
 
 export default async function Posts() {
   return (
-    <main>
+    <section>
       <div className="flex justify-between items-center">
-        <h2 className="text-3xl text-blue-900 uppercase mb-4">Posts</h2>
+        <h2 className="text-3xl uppercase mb-4">Posts</h2>
 
-        <Link
-          href="/dashboard/posts/create"
+        <ClientSiteRoute
+          route="/dashboard/posts/create"
           className="btn btn-primary inline-block mb-4"
         >
           Create new post
-        </Link>
+        </ClientSiteRoute>
       </div>
 
       <PostsTable />
-    </main>
+    </section>
   );
 }

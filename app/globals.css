@@ -9,17 +9,21 @@
   h4,
   h5,
   h6 {
-    @apply font-bold leading-normal;
+    @apply font-bold leading-normal text-black md:text-blue-900;
   }
   input,
   textarea {
-    @apply relative w-full rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-blue-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-blue-300 sm:text-sm;
+    @apply relative w-full rounded-lg bg-white py-2 pl-3 pr-3 text-left shadow-md focus:outline-none focus-visible:border-blue-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-blue-300 sm:text-sm;
   }
   label {
     @apply mb-4;
   }
   .btn {
-    @apply inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2;
+    @apply inline-flex justify-center rounded-md border border-transparent px-4 py-2 text-sm font-medium bg-gray-300 text-black hover:bg-slate-300 md:bg-blue-100 md:text-blue-900 md:hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 transition-all;
+  }
+
+  .btn-secondary {
+    @apply bg-gray-300 hover:bg-slate-300 text-black focus-visible:ring-gray-300;
   }
   .btn-primary {
     @apply bg-primary/90 hover:bg-primary/100 text-white focus-visible:ring-primary/100;
@@ -31,13 +35,13 @@
     @apply w-full text-center;
   }
   table.basic tr {
-    @apply hover:bg-gray-300;
+    @apply hover:bg-white md:hover:bg-gray-300;
   }
   table.basic tr th {
-    @apply bg-blue-900 text-white border border-gray-200 px-2 py-1;
+    @apply bg-blue-900 text-white border px-2 py-1;
   }
   table.basic tr td {
-    @apply border border-gray-200 px-2 py-1;
+    @apply border border-slate-300 px-2 py-1;
   }
   .post .post-content h1 {
     @apply text-5xl py-5 font-bold leading-normal;
