@@ -12,11 +12,8 @@ export default async function Posts() {
       <div className="flex justify-between items-center">
         <h2 className="text-3xl uppercase mb-4">Posts</h2>
 
-        <ClientSiteRoute
-          route="/dashboard/posts/create"
-          className="btn btn-primary inline-block mb-4"
-        >
-          Create new post
+        <ClientSiteRoute route="/dashboard/posts/create">
+          <span> Create new post</span>
         </ClientSiteRoute>
       </div>
 

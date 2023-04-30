@@ -15,9 +15,9 @@ import {
 import CategorySelect from "./CategorySelect";
 import { useDispatch, useSelector } from "react-redux";
 import { categorySelector } from "@/app/redux/selector";
-import { getImageUrl } from "@/app/lib/getImageUrl";
 import { fetchProducts } from "@/app/features/productSlice";
 import { AppDispatch } from "@/app/redux/store";
+import PropertySelect from "./PropertySelect";
 
 type FormData = {
   title: string;
@@ -32,6 +32,8 @@ type Props = {
 
 function ProductForm({ editedProduct }: Props) {
   const [category, setCategory] = useState("");
+  const [productProperties, setProductProperties] = useState<Property[]>([]);
+  const [propertiesToFill, setpropertiesToFill] = useState<Property[]>([]);
   const { categories } = useSelector(categorySelector);
   const [images, setImages] = useState<string[]>([]);
   const {
@@ -59,6 +61,8 @@ function ProductForm({ editedProduct }: Props) {
     }
   }, [editedProduct, reset, setValue]);
 
+  console.log({ category, propertiesToFill });
+
   const handleAddFiles = async (files: File[]) => {
     if (files.length > 0) {
       for (const file of files) {
@@ -73,6 +77,30 @@ function ProductForm({ editedProduct }: Props) {
     }
   };
 
+  useEffect(() => {
+    if (categories.length > 0 && category) {
+      let catInfo = categories.find(({ _id }) => _id === category);
+
+      if (catInfo) {
+        setpropertiesToFill(catInfo.properties);
+
+        while (catInfo?.parent?._id) {
+          const parentCat = categories.find(
+            ({ _id }) => _id === catInfo?.parent?._id
+          );
+
+          if (parentCat) {
+            setpropertiesToFill((prev) => [...prev, parentCat.properties]);
+          }
+        }
+      }
+
+      console.log({ catInfo });
+    }
+  }, [categories, category, propertiesToFill]);
+
+  console.log({ category, propertiesToFill });
+
   const handleRemovePreview = async (image: string) => {
     await handleDeleteFilesFirebase(image);
 
@@ -80,18 +108,23 @@ function ProductForm({ editedProduct }: Props) {
   };
 
   const onSubmit = async (data: FormData) => {
-    const newData = {
-      ...data,
-      category,
-      images,
-    };
+    try {
+      const newData = {
+        ...data,
+        category,
+        images,
+      };
 
-    if (editedProduct) {
-      await axios.put("/api/products?id=" + editedProduct._id, newData);
-    } else {
-      await axios.post("/api/products", newData);
-      setImages([]);
+      if (editedProduct) {
+        await axios.put("/api/products?id=" + editedProduct._id, newData);
+      } else {
+        await axios.post("/api/products", newData);
+        setImages([]);
+      }
+    } catch (error) {
+      console.log(error);
     }
+
     router.back();
     dispatch(fetchProducts());
   };
@@ -131,18 +164,27 @@ function ProductForm({ editedProduct }: Props) {
         </label>
       </div>
 
-      <div className="mb-5">
-        <div className="flex items-center space-x-4">
-          <label className="flex-1">
-            Category
-            <CategorySelect
-              categories={categories}
-              value={category}
-              setValue={setCategory}
-            />
-          </label>
-        </div>
+      <div className="mb-5 flex items-center space-x-4">
+        <label className="flex-1">
+          Category
+          <CategorySelect
+            categories={categories}
+            value={category}
+            setValue={setCategory}
+          />
+        </label>
       </div>
+
+      {propertiesToFill?.length > 0 &&
+        propertiesToFill?.map((property, index) => (
+          <div className="mb-5" key={property.name + index}>
+            <label>
+              {property.name}
+
+              <PropertySelect values={property.values} />
+            </label>
+          </div>
+        ))}
 
       <div className="mb-5">
         <label>Images</label>
@@ -197,12 +239,7 @@ function ProductForm({ editedProduct }: Props) {
         </Dropzone>
       </div>
 
-      <button
-        type="submit"
-        className={
-          isSubmitting ? "btn btn-primary btn-disabled" : "btn btn-primary "
-        }
-      >
+      <button type="submit" className={"btn btn-primary "}>
         Save
       </button>
     </form>

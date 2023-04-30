@@ -12,11 +12,10 @@ function Products() {
       <div className="flex justify-between items-center">
         <h2 className="text-3xl uppercase mb-4">Products</h2>
 
-        <ClientSiteRoute
-          route="/dashboard/products/create"
-          className="btn btn-primary inline-block mb-4"
-        >
-          Create new product
+        <ClientSiteRoute route="/dashboard/products/create">
+          <span className="btn btn-primary inline-block mb-4">
+            Create new product
+          </span>
         </ClientSiteRoute>
       </div>
 

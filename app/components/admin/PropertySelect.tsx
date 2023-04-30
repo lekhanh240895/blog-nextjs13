@@ -6,30 +6,17 @@ import axios from "axios";
 type Props = {
   value: string;
   setValue: Dispatch<SetStateAction<string>>;
-  categories: Category[];
+  values: string[];
 };
 
-export default function CategorySelect({ categories, value, setValue }: Props) {
-  const [selectedCategory, setSelectedCategory] = useState<Category | null>(
-    null
-  );
-
-  useEffect(() => {
-    (async () => {
-      if (value) {
-        const res = await axios.get("/api/categories?id=" + value);
-        setSelectedCategory(res.data);
-      }
-    })();
-  }, [value]);
-
+export default function PropertySelect({ values, value, setValue }: Props) {
   return (
     <div className="">
       <Listbox value={value} onChange={setValue}>
         <div className="relative mt-1">
           <Listbox.Button className="relative w-full h-9 cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
             <span className="block truncate">
-              {value ? selectedCategory?.title : "Select category"}
+              {value ? value : "Select property"}
             </span>
             <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
               <ChevronUpDownIcon
@@ -71,15 +58,15 @@ export default function CategorySelect({ categories, value, setValue }: Props) {
                 )}
               </Listbox.Option>
 
-              {categories.map((category) => (
+              {values.map((value) => (
                 <Listbox.Option
-                  key={category._id}
+                  key={value}
                   className={({ active }) =>
                     `relative cursor-default select-none py-2 pl-10 pr-4 ${
                       active ? "bg-blue-100 text-blue-900" : "text-gray-900"
                     }`
                   }
-                  value={category._id}
+                  value={value}
                 >
                   {({ selected }) => (
                     <>
@@ -88,7 +75,7 @@ export default function CategorySelect({ categories, value, setValue }: Props) {
                           value ? "font-medium" : "font-normal"
                         }`}
                       >
-                        {category.title}
+                        {value}
                       </span>
                       {selected ? (
                         <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-blue-600">
