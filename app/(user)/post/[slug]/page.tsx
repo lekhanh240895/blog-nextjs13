@@ -34,14 +34,15 @@ async function Post({ params }: Props) {
   if (!post) return;
 
   return (
-    <article className="post px-4 md:px-10 pb-24 py-12">
-      <ClientSiteRoute route={`/dashboard/post/${post._id}/edit`}>
-        <div className="text-center my-5">
+    <article className="post px-4 md:px-10 py-6 pb-12 md:pb-24 md:py-12">
+      <ClientSiteRoute route={`/dashboard/posts/${post._id}/edit`}>
+        <div className="text-center my-4">
           <button className="btn btn-primary px-4 text-lg">
             Edit this post
           </button>
         </div>
       </ClientSiteRoute>
+
       <section className="relative min-h-[256px] ">
         <div className="absolute top-0 w-full h-full p-10 opacity-10 blur-sm">
           <Image

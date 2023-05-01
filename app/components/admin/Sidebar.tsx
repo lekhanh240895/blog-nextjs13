@@ -1,6 +1,6 @@
 "use client";
 
-import { setSidebarOpened } from "@/app/features/appSlice";
+import { setDashboardSidebarOpened } from "@/app/features/appSlice";
 import { appSelector } from "@/app/redux/selector";
 import {
   ArrowLeftOnRectangleIcon,
@@ -18,7 +18,7 @@ import { usePathname } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 
 function Sidebar() {
-  const { sidebarOpened } = useSelector(appSelector);
+  const { dashboardSidebarOpened } = useSelector(appSelector);
   const dispatch = useDispatch();
   const pathname = usePathname();
 
@@ -52,13 +52,13 @@ function Sidebar() {
   return (
     <aside
       className={`bg-white text-black h-full shadow-lg md:bg-inherit md:text-white py-5 pl-5 absolute ${
-        sidebarOpened ? "left-0" : "-left-full"
+        dashboardSidebarOpened ? "left-0" : "-left-full"
       } md:static top-0 z-50 transition-all rounded-r-md w-2/3 md:w-full`}
     >
       <div>
         <button
           className="btn btn-secondary p-1 w-8 h-8 absolute top-2 md:top-5 right-2 md:right-5 block md:hidden"
-          onClick={() => dispatch(setSidebarOpened(false))}
+          onClick={() => dispatch(setDashboardSidebarOpened(false))}
         >
           <XMarkIcon />
         </button>
@@ -72,7 +72,7 @@ function Sidebar() {
           </h1>
         </div>
 
-        <ul className="pr-4 sm:pr-16 md:pr-0 space-y-1">
+        <ul className="pr-4 sm:pr-16 md:pr-0 space-y-2">
           {links.map((link, index) => (
             <Link
               key={link.title + index}
@@ -80,7 +80,7 @@ function Sidebar() {
                 pathname === link.href && "bg-slate-300 text-gray-700"
               } hover:bg-slate-300 hover:text-gray-700 transition-all`}
               href={link.href}
-              onClick={() => dispatch(setSidebarOpened(false))}
+              onClick={() => dispatch(setDashboardSidebarOpened(false))}
             >
               {link.icon}
               {link.title}

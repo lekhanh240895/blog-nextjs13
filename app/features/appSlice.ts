@@ -7,6 +7,7 @@ interface AppState {
   selectedPost: Post | null;
   selectedCategory: Category | null;
   selectedProduct: Product | null;
+  dashboardSidebarOpened: boolean;
   sidebarOpened: boolean;
 }
 
@@ -16,6 +17,7 @@ const initialState: AppState = {
   deleteProductModalOpened: false,
   selectedPost: null,
   selectedCategory: null,
+  dashboardSidebarOpened: false,
   sidebarOpened: false,
   selectedProduct: null,
 };
@@ -48,7 +50,9 @@ export const appSlice = createSlice({
       state.deleteProductModalOpened = false;
       state.selectedProduct = null;
     },
-
+    setDashboardSidebarOpened: (state, action) => {
+      state.dashboardSidebarOpened = action.payload;
+    },
     setSidebarOpened: (state, action) => {
       state.sidebarOpened = action.payload;
     },
@@ -61,9 +65,10 @@ export const {
   closeDeletePostModal,
   openDeleteCategoryModal,
   closeDeleteCategoryModal,
-  setSidebarOpened,
+  setDashboardSidebarOpened,
   openDeleteProductModal,
   closeDeleteProductModal,
+  setSidebarOpened,
 } = appSlice.actions;
 
 export default appSlice;

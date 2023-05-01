@@ -6,9 +6,5 @@ export default async function Home() {
 
   if (!posts) return;
 
-  return (
-    <main>
-      <BlogList posts={posts} />
-    </main>
-  );
+  return <BlogList posts={posts} />;
 }

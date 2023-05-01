@@ -1,4 +1,5 @@
 import Header from "../components/Header";
+import Sidebar from "../components/Sidebar";
 
 export const metadata = {
   title: "Blog - Lê Khánh - Reviews - News",
@@ -12,9 +13,10 @@ export default function UserLayout({
   children: React.ReactNode;
 }) {
   return (
-    <>
+    <div className="relative bg-white">
+      <Sidebar />
       <Header />
-      {children}
-    </>
+      <main>{children}</main>
+    </div>
   );
 }

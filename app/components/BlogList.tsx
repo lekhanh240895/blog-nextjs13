@@ -10,11 +10,12 @@ interface Props {
 
 function BlogList({ posts }: Props) {
   return (
-    <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-10 px-4 md:px-10 pb-24">
+    <ul className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-10 px-4 md:px-10 md:pb-24 py-6 pb-12">
       {posts.map((post) => (
         <li
           key={post._id}
-          className="min-h-[320px] md:[&:nth-child(6n+1)]:col-span-2 md:[&:nth-child(6n+1)]:row-span-4 lg:[&:nth-child(6n+2)]:row-span-5 md:[&:nth-child(6n+2)]:row-span-6 md:[&:nth-child(6n+3)]:row-span-4 lg:[&:nth-child(6n+3)]:row-span-5 md:[&:nth-child(6n+4)]:row-span-6 lg:[&:nth-child(6n+4)]:row-span-5 md:[&:nth-child(6n+5)]:row-span-4 lg:[&:nth-child(6n+5)]:row-span-5 md:[&:nth-child(6n+6)]:col-span-2 md:[&:nth-child(6n+6)]:row-span-4 space-y-6 flex flex-col justify-between"
+          // className="min-h-[320px] md:[&:nth-child(6n+1)]:col-span-2 md:[&:nth-child(6n+1)]:row-span-4 lg:[&:nth-child(6n+2)]:row-span-5 md:[&:nth-child(6n+2)]:row-span-6 md:[&:nth-child(6n+3)]:row-span-4 lg:[&:nth-child(6n+3)]:row-span-5 md:[&:nth-child(6n+4)]:row-span-6 lg:[&:nth-child(6n+4)]:row-span-5 md:[&:nth-child(6n+5)]:row-span-4 lg:[&:nth-child(6n+5)]:row-span-5 md:[&:nth-child(6n+6)]:col-span-2 md:[&:nth-child(6n+6)]:row-span-4 space-y-6 flex flex-col justify-between"
+          className="space-y-6 flex flex-col justify-between"
         >
           <div className="group cursor-pointer relative grow">
             <ClientSiteRoute route={`/post/${post.slug}`}>
@@ -35,18 +36,19 @@ function BlogList({ posts }: Props) {
             </ClientSiteRoute>
           </div>
 
-          <div className="flex flex-wrap items-center justify-center tracking-wider gap-2">
-            <div className="w-8 h-8 relative">
-              <Image
-                fill
-                alt="avatar"
-                src={post.user.image}
-                className="rounded-full object-cover"
-                sizes="100%"
-              />
+          <div className="flex flex-col sm:flex-row flex-wrap items-center justify-center tracking-wider gap-2">
+            <div className="flex items-center gap-x-2">
+              <div className="w-8 h-8 relative">
+                <Image
+                  fill
+                  alt="avatar"
+                  src={post.user.image}
+                  className="rounded-full object-cover"
+                  sizes="100%"
+                />
+              </div>
+              <h2>{post.user.name}</h2>
             </div>
-
-            <h2>{post.user.name}</h2>
 
             <div className="w-1 h-1 rounded-full bg-primary mx-2"></div>
 

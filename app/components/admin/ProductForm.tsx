@@ -48,8 +48,6 @@ function ProductForm({ editedProduct }: Props) {
   const router = useRouter();
   const dispatch = useDispatch<AppDispatch>();
 
-  console.log({ productProperties, propertiesToFill });
-
   useEffect(() => {
     if (editedProduct) {
       setValue("title", editedProduct.title);

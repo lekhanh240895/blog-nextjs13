@@ -1,15 +1,15 @@
-"use client";
-
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import Navbar from "./Navbar";
+import ClientSiteRoute from "./ClientSiteRoute";
+import MenuButton from "./MenuButton";
 
 function Header() {
   return (
-    <header className="bg-white max-w-7xl mx-auto pt-20 px-10 space-y-4">
-      <div className="flex items-center justify-between">
+    <header className="bg-inherit max-w-7xl mx-auto pt-10 md:pt-20 px-2 sm:px-4 md:px-10 space-y-4">
+      <div className="flex gap-x-1 items-center justify-between">
         <div className="hidden md:flex gap-x-4 ">
           <Link
             href="/"
@@ -52,29 +52,30 @@ function Header() {
           </Link>
         </div>
 
-        <h1 className="text-7xl flex gap-x-2 items-baseline transition hover:-translate-y-1 ease-in-out duration-200">
+        <MenuButton />
+
+        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl flex gap-x-1 md:gap-x-2 items-baseline transition hover:-translate-y-1 ease-in-out duration-200">
           KhanhReview
-          <div className="w-2 h-2 md:w-3 md:h-3 rounded-full bg-primary"></div>
+          <div className="w-1 h-1 sm:w-2 sm:h-2 md:w-3 md:h-3 rounded-full bg-primary"></div>
         </h1>
 
         <div className="flex items-center gap-x-3">
-          <div className="p-3 rounded-full bg-primary shadow-md transition hover:-translate-y-1 ease-in-out duration-200">
-            <MagnifyingGlassIcon className="w-5 h-5 text-white" />
-          </div>
+          <button className="flex-shrink-0 p-2 md:p-3 w-9 sm:w-10 h-9 sm:h-10 md:w-11  md:h-11 text-white rounded-full bg-primary shad ow-md transition hover:-translate-y-1 ease-in-out duration-200">
+            <MagnifyingGlassIcon />
+          </button>
 
-          <Link
-            href="/account"
-            className="h-11 w-11 relative hidden md:block transition hover:-translate-y-1 ease-in-out duration-200"
-          >
-            <Image
-              src="https://picsum.photos/200/300"
-              alt="avatar"
-              fill
-              className="rounded-full object-cover"
-              priority
-              sizes="100%"
-            />
-          </Link>
+          <ClientSiteRoute route="/account">
+            <div className="h-11 w-11 relative hidden md:block transition hover:-translate-y-1 ease-in-out duration-200">
+              <Image
+                src="https://picsum.photos/200/300"
+                alt="avatar"
+                fill
+                className="rounded-full object-cover"
+                priority
+                sizes="100%"
+              />
+            </div>
+          </ClientSiteRoute>
         </div>
       </div>
 
