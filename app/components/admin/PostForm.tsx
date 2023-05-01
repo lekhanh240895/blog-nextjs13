@@ -162,16 +162,12 @@ function PostForm({ editedPost }: Props) {
       </div>
 
       <div className="mb-5">
-        <div className="flex items-center space-x-4">
-          <label className="flex-1">
-            Category
-            <CategorySelect
-              categories={categories}
-              value={category}
-              setValue={setCategory}
-            />
-          </label>
-        </div>
+        <label>Category</label>
+        <CategorySelect
+          categories={categories}
+          value={category}
+          setValue={setCategory}
+        />
       </div>
 
       <div className="mb-5">

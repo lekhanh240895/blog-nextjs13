@@ -46,24 +46,12 @@ export async function POST(req: Request) {
 
   const { title, description, price, images, category, properties } = request;
 
-  if (!mongoose.Types.ObjectId.isValid(category)) {
-    const newProduct = await Product.create({
-      title,
-      description,
-      price,
-      images,
-      properties,
-    });
-
-    return NextResponse.json(newProduct);
-  }
-
   const newProduct = await Product.create({
     title,
     description,
     price,
     images,
-    category,
+    category: category || undefined,
     properties,
   });
 
@@ -79,25 +67,6 @@ export async function PUT(req: Request) {
   const res = await req.json();
   const { title, description, price, images, category, properties } = res;
 
-  if (!mongoose.Types.ObjectId.isValid(category)) {
-    const updatedProduct = await Product.findByIdAndUpdate(
-      id,
-      {
-        title,
-        description,
-        price,
-        images,
-        properties,
-        $unset: { category: 1 },
-      },
-      {
-        new: true,
-      }
-    );
-
-    return NextResponse.json(updatedProduct);
-  }
-
   const updatedProduct = await Product.findByIdAndUpdate(
     id,
     {
@@ -105,7 +74,7 @@ export async function PUT(req: Request) {
       description,
       price,
       images,
-      category,
+      category: category || undefined,
       properties,
     },
     {

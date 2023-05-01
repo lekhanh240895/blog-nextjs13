@@ -133,14 +133,14 @@ export default function CategoryForm({ categories, editedCategory }: Props) {
           />
         </label>
 
-        <label className="flex-1 md:flex-[1_0_240px] mb-0">
-          Parent Category
+        <div className="flex-1 md:flex-[1_0_240px]">
+          <label className="mb-0">Parent Category</label>
           <CategorySelect
             value={parent}
             setValue={setParent}
             categories={categories}
           />
-        </label>
+        </div>
       </div>
 
       <div className="space-y-2">
