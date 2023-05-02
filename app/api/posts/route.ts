@@ -3,37 +3,23 @@ import Category from "@/app/models/Category";
 import Post from "@/app/models/Post";
 import User from "@/app/models/User";
 import mongoose from "mongoose";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
-export async function GET(req: Request, res: Response) {
+export async function GET(req: Request) {
   await mongooseConnect();
 
   const { searchParams } = new URL(req.url);
   const id = searchParams.get("id");
   const slug = searchParams.get("slug");
 
-  if (id) {
-    const post = await Post.findById(id).populate([
-      {
-        path: "user",
-        model: User,
-      },
-      {
-        path: "category",
-        model: Category,
-        populate: {
-          path: "parent",
-          model: "Category",
-        },
-      },
-    ]);
-
-    return NextResponse.json(post);
-  }
-
-  if (slug) {
+  if (id || slug) {
     const post = await Post.findOne({
-      slug,
+      $and: [
+        {
+          id,
+        },
+        { slug },
+      ],
     }).populate([
       {
         path: "user",

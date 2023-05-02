@@ -29,7 +29,8 @@ export async function generateStaticParams() {
 
 async function Post({ params }: Props) {
   const { slug } = params;
-  const post: Post = await getPostBySlug(slug);
+  const posts: Post[] = await getPosts();
+  const post = posts.find((post) => post.slug === slug);
 
   if (!post) return;
 

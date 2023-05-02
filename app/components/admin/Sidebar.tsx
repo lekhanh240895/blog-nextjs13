@@ -78,7 +78,7 @@ function Sidebar() {
               key={link.title + index}
               className={`flex items-center gap-x-2 px-2 py-3 rounded-md md:rounded-r-none ${
                 pathname === link.href && "bg-slate-300 text-gray-700"
-              } hover:bg-slate-300 hover:text-gray-700 transition-all`}
+              } hover:bg-slate-300 md:hover:bg-white hover:text-gray-700 transition-all`}
               href={link.href}
               onClick={() => dispatch(setDashboardSidebarOpened(false))}
             >
@@ -90,7 +90,7 @@ function Sidebar() {
           <li>
             <button
               className={`w-full flex items-center gap-x-2 px-2 py-3 rounded-md md:rounded-r-none
-              hover:bg-slate-300 hover:text-gray-700 transition-all`}
+              hover:bg-slate-300 md:hover:bg-white hover:text-gray-700 transition-all`}
               onClick={() => signOut()}
             >
               <ArrowLeftOnRectangleIcon className="w-5 h-5" />

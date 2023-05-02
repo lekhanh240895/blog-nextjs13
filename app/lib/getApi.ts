@@ -8,6 +8,7 @@ export const getPosts = async (id?: string) => {
       });
       return res.json();
     }
+
     const res = await fetch("http://localhost:3000/api/posts", {
       next: {
         revalidate: 5,
@@ -39,6 +40,22 @@ export const getPostBySlug = async (slug: string) => {
         revalidate: 5,
       },
     });
+    return res.json();
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getCategoryBySlug = async (slug: string) => {
+  try {
+    const res = await fetch(
+      "http://localhost:3000/api/categories?slug=" + slug,
+      {
+        next: {
+          revalidate: 5,
+        },
+      }
+    );
     return res.json();
   } catch (error) {
     console.log(error);

@@ -60,7 +60,7 @@ function Header() {
         </h1>
 
         <div className="flex items-center gap-x-3">
-          <button className="flex-shrink-0 p-2 md:p-3 w-9 sm:w-10 h-9 sm:h-10 md:w-11  md:h-11 text-white rounded-full bg-primary shad ow-md transition hover:-translate-y-1 ease-in-out duration-200">
+          <button className="flex-shrink-0 p-2 md:p-3 w-9 sm:w-10 h-9 sm:h-10 md:w-11 md:h-11 text-white rounded-full bg-primary shadow-md transition hover:-translate-y-1 ease-in-out duration-200">
             <MagnifyingGlassIcon />
           </button>
 
@@ -79,9 +79,7 @@ function Header() {
         </div>
       </div>
 
-      <div className="">
-        <Navbar />
-      </div>
+      <Navbar />
     </header>
   );
 }

@@ -4,15 +4,15 @@ import Link from "next/link";
 import { Fragment, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../redux/store";
-import { categorySelector } from "../redux/selector";
-import { fetchCategories } from "../features/categorySlice";
+import { postSelector } from "../redux/selector";
+import { fetchPosts } from "../features/postSlice";
 
-export default function CategoryMenu() {
-  const { categories } = useSelector(categorySelector);
+export default function TopPostsMenu() {
+  const { posts } = useSelector(postSelector);
   const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
-    dispatch(fetchCategories());
+    dispatch(fetchPosts());
   }, [dispatch]);
 
   return (
@@ -25,7 +25,7 @@ export default function CategoryMenu() {
           <Menu.Button>
             <div className="group transition-all flex gap-x-1 items-center">
               <span className="group-hover:text-primary transition-all">
-                Categories
+                Top Posts
               </span>
 
               <ChevronUpIcon
@@ -46,18 +46,18 @@ export default function CategoryMenu() {
             leaveTo="transform opacity-0 -translate-y-3"
           >
             <Menu.Items className="absolute right-0 translate-y- mt-2 duration w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-              {categories.length > 0 &&
-                categories.map((category) => (
-                  <div className="p-1" key={category._id}>
+              {posts.length > 0 &&
+                posts.map((post) => (
+                  <div className="p-1" key={post._id}>
                     <Menu.Item>
                       {({ active }) => (
                         <Link
-                          href={"/category/" + category.slug}
+                          href={"/post/" + post.slug}
                           className={`${
                             active ? "bg-primary text-white" : "text-gray-900"
                           } flex w-full items-center rounded-md px-2 py-2 transition-all`}
                         >
-                          {category.title}
+                          {post.title}
                         </Link>
                       )}
                     </Menu.Item>

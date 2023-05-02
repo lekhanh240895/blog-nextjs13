@@ -1,16 +1,23 @@
 import { mongooseConnect } from "@/app/lib/mongoose";
 import Category from "@/app/models/Category";
-import mongoose from "mongoose";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
 export async function GET(req: Request) {
   await mongooseConnect();
 
   const { searchParams } = new URL(req.url);
   const id = searchParams.get("id");
+  const slug = searchParams.get("slug");
 
-  if (id) {
-    const category = await Category.findById(id).populate({
+  if (id || slug) {
+    const category = await Category.findOne({
+      $and: [
+        {
+          id,
+        },
+        { slug },
+      ],
+    }).populate({
       path: "parent",
       model: "Category",
     });
@@ -31,13 +38,14 @@ export async function POST(req: Request) {
 
   const request = await req.json();
 
-  const { title, description, parent, properties } = request;
+  const { title, description, parent, properties, slug } = request;
 
   const newCategory = await Category.create({
     title,
     description,
     parent: parent || undefined,
     properties,
+    slug,
   });
 
   return NextResponse.json(newCategory);
@@ -50,7 +58,7 @@ export async function PUT(req: Request) {
   const id = searchParams.get("id");
 
   const res = await req.json();
-  const { title, description, parent, properties } = res;
+  const { title, description, parent, properties, slug } = res;
 
   const updatedCategory = await Category.findByIdAndUpdate(
     id,
@@ -59,6 +67,7 @@ export async function PUT(req: Request) {
       description,
       parent: parent || undefined,
       properties,
+      slug,
     },
     {
       new: true,

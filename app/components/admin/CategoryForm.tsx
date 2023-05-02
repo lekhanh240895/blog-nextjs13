@@ -13,12 +13,15 @@ import CategorySelect from "./CategorySelect";
 import { useDispatch } from "react-redux";
 import { fetchCategories } from "@/app/features/categorySlice";
 import { AppDispatch } from "@/app/redux/store";
+import slugify from "slugify";
+import { title } from "process";
 
 type FormData = {
   title: string;
   description: string;
   propertyName: string;
   propertyValues: string;
+  slug: string;
 };
 
 type Props = {
@@ -45,6 +48,7 @@ export default function CategoryForm({ categories, editedCategory }: Props) {
     if (editedCategory) {
       setValue("title", editedCategory.title);
       setValue("description", editedCategory.description);
+      setValue("slug", editedCategory.slug);
 
       if (editedCategory.properties?.length > 0) {
         setProperties(
@@ -60,10 +64,7 @@ export default function CategoryForm({ categories, editedCategory }: Props) {
             values: p.values.join(", "),
           }))
         );
-      } else {
-        setProperties([]);
       }
-
       if (editedCategory.parent) {
         setParent(editedCategory.parent._id);
       } else {
@@ -143,14 +144,42 @@ export default function CategoryForm({ categories, editedCategory }: Props) {
         </div>
       </div>
 
+      <div className="mb-5">
+        <label className="">
+          Slug
+          <div className="flex flex-col md:flex-row gap-4">
+            <input
+              placeholder="Enter slug of post"
+              {...register("slug", { required: true })}
+            />
+            <button
+              type="button"
+              className="btn items-stretch min-w-[150px]"
+              onClick={() => {
+                const title = watchAllValues.title;
+                setValue(
+                  "slug",
+                  slugify(title, {
+                    lower: true,
+                    locale: "vi",
+                  })
+                );
+              }}
+            >
+              Generate slug
+            </button>
+          </div>
+        </label>
+      </div>
+
       <div className="space-y-2">
         <label className="flex-1 md:flex-[1_0_240px] mb-0">Properties</label>
 
-        <div className="flex flex-wrap gap-4 mb-3">
+        <div className="flex flex-col md:flex-row flex-wrap gap-4 mb-3">
           <input
             type="text"
             placeholder="Enter name of property"
-            className="flex-[1_0_128px]"
+            className="flex-1"
             {...register("propertyName")}
           />
 
@@ -158,11 +187,15 @@ export default function CategoryForm({ categories, editedCategory }: Props) {
             type="text"
             placeholder="Enter values of property"
             {...register("propertyValues")}
-            className="flex-[1_0_128px]"
+            className="flex-1"
           />
 
           <button
-            className="btn flex-[1_0_128px]"
+            className={`btn ${
+              (!watchAllValues.propertyName ||
+                !watchAllValues.propertyValues) &&
+              "btn-disabled"
+            } min-w-[150px]`}
             type="button"
             onClick={handleAddProperty}
           >

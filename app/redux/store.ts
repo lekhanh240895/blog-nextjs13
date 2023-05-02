@@ -1,4 +1,4 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
 import appSlice from "../features/appSlice";
 import postSlice from "../features/postSlice";
 import categorySlice from "../features/categorySlice";
@@ -11,6 +11,10 @@ export const store = configureStore({
     category: categorySlice.reducer,
     product: productSlice.reducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }),
 });
 
 // Infer the `RootState` and `AppDispatch` types from the store itself

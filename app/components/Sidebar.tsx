@@ -7,8 +7,7 @@ import {
   BuildingStorefrontIcon,
   ChartBarIcon,
   Cog8ToothIcon,
-  DocumentChartBarIcon,
-  ListBulletIcon,
+  HomeModernIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 import { signOut } from "next-auth/react";
@@ -26,14 +25,26 @@ function Sidebar() {
     {
       title: "Homepage",
       href: "/",
+      icon: <HomeModernIcon className="w-5 h-5" />,
+    },
+    {
+      title: "Categories",
+      href: "/categories",
       icon: <ChartBarIcon className="w-5 h-5" />,
     },
     {
-      title: "Category",
-      href: "/category",
-      icon: <ChartBarIcon className="w-5 h-5" />,
+      title: "Products",
+      href: "/products",
+      icon: <BuildingStorefrontIcon className="w-5 h-5" />,
+    },
+    {
+      title: "Settings",
+      href: "/settings",
+      icon: <Cog8ToothIcon className="w-5 h-5" />,
     },
   ];
+
+  const handleCloseSidebar = () => dispatch(setSidebarOpened(false));
 
   return (
     <aside
@@ -44,34 +55,49 @@ function Sidebar() {
       <div className="relative">
         <button
           className="btn btn-secondary p-1 w-8 h-8 absolute -top-8 right-0"
-          onClick={() => dispatch(setSidebarOpened(false))}
+          onClick={handleCloseSidebar}
         >
           <XMarkIcon />
         </button>
-
-        <div className="flex items-center gap-x-2 mb-4">
-          <div className="w-10 h-10 relative">
-            <Image alt="logo" src="/logo.png" fill sizes="100%" />
-          </div>
-          <h1 className="text-2xl leading-normal">KhanhReview</h1>
-        </div>
-
-        <ul className="space-y-2">
-          {links.map((link, index) => (
-            <Link
-              key={link.title + index}
-              className={`flex items-center gap-x-2 px-2 py-3 rounded-md md:rounded-r-none ${
-                pathname === link.href && "bg-slate-300 "
-              } hover:bg-slate-300 transition-all`}
-              href={link.href}
-              onClick={() => dispatch(setSidebarOpened(false))}
-            >
-              {link.icon}
-              {link.title}
-            </Link>
-          ))}
-        </ul>
       </div>
+
+      <div className="flex items-center gap-x-2 mb-4">
+        <Link
+          href="/"
+          className="w-10 h-10 relative"
+          onClick={handleCloseSidebar}
+        >
+          <Image alt="logo" src="/logo.png" fill sizes="100%" />
+        </Link>
+        <h1 className="text-2xl leading-normal">KhanhReview</h1>
+      </div>
+
+      <ul className="space-y-2">
+        {links.map((link, index) => (
+          <Link
+            key={link.title + index}
+            className={`flex items-center gap-x-2 px-2 py-3 rounded-md md:rounded-r-none ${
+              pathname === link.href && "bg-slate-300 "
+            } hover:bg-slate-300 transition-all`}
+            href={link.href}
+            onClick={handleCloseSidebar}
+          >
+            {link.icon}
+            {link.title}
+          </Link>
+        ))}
+
+        {/* Signout button */}
+        <li>
+          <button
+            className={`w-full flex items-center gap-x-2 px-2 py-3 rounded-md md:rounded-r-none
+              hover:bg-slate-300 md:hover:bg-white hover:text-gray-700 transition-all`}
+          >
+            <ArrowLeftOnRectangleIcon className="w-5 h-5" />
+            Sign out
+          </button>
+        </li>
+      </ul>
     </aside>
   );
 }
