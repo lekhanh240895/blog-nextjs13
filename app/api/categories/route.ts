@@ -11,9 +11,9 @@ export async function GET(req: Request) {
 
   if (id || slug) {
     const category = await Category.findOne({
-      $and: [
+      $or: [
         {
-          id,
+          _id: id,
         },
         { slug },
       ],

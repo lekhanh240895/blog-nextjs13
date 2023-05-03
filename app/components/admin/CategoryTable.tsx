@@ -21,7 +21,7 @@ function CategoryTable({ categories, setEditedCategoryId }: Props) {
   }, [dispatch]);
 
   return (
-    <table className="basic table-auto">
+    <table className="basic">
       <thead>
         <tr>
           <th>Name</th>

@@ -8,6 +8,7 @@ import {
   ChartBarIcon,
   Cog8ToothIcon,
   DocumentChartBarIcon,
+  HomeModernIcon,
   ListBulletIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
@@ -23,6 +24,11 @@ function Sidebar() {
   const pathname = usePathname();
 
   const links = [
+    {
+      title: "Homepage",
+      href: "/",
+      icon: <HomeModernIcon className="w-5 h-5" />,
+    },
     {
       title: "Dashboard",
       href: "/dashboard",

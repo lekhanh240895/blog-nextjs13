@@ -16,6 +16,7 @@ export default function UserLayout({
     <div className="relative bg-white">
       <Sidebar />
       <Header />
+
       <main>{children}</main>
     </div>
   );

@@ -59,12 +59,28 @@ function BlogList({ posts }: Props) {
 
           <div className="text-gray-500 line-clamp-2">{post.description}</div>
 
-          <div className="flex items-center justify-center gap-x-2">
+          <div className="inline-flex items-center justify-center gap-x-2">
             <TagIcon className="w-5 h-5 text-primary" />
 
             <span className="">
-              {post.category?.title}
-              {post.category?.parent ? `, ${post.category?.parent?.title}` : ""}
+              <ClientSiteRoute route={"/category/" + post.category.slug}>
+                {post.category?.title}
+              </ClientSiteRoute>
+
+              <ClientSiteRoute route="/">
+                {post.category?.parent ? (
+                  <span>
+                    <span>, </span>
+                    <ClientSiteRoute
+                      route={"/category/" + post.category?.parent.slug}
+                    >
+                      {post.category?.parent.title}
+                    </ClientSiteRoute>
+                  </span>
+                ) : (
+                  ""
+                )}
+              </ClientSiteRoute>
             </span>
           </div>
         </li>

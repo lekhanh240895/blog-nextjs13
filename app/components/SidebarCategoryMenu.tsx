@@ -1,13 +1,14 @@
 import { Menu, Transition } from "@headlessui/react";
-import { ChevronUpIcon } from "@heroicons/react/24/solid";
 import Link from "next/link";
 import { Fragment, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../redux/store";
 import { categorySelector } from "../redux/selector";
 import { fetchCategories } from "../features/categorySlice";
+import { ChartBarIcon, ChevronDownIcon } from "@heroicons/react/24/outline";
+import { setSidebarOpened } from "../features/appSlice";
 
-export default function CategoryMenu() {
+export default function SidebarCategoryMenu() {
   const { categories } = useSelector(categorySelector);
   const dispatch = useDispatch<AppDispatch>();
 
@@ -17,20 +18,20 @@ export default function CategoryMenu() {
 
   return (
     <Menu
-      as="div"
-      className="relative text-left z-10 inline-block transition-all"
+      as="li"
+      className="relative flex items-center gap-x-2 px-2 py-3 rounded-md md:rounded-r-none hover:bg-slate-300 transition-all"
     >
       {({ open }) => (
         <>
           <Menu.Button>
             <div className="group transition-all flex gap-x-1 items-center">
-              <span className="group-hover:text-primary transition-all">
-                Categories
-              </span>
+              <ChartBarIcon className="w-5 h-5" />
 
-              <ChevronUpIcon
-                className={`w-3 h-3 inline-block transition-all ${
-                  open ? "" : "rotate-180"
+              <span className="">Categories</span>
+
+              <ChevronDownIcon
+                className={`w-4 h-4 inline-block transition-all ${
+                  open ? "-rotate-90" : ""
                 }`}
               />
             </div>
@@ -39,13 +40,13 @@ export default function CategoryMenu() {
           <Transition
             as={Fragment}
             enter="transition ease-out duration-300"
-            enterFrom="transform opacity-0 -translate-y-3"
-            enterTo="transform opacity-100 translate-y-0"
+            enterFrom="transform opacity-0 -translate-x-5"
+            enterTo="transform opacity-100 translate-x-0"
             leave="transition ease-in duration-300"
-            leaveFrom="transform opacity-100 translate-y-0"
-            leaveTo="transform opacity-0 -translate-y-3"
+            leaveFrom="transform opacity-100 translate-x-0"
+            leaveTo="transform opacity-0 -translate-x-5"
           >
-            <Menu.Items className="absolute right-0 translate-y-1 mt-2 duration w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+            <Menu.Items className="absolute left-1/2 top-0 mt-2 w-40 divide-y divide-gray-100 rounded-md bg-gray-200 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
               {categories.length > 0 &&
                 categories.map((category) => (
                   <div className="p-1" key={category._id}>
@@ -54,8 +55,11 @@ export default function CategoryMenu() {
                         <Link
                           href={"/category/" + category.slug}
                           className={`${
-                            active ? "bg-primary text-white" : "text-gray-900"
+                            active ? "bg-slate-300" : "text-gray-900"
                           } flex w-full items-center rounded-md px-2 py-2 transition-all`}
+                          onClick={() => {
+                            dispatch(setSidebarOpened(false));
+                          }}
                         >
                           {category.title}
                         </Link>

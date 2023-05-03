@@ -9,11 +9,11 @@ export const metadata: Metadata = {
 function Products() {
   return (
     <section>
-      <div className="flex justify-between items-center">
+      <div className="flex flex-col md:flex-row justify-between md:items-center">
         <h2 className="text-3xl uppercase mb-4">Products</h2>
 
         <ClientSiteRoute route="/dashboard/products/create">
-          <span className="btn btn-primary inline-block mb-4">
+          <span className="btn btn-primary inline-block w-full mb-4 text-center">
             Create new product
           </span>
         </ClientSiteRoute>

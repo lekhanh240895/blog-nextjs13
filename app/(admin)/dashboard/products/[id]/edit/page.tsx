@@ -1,5 +1,4 @@
-import BackButton from "@/app/components/BackButton";
-import PostForm from "@/app/components/admin/PostForm";
+import BackButton from "@/app/components/admin/BackButton";
 import ProductForm from "@/app/components/admin/ProductForm";
 import { getProducts } from "@/app/lib/getApi";
 
@@ -32,15 +31,13 @@ async function EditPost({ params }: Props) {
   const editedProduct: Product = await getProducts(id);
 
   return (
-    <main>
-      <div className="flex items-start justify-between mb-4 gap-x-4">
-        <h2 className="text-3xl">Edit product - {editedProduct?.title}</h2>
+    <section>
+      <BackButton />
 
-        <BackButton />
-      </div>
+      <h2 className="text-3xl mb-4">Edit product - {editedProduct?.title}</h2>
 
       <ProductForm editedProduct={editedProduct} />
-    </main>
+    </section>
   );
 }
 

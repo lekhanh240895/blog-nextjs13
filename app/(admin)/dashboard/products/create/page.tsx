@@ -1,24 +1,12 @@
-"use client";
-
+import BackButton from "@/app/components/admin/BackButton";
 import ProductForm from "@/app/components/admin/ProductForm";
-import { ChevronLeftIcon } from "@heroicons/react/24/outline";
-import { useRouter } from "next/navigation";
 
 export default function CreateProduct() {
-  const router = useRouter();
   return (
     <section>
-      <div className="flex items-center justify-between mb-4">
-        <h2 className="text-3xl">Create new product</h2>
+      <BackButton />
 
-        <button
-          className="btn flex items-center justify-between px-2 gap-x-1"
-          onClick={() => router.back()}
-        >
-          <ChevronLeftIcon className="w-5 h-5" />
-          <span>Back</span>
-        </button>
-      </div>
+      <h2 className="text-3xl mb-4">Create new product</h2>
 
       <ProductForm />
     </section>

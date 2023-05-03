@@ -14,9 +14,9 @@ export async function GET(req: Request) {
 
   if (id || slug) {
     const post = await Post.findOne({
-      $and: [
+      $or: [
         {
-          id,
+          _id: id,
         },
         { slug },
       ],

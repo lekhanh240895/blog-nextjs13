@@ -13,7 +13,9 @@ export default async function Posts() {
         <h2 className="text-3xl uppercase mb-4">Posts</h2>
 
         <ClientSiteRoute route="/dashboard/posts/create">
-          <span> Create new post</span>
+          <span className="btn btn-primary inline-block mb-4">
+            Create new post
+          </span>
         </ClientSiteRoute>
       </div>
 

@@ -117,8 +117,8 @@ export default function CategoryForm({ categories, editedCategory }: Props) {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 mb-4">
-      <div className="flex flex-col md:flex-row flex-wrap gap-2 md:items-end">
-        <label className="flex-1 md:flex-[1_0_240px] mb-0">
+      <div className="flex flex-col md:flex-row flex-wrap gap-2 md:items-end mb-5">
+        <label className="mb-0 flex-1 md:flex-[1_0_240px]">
           Title
           <input
             placeholder="Enter title of category"
@@ -126,16 +126,8 @@ export default function CategoryForm({ categories, editedCategory }: Props) {
           />
         </label>
 
-        <label className="flex-1 md:flex-[1_0_240px] mb-0">
-          Description
-          <input
-            placeholder="Enter description of category"
-            {...register("description")}
-          />
-        </label>
-
         <div className="flex-1 md:flex-[1_0_240px]">
-          <label className="mb-0">Parent Category</label>
+          <label>Parent Category (Optional)</label>
           <CategorySelect
             value={parent}
             setValue={setParent}
@@ -143,6 +135,15 @@ export default function CategoryForm({ categories, editedCategory }: Props) {
           />
         </div>
       </div>
+
+      <label className="mb-5">
+        Description
+        <textarea
+          placeholder="Enter description of post"
+          {...register("description", { required: true })}
+          className="py-4 h-32"
+        />
+      </label>
 
       <div className="mb-5">
         <label className="">
@@ -173,7 +174,9 @@ export default function CategoryForm({ categories, editedCategory }: Props) {
       </div>
 
       <div className="space-y-2">
-        <label className="flex-1 md:flex-[1_0_240px] mb-0">Properties</label>
+        <label className="flex-1 md:flex-[1_0_240px] mb-0">
+          Properties (Optional)
+        </label>
 
         <div className="flex flex-col md:flex-row flex-wrap gap-4 mb-3">
           <input
@@ -204,37 +207,39 @@ export default function CategoryForm({ categories, editedCategory }: Props) {
         </div>
       </div>
 
-      <table className="basic table-auto mt-4">
-        <thead>
-          <tr>
-            <th>Property Name</th>
-            <th>Values</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
+      {properties.length > 0 && (
+        <table className="basic mt-4">
+          <thead>
+            <tr>
+              <th>Property Name</th>
+              <th>Values</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
 
-        <tbody>
-          {properties.length > 0 &&
-            properties.map((property, index) => (
-              <tr key={property.name + index}>
-                <td>{property.name}</td>
-                <td>{property.values}</td>
-                <td className="space-y-1 space-x-1">
-                  <button
-                    className="btn grow"
-                    onClick={() => handleRemoveProperty(index)}
-                  >
-                    Remove
-                  </button>
-                </td>
-              </tr>
-            ))}
-        </tbody>
-      </table>
+          <tbody>
+            {properties.length > 0 &&
+              properties.map((property, index) => (
+                <tr key={property.name + index}>
+                  <td>{property.name}</td>
+                  <td>{property.values}</td>
+                  <td className="space-y-1 space-x-1">
+                    <button
+                      className="btn grow"
+                      onClick={() => handleRemoveProperty(index)}
+                    >
+                      Remove
+                    </button>
+                  </td>
+                </tr>
+              ))}
+          </tbody>
+        </table>
+      )}
 
       <button
         className={`btn inline-block h-9 mt-4 ${
-          watchAllValues.title ? "btn-primary" : "btn-disabled"
+          watchAllValues.title || !isSubmitting ? "btn-primary" : "btn-disabled"
         }`}
         type="submit"
       >

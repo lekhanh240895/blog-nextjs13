@@ -17,8 +17,12 @@ export default function CategorySelect({ categories, value, setValue }: Props) {
   useEffect(() => {
     (async () => {
       if (value) {
-        const res = await axios.get("/api/categories?id=" + value);
-        setSelectedCategory(res.data);
+        try {
+          const res = await axios.get("/api/categories?id=" + value);
+          setSelectedCategory(res.data);
+        } catch (error) {
+          console.log(error);
+        }
       }
     })();
   }, [value]);

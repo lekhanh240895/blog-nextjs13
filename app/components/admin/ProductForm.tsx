@@ -204,11 +204,11 @@ function ProductForm({ editedProduct }: Props) {
 
         <Dropzone onDrop={(acceptedFiles) => handleAddFiles(acceptedFiles)}>
           {({ getRootProps, getInputProps }) => (
-            <div className="flex flex-wrap gap-2 mt-4">
+            <div className="flex flex-wrap gap-4 mt-4">
               {images.length > 0 &&
                 images.map((preview) => (
                   <div
-                    className="relative w-32 h-64 p-4 shadow-lg"
+                    className="relative flex-[1_0_128px] h-64 p-2 shadow-lg"
                     key={preview}
                   >
                     <Image

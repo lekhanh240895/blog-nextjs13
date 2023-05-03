@@ -15,6 +15,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
+import SidebarCategoryMenu from "./SidebarCategoryMenu";
 
 function Sidebar() {
   const { sidebarOpened } = useSelector(appSelector);
@@ -50,7 +51,7 @@ function Sidebar() {
     <aside
       className={`bg-gray-200 text-black h-full shadow-xl pt-10 px-4 absolute ${
         sidebarOpened ? "left-0" : "-left-full"
-      } top-0 z-50 transition-all rounded-r-md w-2/3 block md:hidden`}
+      } top-0 z-50 transition-all rounded-r-md w-1/2 block md:hidden`}
     >
       <div className="relative">
         <button
@@ -86,6 +87,8 @@ function Sidebar() {
             {link.title}
           </Link>
         ))}
+
+        <SidebarCategoryMenu />
 
         {/* Signout button */}
         <li>

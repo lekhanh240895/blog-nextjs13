@@ -1,5 +1,6 @@
 import BlogList from "@/app/components/BlogList";
-import { getCategories, getCategoryBySlug, getPosts } from "@/app/lib/getApi";
+import ClientSiteRoute from "@/app/components/ClientSiteRoute";
+import { getCategoryBySlug, getPosts } from "@/app/lib/getApi";
 import { TagIcon } from "@heroicons/react/24/outline";
 
 interface Props {
@@ -18,8 +19,16 @@ async function Category({ params }: Props) {
   if (!category) return;
 
   return (
-    <div className="tracking-wide md:tracking-widest md:leading-7">
-      <div className="flex flex-col md:flex-row items-center justify-center md:justify-between px-4 py-10 gap-4 md:gap-48 md:px-32 md:py-14 max-w-7xl mx-auto">
+    <div>
+      <ClientSiteRoute route={`/dashboard/categories`}>
+        <div className="text-center my-4">
+          <button className="btn btn-primary px-4 text-lg">
+            Edit this category
+          </button>
+        </div>
+      </ClientSiteRoute>
+
+      <div className="flex flex-col md:flex-row items-center justify-center md:justify-between px-4 py-10 gap-4 md:gap-48 md:px-32 md:py-14 max-w-7xl mx-auto tracking-wide md:tracking-widest md:leading-7">
         <div className="flex justify-center items-center gap-x-4 md:gap-x-6">
           <TagIcon className="w-10 h-10 md:w-16 md:h-16 text-primary" />
 
