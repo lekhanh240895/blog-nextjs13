@@ -29,11 +29,6 @@ function Sidebar() {
       icon: <HomeModernIcon className="w-5 h-5" />,
     },
     {
-      title: "Categories",
-      href: "/categories",
-      icon: <ChartBarIcon className="w-5 h-5" />,
-    },
-    {
       title: "Products",
       href: "/products",
       icon: <BuildingStorefrontIcon className="w-5 h-5" />,
@@ -51,7 +46,7 @@ function Sidebar() {
     <aside
       className={`bg-gray-200 text-black h-full shadow-xl pt-10 px-4 absolute ${
         sidebarOpened ? "left-0" : "-left-full"
-      } top-0 z-50 transition-all rounded-r-md w-1/2 block md:hidden`}
+      } top-0 z-50 transition-all rounded-r-md w-2/3 sm:w-1/2 block md:hidden`}
     >
       <div className="relative">
         <button

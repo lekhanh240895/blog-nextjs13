@@ -43,7 +43,8 @@ export async function POST(req: Request) {
 
   const request = await req.json();
 
-  const { title, description, price, images, category, properties } = request;
+  const { title, description, price, images, category, properties, slug } =
+    request;
 
   const newProduct = await Product.create({
     title,
@@ -52,6 +53,7 @@ export async function POST(req: Request) {
     images,
     category: category || undefined,
     properties,
+    slug,
   });
 
   return NextResponse.json(newProduct);
@@ -64,7 +66,7 @@ export async function PUT(req: Request) {
   const id = searchParams.get("id");
 
   const res = await req.json();
-  const { title, description, price, images, category, properties } = res;
+  const { title, description, price, images, category, properties, slug } = res;
 
   const updatedProduct = await Product.findByIdAndUpdate(
     id,
@@ -75,6 +77,7 @@ export async function PUT(req: Request) {
       images,
       category: category || undefined,
       properties,
+      slug,
     },
     {
       new: true,

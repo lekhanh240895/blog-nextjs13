@@ -1,4 +1,7 @@
-import { openDeleteCategoryModal } from "@/app/features/appSlice";
+import {
+  openDeleteCategoryModal,
+  setSelectedCategory,
+} from "@/app/features/appSlice";
 import { fetchCategories } from "@/app/features/categorySlice";
 import { AppDispatch } from "@/app/redux/store";
 import React, { Dispatch, SetStateAction, useEffect } from "react";
@@ -6,15 +9,14 @@ import { useDispatch } from "react-redux";
 
 type Props = {
   categories: Category[];
-  setEditedCategoryId: Dispatch<SetStateAction<string>>;
 };
 
-function CategoryTable({ categories, setEditedCategoryId }: Props) {
-  const handleEdit = (category: Category) => {
-    setEditedCategoryId(category._id);
-  };
-
+function CategoryTable({ categories }: Props) {
   const dispatch = useDispatch<AppDispatch>();
+
+  const handleEdit = (category: Category) => {
+    dispatch(setSelectedCategory(category));
+  };
 
   useEffect(() => {
     dispatch(fetchCategories());

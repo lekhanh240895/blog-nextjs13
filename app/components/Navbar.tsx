@@ -11,6 +11,13 @@ function Navbar() {
         Home
       </Link>
 
+      <Link
+        href="/products"
+        className="py-1 px-1 md:px-2 md:py-5 hover:text-primary"
+      >
+        Products
+      </Link>
+
       <TopPostsMenu />
 
       <CategoryMenu />

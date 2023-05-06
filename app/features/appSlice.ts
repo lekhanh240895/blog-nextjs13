@@ -42,6 +42,9 @@ export const appSlice = createSlice({
       state.deleteCategoryModalOpened = false;
       state.selectedCategory = null;
     },
+    setSelectedCategory: (state, action) => {
+      state.selectedCategory = action.payload;
+    },
     openDeleteProductModal: (state, action) => {
       state.deleteProductModalOpened = true;
       state.selectedProduct = action.payload;
@@ -69,6 +72,7 @@ export const {
   openDeleteProductModal,
   closeDeleteProductModal,
   setSidebarOpened,
+  setSelectedCategory,
 } = appSlice.actions;
 
 export default appSlice;

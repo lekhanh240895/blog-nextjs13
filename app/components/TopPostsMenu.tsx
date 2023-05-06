@@ -52,7 +52,7 @@ export default function TopPostsMenu() {
                     <Menu.Item>
                       {({ active }) => (
                         <Link
-                          href={"/post/" + post.slug}
+                          href={"/" + post.slug}
                           className={`${
                             active ? "bg-primary text-white" : "text-gray-900"
                           } flex w-full items-center rounded-md px-2 py-2 transition-all`}

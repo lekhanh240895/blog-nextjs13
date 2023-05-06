@@ -14,7 +14,6 @@ import { Editor } from "./Editor";
 import { uploadFileFirebase } from "@/app/services/firebaseService";
 import CategorySelect from "./CategorySelect";
 import Spinner from "../Spinner";
-import { getImageUrl } from "@/app/lib/getImageUrl";
 
 type FormData = {
   title: string;

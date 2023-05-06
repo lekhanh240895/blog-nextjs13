@@ -17,7 +17,11 @@ export default function UserLayout({
       <Sidebar />
       <Header />
 
-      <main>{children}</main>
+      <main>
+        <div className="px-4 pt-6 pb-12 md:px-10 md:pt-12 md:pb-24">
+          {children}
+        </div>
+      </main>
     </div>
   );
 }

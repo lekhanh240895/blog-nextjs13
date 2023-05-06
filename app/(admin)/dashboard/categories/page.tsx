@@ -2,43 +2,34 @@
 
 import CategoryForm from "@/app/components/admin/CategoryForm";
 import CategoryTable from "@/app/components/admin/CategoryTable";
-import { categorySelector } from "@/app/redux/selector";
+import { setSelectedCategory } from "@/app/features/appSlice";
+import { appSelector, categorySelector } from "@/app/redux/selector";
+import { AppDispatch } from "@/app/redux/store";
 import { ChevronLeftIcon } from "@heroicons/react/24/outline";
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function Categories() {
   const { categories } = useSelector(categorySelector);
-  const [editedCategoryId, setEditedCategoryId] = useState<string>("");
-  const [editedCategory, setEditedCategory] = useState<Category | null>(null);
+  const { selectedCategory } = useSelector(appSelector);
   const [createCategoryOpened, setCreateCategoryOpened] =
     useState<boolean>(false);
+  const dispatch = useDispatch<AppDispatch>();
 
   const handleBack = () => {
-    setEditedCategoryId("");
+    dispatch(setSelectedCategory(null));
     setCreateCategoryOpened(false);
   };
 
-  useEffect(() => {
-    if (editedCategoryId) {
-      const cat = categories.find(
-        (category) => category._id === editedCategoryId
-      );
-      if (cat) {
-        setEditedCategory(cat);
-      }
-    } else {
-      setEditedCategory(null);
-    }
-  }, [categories, editedCategory, editedCategoryId]);
+  console.log({ selectedCategory });
 
   return (
     <section>
-      {(editedCategory || createCategoryOpened) && (
+      {(selectedCategory || createCategoryOpened) && (
         <>
           <h2 className="text-3xl mb-4 md:mr-6">
-            {editedCategory
-              ? `Edit category - ${editedCategory.title}`
+            {selectedCategory
+              ? `Edit category - ${selectedCategory.title}`
               : "Create new category"}
           </h2>
 
@@ -52,7 +43,7 @@ export default function Categories() {
 
           <CategoryForm
             categories={categories}
-            editedCategory={editedCategory}
+            editedCategory={selectedCategory}
           />
         </>
       )}
@@ -60,7 +51,7 @@ export default function Categories() {
       <div className="flex flex-col md:flex-row md:items-center justify-between">
         <h2 className="text-3xl uppercase mb-4">Categories</h2>
 
-        {!editedCategoryId && (
+        {!selectedCategory && (
           <button
             className="btn btn-primary inline-block mb-4"
             onClick={() => setCreateCategoryOpened(true)}
@@ -70,10 +61,7 @@ export default function Categories() {
         )}
       </div>
 
-      <CategoryTable
-        categories={categories}
-        setEditedCategoryId={setEditedCategoryId}
-      />
+      <CategoryTable categories={categories} />
     </section>
   );
 }

@@ -10,15 +10,15 @@ interface Props {
 
 function BlogList({ posts }: Props) {
   return (
-    <ul className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-10 px-4 md:px-10 md:pb-24 py-6 pb-12 grid-flow-dense">
+    <ul className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-10 grid-flow-dense">
       {posts.map((post) => (
         <li
           key={post._id}
           // className="min-h-[320px] md:[&:nth-child(6n+1)]:col-span-2 md:[&:nth-child(6n+1)]:row-span-4 lg:[&:nth-child(6n+2)]:row-span-5 md:[&:nth-child(6n+2)]:row-span-6 md:[&:nth-child(6n+3)]:row-span-4 lg:[&:nth-child(6n+3)]:row-span-5 md:[&:nth-child(6n+4)]:row-span-6 lg:[&:nth-child(6n+4)]:row-span-5 md:[&:nth-child(6n+5)]:row-span-4 lg:[&:nth-child(6n+5)]:row-span-5 md:[&:nth-child(6n+6)]:col-span-2 md:[&:nth-child(6n+6)]:row-span-4 space-y-6 flex flex-col justify-between"
-          className="place-content-stretch place-items-stretch space-y-6 flex flex-col justify-between"
+          className="space-y-6 flex flex-col justify-between"
         >
           <div className="group cursor-pointer relative grow">
-            <ClientSiteRoute route={`/post/${post.slug}`}>
+            <ClientSiteRoute route={`${post.slug}`}>
               <div className="relative w-full min-h-[320px] h-full drop-shadow-xl group-hover:scale-105 transition-transform duration-200 ease-out">
                 <Image
                   src={post.mainImage}

@@ -34,7 +34,9 @@ async function EditPost({ params }: Props) {
     <section>
       <BackButton />
 
-      <h2 className="text-3xl mb-4">Edit product - {editedProduct?.title}</h2>
+      <h2 className="text-3xl mb-4 md:mr--24">
+        Edit product - {editedProduct?.title}
+      </h2>
 
       <ProductForm editedProduct={editedProduct} />
     </section>

@@ -35,6 +35,7 @@ interface Product extends Base {
   images: string[];
   category: Category;
   properties: object;
+  slug: string;
 }
 
 interface Property {

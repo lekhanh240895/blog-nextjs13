@@ -18,12 +18,14 @@ import { categorySelector } from "@/app/redux/selector";
 import { fetchProducts } from "@/app/features/productSlice";
 import { AppDispatch } from "@/app/redux/store";
 import PropertySelect from "./PropertySelect";
+import slugify from "slugify";
 
 type FormData = {
   title: string;
   description: string;
   category: string;
   price: number;
+  slug: string;
 };
 
 type Props = {
@@ -43,6 +45,7 @@ function ProductForm({ editedProduct }: Props) {
     handleSubmit,
     setValue,
     reset,
+    getValues,
     formState: { isSubmitting },
   } = useForm<FormData>();
   const router = useRouter();
@@ -53,6 +56,7 @@ function ProductForm({ editedProduct }: Props) {
       setValue("title", editedProduct.title);
       setValue("description", editedProduct.description);
       setValue("price", editedProduct.price);
+      setValue("slug", editedProduct.slug);
       setImages(editedProduct.images);
       setProductProperties(editedProduct.properties);
       if (editedProduct.category) {
@@ -162,6 +166,34 @@ function ProductForm({ editedProduct }: Props) {
             {...register("description")}
             className="py-4 h-32"
           />
+        </label>
+      </div>
+
+      <div className="mb-5">
+        <label className="">
+          Slug
+          <div className="flex space-x-4">
+            <input
+              placeholder="Enter slug of post"
+              {...register("slug", { required: true })}
+            />
+            <button
+              type="button"
+              className="btn items-stretch min-w-[150px]"
+              onClick={() => {
+                const title = getValues("title");
+                setValue(
+                  "slug",
+                  slugify(title, {
+                    lower: true,
+                    locale: "vi",
+                  })
+                );
+              }}
+            >
+              Generate slug
+            </button>
+          </div>
         </label>
       </div>
 

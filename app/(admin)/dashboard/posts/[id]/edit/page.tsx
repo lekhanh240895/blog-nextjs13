@@ -36,7 +36,9 @@ async function EditPost({ params }: Props) {
     <section>
       <BackButton />
 
-      <h2 className="text-3xl mb-4">Edit post - {editedPost.title}</h2>
+      <h2 className="text-3xl mb-4 md:mr--24">
+        Edit post - {editedPost.title}
+      </h2>
 
       <PostForm editedPost={editedPost} />
     </section>
