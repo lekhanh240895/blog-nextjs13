@@ -1,20 +1,14 @@
 "use client";
 
 import axios from "axios";
-import {
-  ChangeEvent,
-  Dispatch,
-  SetStateAction,
-  useEffect,
-  useState,
-} from "react";
+import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import CategorySelect from "./CategorySelect";
 import { useDispatch } from "react-redux";
 import { fetchCategories } from "@/app/features/categorySlice";
 import { AppDispatch } from "@/app/redux/store";
 import slugify from "slugify";
-import { title } from "process";
+import { XMarkIcon } from "@heroicons/react/24/outline";
 
 type FormData = {
   title: string;
@@ -22,6 +16,7 @@ type FormData = {
   propertyName: string;
   propertyValues: string;
   slug: string;
+  editedPropertyValues: string;
 };
 
 type Props = {
@@ -32,17 +27,27 @@ type Props = {
 export default function CategoryForm({ categories, editedCategory }: Props) {
   const [parent, setParent] = useState<string>("");
   const [properties, setProperties] = useState<Property[]>([]);
+  const [editIndex, setEditIndex] = useState<number>(-1);
   const {
     register,
     handleSubmit,
     setValue,
     reset,
+    getValues,
     watch,
+    setFocus,
     formState: { isSubmitting },
   } = useForm<FormData>();
 
   const dispatch = useDispatch<AppDispatch>();
   const watchAllValues = watch();
+  const allValues = getValues();
+
+  useEffect(() => {
+    if (editIndex >= 0) {
+      setFocus("editedPropertyValues");
+    }
+  }, [editIndex, setFocus]);
 
   useEffect(() => {
     if (editedCategory) {
@@ -81,8 +86,8 @@ export default function CategoryForm({ categories, editedCategory }: Props) {
     setProperties([
       ...properties,
       {
-        name: watchAllValues.propertyName,
-        values: watchAllValues.propertyValues,
+        name: allValues.propertyName,
+        values: allValues.propertyValues,
       },
     ]);
     setValue("propertyName", "");
@@ -93,6 +98,15 @@ export default function CategoryForm({ categories, editedCategory }: Props) {
     setProperties(properties.filter((p, pIndex) => pIndex !== removeIndex));
   };
 
+  const handleUpdatedProperty = async (index: number, newValues: string) => {
+    const newProperties = properties.map((p, pIndex) => {
+      return pIndex === index ? { ...p, values: newValues } : p;
+    });
+    setProperties(newProperties);
+    setEditIndex(-1);
+    setValue("editedPropertyValues", "");
+  };
+
   const onSubmit = async (data: FormData) => {
     const formData = {
       ...data,
@@ -100,7 +114,7 @@ export default function CategoryForm({ categories, editedCategory }: Props) {
       properties: properties.map((property) => ({
         name: property.name,
         values: property.values.includes(",")
-          ? property.values.split(",")
+          ? property.values.split(", ")
           : [property.values],
       })),
     };
@@ -157,7 +171,7 @@ export default function CategoryForm({ categories, editedCategory }: Props) {
               type="button"
               className="btn items-stretch min-w-[150px]"
               onClick={() => {
-                const title = watchAllValues.title;
+                const title = allValues.title;
                 setValue(
                   "slug",
                   slugify(title, {
@@ -222,11 +236,55 @@ export default function CategoryForm({ categories, editedCategory }: Props) {
               properties.map((property, index) => (
                 <tr key={property.name + index}>
                   <td>{property.name}</td>
-                  <td>{property.values}</td>
+                  <td>
+                    {editIndex === index ? (
+                      <div className="relative">
+                        <input
+                          type="text"
+                          {...register("editedPropertyValues")}
+                          className="pr-8"
+                        />
+
+                        <XMarkIcon
+                          className="absolute top-1 right-1 w-5 h-5 p-1 border border-gray-300 rounded-sm cursor-pointer"
+                          onClick={() => {
+                            setEditIndex(-1);
+                            setValue("editedPropertyValues", "");
+                          }}
+                        />
+                      </div>
+                    ) : (
+                      property.values
+                    )}
+                  </td>
                   <td className="space-y-1 space-x-1">
+                    {editIndex === index ? (
+                      <button
+                        className="btn grow"
+                        onClick={() =>
+                          handleUpdatedProperty(
+                            editIndex,
+                            allValues.editedPropertyValues
+                          )
+                        }
+                        type="button"
+                      >
+                        Save
+                      </button>
+                    ) : (
+                      <button
+                        className="btn grow"
+                        onClick={() => setEditIndex(index)}
+                        type="button"
+                      >
+                        Edit
+                      </button>
+                    )}
+
                     <button
                       className="btn grow"
                       onClick={() => handleRemoveProperty(index)}
+                      type="button"
                     >
                       Remove
                     </button>
@@ -239,7 +297,7 @@ export default function CategoryForm({ categories, editedCategory }: Props) {
 
       <button
         className={`btn inline-block h-9 mt-4 ${
-          watchAllValues.title || !isSubmitting ? "btn-primary" : "btn-disabled"
+          allValues.title || !isSubmitting ? "btn-primary" : "btn-disabled"
         }`}
         type="submit"
       >

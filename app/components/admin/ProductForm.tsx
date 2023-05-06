@@ -176,6 +176,7 @@ function ProductForm({ editedProduct }: Props) {
             <input
               placeholder="Enter slug of post"
               {...register("slug", { required: true })}
+              type="text"
             />
             <button
               type="button"
@@ -203,7 +204,7 @@ function ProductForm({ editedProduct }: Props) {
           <input
             placeholder="Enter price of product"
             {...register("price")}
-            className=""
+            type="number"
           />
         </label>
       </div>

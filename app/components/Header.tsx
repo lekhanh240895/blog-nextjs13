@@ -5,6 +5,7 @@ import Image from "next/image";
 import Navbar from "./Navbar";
 import ClientSiteRoute from "./ClientSiteRoute";
 import MenuButton from "./MenuButton";
+import { ShoppingCartIcon } from "@heroicons/react/24/outline";
 
 function Header() {
   return (
@@ -63,6 +64,12 @@ function Header() {
           <button className="flex-shrink-0 p-2 md:p-3 w-9 sm:w-10 h-9 sm:h-10 md:w-11 md:h-11 text-white rounded-full bg-primary shadow-md transition hover:-translate-y-1 ease-in-out duration-200">
             <MagnifyingGlassIcon />
           </button>
+
+          <ClientSiteRoute route="/cart">
+            <button className="flex-shrink-0 p-2 md:p-3 w-9 sm:w-10 h-9 sm:h-10 md:w-11 md:h-11 text-white rounded-full bg-primary shadow-md transition hover:-translate-y-1 ease-in-out duration-200">
+              <ShoppingCartIcon />
+            </button>
+          </ClientSiteRoute>
 
           <ClientSiteRoute route="/account">
             <div className="h-11 w-11 relative hidden md:block transition hover:-translate-y-1 ease-in-out duration-200">

@@ -21,8 +21,6 @@ export default function Categories() {
     setCreateCategoryOpened(false);
   };
 
-  console.log({ selectedCategory });
-
   return (
     <section>
       {(selectedCategory || createCategoryOpened) && (
