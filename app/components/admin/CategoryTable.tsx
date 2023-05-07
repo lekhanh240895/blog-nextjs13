@@ -23,35 +23,40 @@ function CategoryTable({ categories }: Props) {
   }, [dispatch]);
 
   return (
-    <table className="basic">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Parent</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-
-      <tbody>
-        {categories.map((category) => (
-          <tr key={category._id}>
-            <td>{category.title}</td>
-            <td>{category.parent?.title}</td>
-            <td className="space-y-1 space-x-1">
-              <button className="btn grow" onClick={() => handleEdit(category)}>
-                Edit
-              </button>
-              <button
-                className="btn grow"
-                onClick={() => dispatch(openDeleteCategoryModal(category))}
-              >
-                Delete
-              </button>
-            </td>
+    <div className="overflow-x-auto">
+      <table className="basic">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Parent</th>
+            <th>Actions</th>
           </tr>
-        ))}
-      </tbody>
-    </table>
+        </thead>
+
+        <tbody>
+          {categories.map((category) => (
+            <tr key={category._id}>
+              <td className="min-w-[120px]">{category.title}</td>
+              <td className="min-w-[120px]">{category.parent?.title}</td>
+              <td className="space-y-1 space-x-1 min-w-[160px]">
+                <button
+                  className="btn grow"
+                  onClick={() => handleEdit(category)}
+                >
+                  Edit
+                </button>
+                <button
+                  className="btn grow"
+                  onClick={() => dispatch(openDeleteCategoryModal(category))}
+                >
+                  Delete
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
   );
 }
 

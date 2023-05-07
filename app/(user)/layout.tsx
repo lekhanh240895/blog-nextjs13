@@ -13,7 +13,7 @@ export default function UserLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="relative bg-white">
+    <div className="relative bg-white min-h-screen">
       <Sidebar />
       <Header />
 

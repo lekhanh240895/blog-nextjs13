@@ -21,34 +21,36 @@ function ProductsTable() {
     dispatch(fetchProducts());
   }, [dispatch]);
   return (
-    <table className="basic table-auto">
-      <thead>
-        <tr>
-          <th>Product Name</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-
-      <tbody>
-        {products.map((product) => (
-          <tr key={product._id}>
-            <td>{product.title}</td>
-
-            <td className="align-middle space-y-1 space-x-1 text-center">
-              <button className="btn" onClick={() => handleEdit(product)}>
-                Edit
-              </button>
-              <button
-                className="btn"
-                onClick={() => dispatch(openDeleteProductModal(product))}
-              >
-                Delete
-              </button>
-            </td>
+    <div className="overflow-x-auto">
+      <table className="basic table-auto">
+        <thead>
+          <tr>
+            <th>Product Name</th>
+            <th>Actions</th>
           </tr>
-        ))}
-      </tbody>
-    </table>
+        </thead>
+
+        <tbody>
+          {products.map((product) => (
+            <tr key={product._id}>
+              <td className="min-w-[160px]">{product.title}</td>
+
+              <td className="align-middle space-y-1 space-x-1 text-center min-w-[160px]">
+                <button className="btn" onClick={() => handleEdit(product)}>
+                  Edit
+                </button>
+                <button
+                  className="btn"
+                  onClick={() => dispatch(openDeleteProductModal(product))}
+                >
+                  Delete
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
   );
 }
 

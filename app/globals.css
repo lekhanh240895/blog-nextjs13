@@ -2,6 +2,22 @@
 @tailwind components;
 @tailwind utilities;
 
+::-webkit-scrollbar {
+  height: 6px;
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #d1d5db;
+  border-radius: 999px;
+}
+
+@media screen and (max-width: 768px) {
+  ::-webkit-scrollbar {
+    display: none;
+  }
+}
+
 @layer components {
   h1,
   h2,
@@ -32,10 +48,10 @@
     @apply w-full text-center;
   }
   table.basic tr {
-    @apply hover:bg-white md:hover:bg-gray-300;
+    @apply hover:bg-white md:hover:bg-gray-200;
   }
   table.basic tr th {
-    @apply bg-blue-900 text-white border px-2 py-1;
+    @apply bg-blue-900 text-white border border-slate-300 px-2 py-1;
   }
   table.basic tr td {
     @apply border border-slate-300 px-2 py-1;

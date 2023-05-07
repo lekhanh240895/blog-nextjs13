@@ -8,8 +8,7 @@ import { appSelector } from "../redux/selector";
 
 function AddCartButton({ productId }: { productId: string }) {
   const dispatch = useDispatch();
-  const { productsCart } = useSelector(appSelector);
-  console.log({ productsCart });
+  const { cartProductIds } = useSelector(appSelector);
   return (
     <button
       className="btn btn-primary flex items-center justify-center gap-x-4 mt-2"

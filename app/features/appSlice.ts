@@ -9,7 +9,7 @@ interface AppState {
   selectedProduct: Product | null;
   dashboardSidebarOpened: boolean;
   sidebarOpened: boolean;
-  productsCart: string[];
+  cartProductIds: string[];
 }
 
 const initialState: AppState = {
@@ -21,7 +21,7 @@ const initialState: AppState = {
   dashboardSidebarOpened: false,
   sidebarOpened: false,
   selectedProduct: null,
-  productsCart: [],
+  cartProductIds: JSON.parse(localStorage.getItem("cart") || "[]"),
 };
 
 export const appSlice = createSlice({
@@ -62,10 +62,15 @@ export const appSlice = createSlice({
       state.sidebarOpened = action.payload;
     },
     addProduct: (state, action) => {
-      state.productsCart.push(action.payload);
+      state.cartProductIds.push(action.payload);
+      localStorage.setItem("cart", JSON.stringify(state.cartProductIds));
     },
     removeProduct: (state, action) => {
-      state.productsCart.filter((product) => product !== action.payload);
+      state.cartProductIds.splice(
+        state.cartProductIds.indexOf(action.payload),
+        1
+      );
+      localStorage.setItem("cart", JSON.stringify(state.cartProductIds));
     },
   },
 });
