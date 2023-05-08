@@ -1,29 +1,56 @@
+"use client";
+
+import { useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import CartForm from "@/app/components/CartForm";
 import CartTable from "@/app/components/CartTable";
+import { useDispatch, useSelector } from "react-redux";
+import { clearCart } from "@/app/features/appSlice";
+import { appSelector } from "@/app/redux/selector";
+import Link from "next/link";
 
 function Cart() {
-  return (
-    <div className="flex flex-col md:flex-row gap-10">
-      <div className="flex-1">
-        <CartTable />
-      </div>
+  const { cartProductIds } = useSelector(appSelector);
+  const [isSucceed, setIsSucceed] = useState(false);
+  const params = useSearchParams().toString();
+  const dispatch = useDispatch();
 
-      <div className="flex items-center justify-center">
-        <form>
-          <div className="border border-gray-300 p-4 rounded-md shadow-md  space-y-2 max-w-[400px]">
-            <h1 className="text-center text-black">Order information</h1>
-            <input type="text" placeholder="Name" />
-            <input type="email" placeholder="Email" />
-            <input type="text" placeholder="City" />
-            <input type="text" placeholder="Postal Code" />
-            <input type="text" placeholder="Street Address" />
-            <input type="text" placeholder="Country" />
-            <button type="button" className="btn w-full btn-primary">
-              Continue to payment
-            </button>
-          </div>
-        </form>
+  useEffect(() => {
+    if (params.includes("success")) {
+      setIsSucceed(true);
+      dispatch(clearCart());
+    } else {
+      setIsSucceed(false);
+    }
+  }, [params, dispatch]);
+
+  if (isSucceed)
+    return (
+      <div>
+        <h1>Thanks for your order</h1>
+        <p>We will send you an email when your order will be sent.</p>
+        <Link href="/products">
+          <button className="btn btn-primary my-4">Continue shopping</button>
+        </Link>
       </div>
-    </div>
+    );
+
+  return (
+    <>
+      {cartProductIds.length > 0 ? (
+        <div className="flex flex-col md:flex-row gap-10">
+          <div className="flex-1">
+            <CartTable />
+          </div>
+
+          <div className="flex items-center justify-center">
+            <CartForm />
+          </div>
+        </div>
+      ) : (
+        <h1 className="font-normal text-xl text-black">Your cart is empty!</h1>
+      )}
+    </>
   );
 }
 

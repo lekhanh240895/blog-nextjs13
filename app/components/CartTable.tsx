@@ -1,5 +1,3 @@
-"use client";
-
 import { addProduct, removeProduct } from "@/app/features/appSlice";
 import { fetchProducts } from "@/app/features/productSlice";
 import { appSelector, productSelector } from "@/app/redux/selector";
@@ -32,10 +30,6 @@ function CartTable() {
 
   return (
     <>
-      {!cartProductIds.length && (
-        <h1 className="font-normal text-xl text-black">Your cart is empty!</h1>
-      )}
-
       {cartProductIds.length > 0 && (
         <div className="overflow-x-auto">
           <table className="basic table-auto">

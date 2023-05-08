@@ -72,6 +72,10 @@ export const appSlice = createSlice({
       );
       localStorage.setItem("cart", JSON.stringify(state.cartProductIds));
     },
+    clearCart: (state) => {
+      state.cartProductIds = [];
+      localStorage.setItem("cart", JSON.stringify([]));
+    },
   },
 });
 
@@ -88,6 +92,7 @@ export const {
   setSelectedCategory,
   addProduct,
   removeProduct,
+  clearCart,
 } = appSlice.actions;
 
 export default appSlice;
