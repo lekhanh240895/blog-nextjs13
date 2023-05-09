@@ -38,6 +38,28 @@ interface Product extends Base {
   slug: string;
 }
 
+interface Order extends Base {
+  line_items: [
+    {
+      quantity: number;
+      price_data: {
+        currency: string;
+        product_data: {
+          name: string;
+        };
+        unit_amount: number;
+      };
+    }
+  ];
+  name: string;
+  email: string;
+  city: string;
+  postalCode: string;
+  address: string;
+  country: string;
+  paid: boolean;
+}
+
 interface Property {
   [key: string]: any;
 }

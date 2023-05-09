@@ -11,7 +11,7 @@ function AddCartButton({ productId }: { productId: string }) {
   const { cartProductIds } = useSelector(appSelector);
   return (
     <button
-      className="btn btn-primary flex items-center justify-center gap-x-4 mt-2"
+      className="btn btn-primary flex items-center justify-center gap-x-4 min-w-[150px] h-10"
       onClick={() => dispatch(addProduct(productId))}
     >
       <ShoppingCartIcon className="w-6 h-6" />

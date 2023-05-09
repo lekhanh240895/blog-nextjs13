@@ -6,6 +6,7 @@ import {
   ArrowLeftOnRectangleIcon,
   BuildingStorefrontIcon,
   ChartBarIcon,
+  CircleStackIcon,
   Cog8ToothIcon,
   DocumentChartBarIcon,
   HomeModernIcon,
@@ -38,6 +39,11 @@ function Sidebar() {
       title: "Posts",
       href: "/dashboard/posts",
       icon: <DocumentChartBarIcon className="w-5 h-5" />,
+    },
+    {
+      title: "Orders",
+      href: "/dashboard/orders",
+      icon: <CircleStackIcon className="w-5 h-5" />,
     },
     {
       title: "Products",

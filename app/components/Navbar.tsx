@@ -6,15 +6,12 @@ import TopPostsMenu from "./TopPostsMenu";
 
 function Navbar() {
   return (
-    <nav className="items-center justify-center gap-x-4 hidden md:flex text-xl">
-      <Link href="/" className="py-1 px-1 md:px-2 md:py-5 hover:text-primary">
+    <nav className="items-center justify-center gap-x-4 hidden md:flex text-xl pt-4">
+      <Link href="/" className="px-1 md:px-2 hover:text-primary">
         Home
       </Link>
 
-      <Link
-        href="/products"
-        className="py-1 px-1 md:px-2 md:py-5 hover:text-primary"
-      >
+      <Link href="/products" className="px-1 md:px-2 hover:text-primary">
         Products
       </Link>
 
@@ -22,10 +19,7 @@ function Navbar() {
 
       <CategoryMenu />
 
-      <Link
-        href="/contact"
-        className="py-1 px-1 md:px-2 md:py-5 hover:text-primary"
-      >
+      <Link href="/contact" className="px-1 md:px-2 hover:text-primary">
         Contact
       </Link>
     </nav>

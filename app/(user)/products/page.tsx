@@ -11,7 +11,7 @@ async function Products() {
       <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-10 grid-flow-dense">
         {products.map((product) => (
           <li key={product._id}>
-            <div className="rounded-md border border-gray-200 shadow-lg p-4 flex flex-col justify-between gap-4">
+            <div className="rounded-md border border-gray-200 shadow-lg p-4 flex flex-col justify-between gap-4 h-full">
               <ClientSiteRoute route={"/product/" + product.slug}>
                 <div className="relative w-full min-h-[320px] h-full">
                   <Image
@@ -38,8 +38,8 @@ async function Products() {
                 ))}
               </div>
 
-              <div className="flex flex-col md:flex-row md:items-center justify-between gap-2">
-                <div>
+              <div className="flex flex-col justify-between gap-2">
+                <div className="">
                   <h2 className="font-bold">{product.title}</h2>
                   <p>{product.price} VND</p>
                 </div>

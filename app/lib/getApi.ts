@@ -82,3 +82,24 @@ export const getProducts = async (id?: string) => {
     console.log(error);
   }
 };
+
+export const getOrders = async (id?: string) => {
+  try {
+    if (id) {
+      const res = await fetch("http://localhost:3000/api/orders?id=" + id, {
+        next: {
+          revalidate: 5,
+        },
+      });
+      return res.json();
+    }
+    const res = await fetch("http://localhost:3000/api/orders", {
+      next: {
+        revalidate: 5,
+      },
+    });
+    return res.json();
+  } catch (error) {
+    console.log(error);
+  }
+};
