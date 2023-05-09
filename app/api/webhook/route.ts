@@ -10,7 +10,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 });
 
 // This is your Stripe CLI webhook secret for testing your endpoint locally.
-const endpointSecret = "whsec_mO1lshpWo1kA9q5geJglv5TS6sjYAi1W";
+const endpointSecret: string = "whsec_mO1lshpWo1kA9q5geJglv5TS6sjYAi1W";
 
 export async function POST(req: Request) {
   await mongooseConnect();
@@ -20,7 +20,10 @@ export async function POST(req: Request) {
 
   const body = await req.json();
 
-  let event;
+  let event: Stripe.Event;
+
+  console.log("Body", { body });
+  console.log("Buffer", await buffer(body));
 
   try {
     event = stripe.webhooks.constructEvent(
@@ -42,7 +45,7 @@ export async function POST(req: Request) {
       break;
     // ... handle other event types
     case "checkout.session.completed":
-      const data: Stripe.Event.Data.Object = event.data.object;
+      const data = event.data.object;
       const orderId = data.metadata.orderId;
       const paid = data.payment_status === "paid";
 
@@ -56,7 +59,14 @@ export async function POST(req: Request) {
       console.log(`Unhandled event type ${event.type}`);
   }
 
-  return NextResponse.json(body);
+  return NextResponse.json("ok", {
+    status: 200,
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+      "Access-Control-Allow-Headers": "Content-Type, Authorization",
+    },
+  });
 }
 
 export const config = {

@@ -21,7 +21,7 @@ const initialState: AppState = {
   dashboardSidebarOpened: false,
   sidebarOpened: false,
   selectedProduct: null,
-  cartProductIds: JSON.parse(localStorage.getItem("cart") || "[]"),
+  cartProductIds: [],
 };
 
 export const appSlice = createSlice({
@@ -76,6 +76,9 @@ export const appSlice = createSlice({
       state.cartProductIds = [];
       localStorage.setItem("cart", JSON.stringify([]));
     },
+    setCart: (state, action) => {
+      state.cartProductIds = action.payload;
+    },
   },
 });
 
@@ -93,6 +96,7 @@ export const {
   addProduct,
   removeProduct,
   clearCart,
+  setCart,
 } = appSlice.actions;
 
 export default appSlice;
