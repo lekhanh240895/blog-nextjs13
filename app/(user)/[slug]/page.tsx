@@ -1,5 +1,8 @@
+import Avatar from "@/app/components/Avatar";
 import ClientSiteRoute from "@/app/components/ClientSiteRoute";
-import { getPostBySlug, getPosts } from "@/app/lib/getApi";
+import Comment from "@/app/components/Comment";
+import PostCommentForm from "@/app/components/PostCommentForm";
+import { getComments, getPosts } from "@/app/lib/getApi";
 import { format } from "date-fns";
 import Image from "next/image";
 import "react-quill/dist/quill.snow.css";
@@ -12,7 +15,8 @@ interface Props {
 
 export async function generateMetadata({ params }: Props) {
   const { slug } = params;
-  const post = await getPostBySlug(slug);
+  const post = await getPosts({ slug });
+
   return {
     title: post.title,
     description: post.description,
@@ -29,8 +33,8 @@ export async function generateStaticParams() {
 
 async function Post({ params }: Props) {
   const { slug } = params;
-  const posts: Post[] = await getPosts();
-  const post = posts.find((post) => post.slug === slug);
+  const post: Post = await getPosts({ slug });
+  const postComments: Comment[] = await getComments({ post: post._id });
 
   if (!post) return;
 
@@ -113,6 +117,58 @@ async function Post({ params }: Props) {
           className="post-content"
         />
       </section>
+
+      <div className="divide-y divide-gray-100">
+        <section className="pt-4 pb-10">
+          {postComments.length > 0 && (
+            <div className="mb-4 md:mb-10">
+              <h1 className="text-3xl mb-4 md:mb-10">Comments</h1>
+
+              <div className="space-y-4 divide-y divide-gray-200">
+                {postComments.map((comment) => (
+                  <Comment key={comment._id} comment={comment} />
+                ))}
+              </div>
+            </div>
+          )}
+
+          <div className="flex items-baseline gap-x-2 mb-4 md:mb-10">
+            <h1 className="text-3xl">Leave a Reply</h1>
+            <span className="block w-2 h-2 rounded-full bg-primary" />
+          </div>
+
+          <PostCommentForm post={post} />
+        </section>
+
+        <section className="pt-4 pb-10">
+          <div className="flex items-baseline gap-x-2 mb-4 md:mb-10 justify-center md:justify-start">
+            <h1 className="text-3xl">About the Author</h1>
+            <span className="block w-2 h-2 rounded-full bg-primary" />
+          </div>
+
+          <div className="flex flex-col md:flex-row gap-3 md:gap-6 items-center md:items-start text-sm text-gray-500">
+            <Avatar href={`/@${post.user.name}}`} src={post.user.image} />
+
+            <div className="flex flex-col gap-y-4">
+              <div className="flex items-center gap-x-2 justify-center md:justify-start">
+                <h1>{post.user.name}</h1>
+                <span className="w-1 h-1 rounded-full bg-primary" />
+                <span>Collaborator & Editor</span>
+              </div>
+
+              <p className="text-gray-500 tracking-wider leading-6 text-center md:text-left">
+                Hello! My name is Mary Buzard!, Actively writing articles for
+                this website. I really like tutorials and illustrations, so stay
+                alert for my next tutorials.
+              </p>
+
+              <button className="btn btn-primary rounded-full py-2 md:py-1 text-gray-100 max-w-[150px] self-center md:self-start">
+                View All Articles
+              </button>
+            </div>
+          </div>
+        </section>
+      </div>
     </article>
   );
 }

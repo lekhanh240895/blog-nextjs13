@@ -10,6 +10,16 @@ interface Props {
   };
 }
 
+export async function generateMetadata({ params }: Props) {
+  const { slug } = params;
+  const category = await getCategoryBySlug(slug);
+
+  return {
+    title: category.title,
+    description: category.description,
+  };
+}
+
 async function Category({ params }: Props) {
   const { slug } = params;
 

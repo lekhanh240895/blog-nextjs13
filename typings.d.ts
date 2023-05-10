@@ -18,6 +18,8 @@ interface User extends Base {
   name: string;
   image: string;
   email: string;
+  bio?: string;
+  description?: string;
 }
 
 interface Category extends Base {
@@ -58,6 +60,13 @@ interface Order extends Base {
   address: string;
   country: string;
   paid: boolean;
+}
+
+interface Comment extends Base {
+  text: string;
+  user: User;
+  post: Post;
+  replies: [Comment];
 }
 
 interface Property {

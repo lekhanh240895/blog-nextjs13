@@ -49,10 +49,10 @@ export async function POST(req: Request) {
       mode: "payment",
       payment_method_types: ["card"],
       line_items,
-      success_url: process.env.PUBLIC_URL + "/cart?success=1",
-      cancel_url: process.env.PUBLIC_URL + "/cart?canceled=1",
-      metadata: { orderId: orderDoc._id },
+      success_url: `https://${req.headers.get("Host")}/cart?success=1`,
+      cancel_url: `https://${req.headers.get("Host")}/cart?canceled=1`,
       customer_email: email,
+      metadata: { orderId: orderDoc._id.toString() },
     };
 
     const checkoutSession: Stripe.Checkout.Session =

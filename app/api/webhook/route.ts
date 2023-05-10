@@ -2,15 +2,25 @@ import Stripe from "stripe";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { mongooseConnect } from "@/app/lib/mongoose";
-import { buffer } from "micro";
 import Order from "@/app/models/Order";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: "2022-11-15",
 });
 
+export const config = {
+  api: { bodyParser: false },
+};
+
+interface IObject extends Stripe.Event.Data.Object {
+  metadata?: {
+    orderId: string;
+  };
+  payment_status?: string;
+}
+
 // This is your Stripe CLI webhook secret for testing your endpoint locally.
-const endpointSecret: string = "whsec_mO1lshpWo1kA9q5geJglv5TS6sjYAi1W";
+const endpointSecret: string = "whsec_XvCZXOluSUmFHdzu8uFQouPfYlHtJgYr";
 
 export async function POST(req: Request) {
   await mongooseConnect();
@@ -18,16 +28,13 @@ export async function POST(req: Request) {
   const headersList = headers();
   const sig: any = headersList.get("stripe-signature");
 
-  const body = await req.json();
-
   let event: Stripe.Event;
 
-  console.log("Body", { body });
-  console.log("Buffer", await buffer(body));
+  const buf = await req.arrayBuffer();
 
   try {
     event = stripe.webhooks.constructEvent(
-      await buffer(body),
+      Buffer.from(buf).toString(),
       sig,
       endpointSecret
     );
@@ -39,14 +46,9 @@ export async function POST(req: Request) {
 
   // Handle the event
   switch (event.type) {
-    case "payment_intent.succeeded":
-      const paymentIntentSucceeded = event.data.object;
-      // Then define and call a function to handle the event payment_intent.succeeded
-      break;
-    // ... handle other event types
     case "checkout.session.completed":
-      const data = event.data.object;
-      const orderId = data.metadata.orderId;
+      const data: IObject = event.data.object;
+      const orderId = data.metadata?.orderId;
       const paid = data.payment_status === "paid";
 
       if (orderId && paid) {
@@ -59,16 +61,5 @@ export async function POST(req: Request) {
       console.log(`Unhandled event type ${event.type}`);
   }
 
-  return NextResponse.json("ok", {
-    status: 200,
-    headers: {
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-      "Access-Control-Allow-Headers": "Content-Type, Authorization",
-    },
-  });
+  return NextResponse.json("ok");
 }
-
-export const config = {
-  api: { bodyParser: false },
-};

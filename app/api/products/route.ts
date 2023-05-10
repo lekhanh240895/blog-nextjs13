@@ -8,9 +8,17 @@ export async function GET(req: Request, res: Response) {
 
   const { searchParams } = new URL(req.url);
   const id = searchParams.get("id");
+  const slug = searchParams.get("slug");
 
-  if (id) {
-    const product = await Product.findById(id).populate([
+  if (id || slug) {
+    const post = await Product.findOne({
+      $or: [
+        {
+          _id: id,
+        },
+        { slug },
+      ],
+    }).populate([
       {
         path: "category",
         model: Category,
@@ -21,7 +29,7 @@ export async function GET(req: Request, res: Response) {
       },
     ]);
 
-    return NextResponse.json(product);
+    return NextResponse.json(post);
   }
 
   const products = await Product.find({}).populate([

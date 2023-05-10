@@ -37,7 +37,7 @@
     @apply relative w-full rounded-lg bg-white py-2 pl-3 pr-3 text-left shadow-md focus:outline-none focus-visible:border-blue-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-blue-300 sm:text-sm;
   }
   .btn {
-    @apply inline-flex justify-center rounded-md border border-transparent px-4 py-2 text-sm font-medium bg-gray-300 text-black hover:bg-slate-300 md:bg-blue-100 md:text-blue-900 md:hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 transition-all;
+    @apply inline-flex justify-center rounded-md border border-transparent px-4 py-2 text-sm font-medium bg-gray-300 text-black hover:bg-slate-300 md:bg-blue-100 md:text-blue-900 md:hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 transition-all shadow-md;
   }
 
   .btn-secondary {
