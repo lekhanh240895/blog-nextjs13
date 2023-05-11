@@ -46,9 +46,15 @@
   .btn-primary {
     @apply bg-primary/90 hover:bg-primary/100 text-white focus-visible:ring-primary/100;
   }
+
   .btn-disabled {
     @apply pointer-events-none opacity-50;
   }
+
+  .btn-outline {
+    @apply bg-inherit border border-primary text-black md:text-blue-900 hover:bg-primary hover:text-white;
+  }
+
   table.basic {
     @apply w-full text-center;
   }

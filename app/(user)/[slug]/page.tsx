@@ -92,7 +92,7 @@ async function Post({ params }: Props) {
               <ClientSiteRoute
                 route={`/category/${post.category?.title.toLowerCase()}`}
               >
-                <button className="btn btn-primary text-white">
+                <button className="btn btn-primary bg-primary">
                   {post.category?.title}
                 </button>
               </ClientSiteRoute>
@@ -101,7 +101,7 @@ async function Post({ params }: Props) {
                 <ClientSiteRoute
                   route={`/category/${post.category?.title.toLowerCase()}`}
                 >
-                  <button className="btn btn-primary text-white">
+                  <button className="btn btn-primary bg-primary">
                     {post.category?.parent.title}
                   </button>
                 </ClientSiteRoute>

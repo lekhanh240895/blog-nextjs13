@@ -5,16 +5,15 @@ import { appSelector } from "@/app/redux/selector";
 import {
   ArrowLeftOnRectangleIcon,
   BuildingStorefrontIcon,
-  ChartBarIcon,
   Cog8ToothIcon,
   HomeModernIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
-import { signOut } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
+import { signOut } from "next-auth/react";
 import SidebarCategoryMenu from "./SidebarCategoryMenu";
 
 function Sidebar() {
@@ -85,11 +84,11 @@ function Sidebar() {
 
         <SidebarCategoryMenu />
 
-        {/* Signout button */}
         <li>
           <button
             className={`w-full flex items-center gap-x-2 px-2 py-3 rounded-md md:rounded-r-none
               hover:bg-slate-300 md:hover:bg-white hover:text-gray-700 transition-all`}
+            onClick={() => signOut()}
           >
             <ArrowLeftOnRectangleIcon className="w-5 h-5" />
             Sign out
