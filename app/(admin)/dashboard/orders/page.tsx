@@ -1,9 +1,9 @@
-import { getOrders } from "@/app/lib/getApi";
+import { getData } from "@/app/lib/getApi";
 import { format } from "date-fns";
 import React from "react";
 
 async function Orders() {
-  const orders: Order[] = await getOrders();
+  const orders: Order[] = await getData("orders");
 
   return (
     <section>

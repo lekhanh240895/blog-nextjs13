@@ -109,8 +109,8 @@ export default function BasicMenu({
                               if (isParent) {
                                 setHistory((prev) => [...prev, item.children]);
                                 e.preventDefault();
-                              } else {
-                                item.onClick;
+                              } else if (item.onClick) {
+                                item.onClick();
                               }
                             }}
                           >

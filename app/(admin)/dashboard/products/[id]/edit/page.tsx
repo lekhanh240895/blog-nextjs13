@@ -1,6 +1,6 @@
 import BackButton from "@/app/components/admin/BackButton";
 import ProductForm from "@/app/components/admin/ProductForm";
-import { getProducts } from "@/app/lib/getApi";
+import { getData } from "@/app/lib/getApi";
 
 type Props = {
   params: {
@@ -10,7 +10,7 @@ type Props = {
 
 export async function generateMetadata({ params }: Props) {
   const { id } = params;
-  const product = await getProducts(id);
+  const product = await getData("products", { _id: id });
 
   return {
     title: product.title,
@@ -18,7 +18,7 @@ export async function generateMetadata({ params }: Props) {
 }
 
 export async function generateStaticParams() {
-  const products: Product[] = await getProducts();
+  const products: Product[] = await getData("products");
 
   return products.map((product) => ({
     id: product._id,
@@ -28,7 +28,7 @@ export async function generateStaticParams() {
 async function EditPost({ params }: Props) {
   const { id } = params;
 
-  const editedProduct: Product = await getProducts(id);
+  const editedProduct: Product = await getData("products", { _id: id });
 
   return (
     <section>

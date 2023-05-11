@@ -10,6 +10,7 @@ interface AppState {
   dashboardSidebarOpened: boolean;
   sidebarOpened: boolean;
   cartProductIds: string[];
+  loginModalOpened: boolean;
 }
 
 const initialState: AppState = {
@@ -22,6 +23,7 @@ const initialState: AppState = {
   sidebarOpened: false,
   selectedProduct: null,
   cartProductIds: [],
+  loginModalOpened: false,
 };
 
 export const appSlice = createSlice({
@@ -79,6 +81,9 @@ export const appSlice = createSlice({
     setCart: (state, action) => {
       state.cartProductIds = action.payload;
     },
+    setLoginModalOpened: (state, action) => {
+      state.loginModalOpened = action.payload;
+    },
   },
 });
 
@@ -97,6 +102,7 @@ export const {
   removeProduct,
   clearCart,
   setCart,
+  setLoginModalOpened,
 } = appSlice.actions;
 
 export default appSlice;

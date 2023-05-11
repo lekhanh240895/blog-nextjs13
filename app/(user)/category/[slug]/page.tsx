@@ -1,7 +1,6 @@
 import BlogList from "@/app/components/BlogList";
-import ClientSiteRoute from "@/app/components/ClientSiteRoute";
 import EditCategoryButton from "@/app/components/EditCategoryButton";
-import { getCategoryBySlug, getPosts } from "@/app/lib/getApi";
+import { getData } from "@/app/lib/getApi";
 import { TagIcon } from "@heroicons/react/24/outline";
 
 interface Props {
@@ -12,7 +11,7 @@ interface Props {
 
 export async function generateMetadata({ params }: Props) {
   const { slug } = params;
-  const category = await getCategoryBySlug(slug);
+  const category = await getData("categories", { slug });
 
   return {
     title: category.title,
@@ -23,9 +22,9 @@ export async function generateMetadata({ params }: Props) {
 async function Category({ params }: Props) {
   const { slug } = params;
 
-  const posts: Post[] = await getPosts();
+  const posts: Post[] = await getData("posts");
   const postsByCategory = posts.filter((post) => post.category.slug === slug);
-  const category: Category = await getCategoryBySlug(slug);
+  const category: Category = await getData("categories", { slug });
 
   if (!category) return;
 
@@ -35,7 +34,7 @@ async function Category({ params }: Props) {
         <EditCategoryButton category={category} />
       </div>
 
-      <div className="flex flex-col md:flex-row items-center justify-center md:justify-between px-4 py-10 gap-4 md:gap-48 md:px-32 md:py-14 max-w-7xl mx-auto tracking-wide md:tracking-widest md:leading-7">
+      <div className="flex flex-col md:flex-row items-center justify-center lg:justify-between px-4 py-10 gap-4 lg:gap-48 lg:p-14 tracking-wide lg:tracking-widest lg:leading-7">
         <div className="flex justify-center items-center gap-x-3 md:gap-x-6 min-w-[288px]">
           <TagIcon className="w-12 h-12 md:w-16 md:h-16 text-primary" />
 

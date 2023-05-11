@@ -11,7 +11,6 @@ export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
 
   const query = Object.fromEntries(searchParams.entries());
-
   const conditions = Object.entries(query).map(([key, value]) => ({
     [key]: value,
   }));

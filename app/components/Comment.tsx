@@ -5,7 +5,11 @@ import { format } from "date-fns";
 function Comment({ comment }: { comment: Comment }) {
   return (
     <div className="flex gap-3 md:gap-x-6 text-sm text-gray-500 py-4">
-      <Avatar href={`/@${comment.user.name}}`} src={comment.user.image} />
+      <Avatar
+        href={`/account/@${comment.user.name}}`}
+        src={comment.user.image}
+        alt={comment.user.name}
+      />
 
       <div className="space-y-4">
         <div className="flex gap-x-2">

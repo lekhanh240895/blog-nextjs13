@@ -7,17 +7,15 @@ export async function GET(req: Request, res: Response) {
   await mongooseConnect();
 
   const { searchParams } = new URL(req.url);
-  const id = searchParams.get("id");
-  const slug = searchParams.get("slug");
 
-  if (id || slug) {
-    const post = await Product.findOne({
-      $or: [
-        {
-          _id: id,
-        },
-        { slug },
-      ],
+  const query = Object.fromEntries(searchParams.entries());
+  const conditions = Object.entries(query).map(([key, value]) => ({
+    [key]: value,
+  }));
+
+  if (conditions.length > 0) {
+    const product = await Product.findOne({
+      $or: conditions,
     }).populate([
       {
         path: "category",
@@ -29,7 +27,7 @@ export async function GET(req: Request, res: Response) {
       },
     ]);
 
-    return NextResponse.json(post);
+    return NextResponse.json(product);
   }
 
   const products = await Product.find({}).populate([

@@ -1,6 +1,5 @@
 import BackButton from "@/app/components/admin/BackButton";
 import PostForm from "@/app/components/admin/PostForm";
-import { ChevronLeftIcon } from "@heroicons/react/24/outline";
 
 export default function CreatePost() {
   return (

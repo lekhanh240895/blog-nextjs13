@@ -1,8 +1,8 @@
 import BlogList from "../components/BlogList";
-import { getPosts } from "../lib/getApi";
+import { getData } from "../lib/getApi";
 
 export default async function Home() {
-  const posts = await getPosts();
+  const posts = await getData("posts");
 
   if (!posts) return;
 

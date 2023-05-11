@@ -1,5 +1,5 @@
 import ClientSiteRoute from "@/app/components/ClientSiteRoute";
-import { getProductBySlug, getProducts } from "@/app/lib/getApi";
+import { getData } from "@/app/lib/getApi";
 import { format } from "date-fns";
 import Image from "next/image";
 import "react-quill/dist/quill.snow.css";
@@ -12,7 +12,7 @@ interface Props {
 
 export async function generateMetadata({ params }: Props) {
   const { slug } = params;
-  const product = await getProductBySlug(slug);
+  const product = await getData("products", { slug });
 
   return {
     title: product.title,
@@ -21,7 +21,7 @@ export async function generateMetadata({ params }: Props) {
 }
 
 export async function generateStaticParams() {
-  const products = await getProducts();
+  const products = await getData("products");
 
   return products.map((product: Product) => ({
     slug: product.slug,
@@ -30,7 +30,7 @@ export async function generateStaticParams() {
 
 async function Product({ params }: Props) {
   const { slug } = params;
-  const product: Product = await getProductBySlug(slug);
+  const product: Product = await getData("products", { slug });
 
   if (!product) return;
 

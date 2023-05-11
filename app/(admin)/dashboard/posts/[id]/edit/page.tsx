@@ -1,6 +1,6 @@
 import BackButton from "@/app/components/admin/BackButton";
 import PostForm from "@/app/components/admin/PostForm";
-import { getPosts } from "@/app/lib/getApi";
+import { getData } from "@/app/lib/getApi";
 
 type Props = {
   params: {
@@ -10,7 +10,7 @@ type Props = {
 
 export async function generateMetadata({ params }: Props) {
   const { id } = params;
-  const post = await getPosts(id);
+  const post = await getData("posts", { _id: id });
 
   return {
     title: post.title,
@@ -18,7 +18,7 @@ export async function generateMetadata({ params }: Props) {
 }
 
 export async function generateStaticParams() {
-  const posts: Post[] = await getPosts();
+  const posts: Post[] = await getData("posts");
 
   return posts.map((post) => ({
     id: post._id,
@@ -28,7 +28,7 @@ export async function generateStaticParams() {
 async function EditPost({ params }: Props) {
   const { id } = params;
 
-  const editedPost: Post = await getPosts(id);
+  const editedPost: Post = await getData("posts", { _id: id });
 
   if (!editedPost) return;
 

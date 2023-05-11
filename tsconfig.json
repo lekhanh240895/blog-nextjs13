@@ -30,7 +30,8 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "app/services/dynamicQuillToolbars.js",
-    "app/services/dynamicQuillTools.js"
+    "app/services/dynamicQuillTools.js",
+    "app/components/Icons/Icons.tsx"
   ],
   "exclude": ["node_modules"]
 }

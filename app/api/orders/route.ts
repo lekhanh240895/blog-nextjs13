@@ -3,10 +3,16 @@ import { NextResponse } from "next/server";
 
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
-  const id = searchParams.get("id");
 
-  if (id) {
-    const order = await Order.findById(id);
+  const query = Object.fromEntries(searchParams.entries());
+  const conditions = Object.entries(query).map(([key, value]) => ({
+    [key]: value,
+  }));
+
+  if (conditions.length > 0) {
+    const order = await Order.find({
+      $or: conditions,
+    });
     return NextResponse.json(order);
   }
 

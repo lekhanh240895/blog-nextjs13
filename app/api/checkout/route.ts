@@ -15,6 +15,7 @@ export async function POST(req: Request) {
     const uniqueIds = Array.from(new Set(cartProductIds));
 
     let line_items = [];
+
     for (const id of uniqueIds) {
       const productInfo = await Product.findById(id);
       const quantity =
@@ -55,12 +56,16 @@ export async function POST(req: Request) {
       metadata: { orderId: orderDoc._id.toString() },
     };
 
-    const checkoutSession: Stripe.Checkout.Session =
-      await stripe.checkout.sessions.create(params);
+    try {
+      const checkoutSession: Stripe.Checkout.Session =
+        await stripe.checkout.sessions.create(params);
 
-    return NextResponse.json({
-      url: checkoutSession.url,
-    });
+      return NextResponse.json({
+        url: checkoutSession.url,
+      });
+    } catch (error) {
+      console.log(error);
+    }
   } catch (error) {
     console.log(error);
   }

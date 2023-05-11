@@ -1,6 +1,6 @@
 import AddCartButton from "@/app/components/AddCartButton";
 import ClientSiteRoute from "@/app/components/ClientSiteRoute";
-import { getProducts } from "@/app/lib/getApi";
+import { getData } from "@/app/lib/getApi";
 import Image from "next/image";
 
 export async function generateMetadata() {
@@ -10,7 +10,7 @@ export async function generateMetadata() {
 }
 
 async function Products() {
-  const products: Product[] = await getProducts();
+  const products: Product[] = await getData("products");
   return (
     <div>
       <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-10 grid-flow-dense">

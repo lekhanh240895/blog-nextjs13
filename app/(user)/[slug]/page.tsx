@@ -2,7 +2,7 @@ import Avatar from "@/app/components/Avatar";
 import ClientSiteRoute from "@/app/components/ClientSiteRoute";
 import Comment from "@/app/components/Comment";
 import PostCommentForm from "@/app/components/PostCommentForm";
-import { getComments, getPosts } from "@/app/lib/getApi";
+import { getData } from "@/app/lib/getApi";
 import { format } from "date-fns";
 import Image from "next/image";
 import "react-quill/dist/quill.snow.css";
@@ -15,7 +15,7 @@ interface Props {
 
 export async function generateMetadata({ params }: Props) {
   const { slug } = params;
-  const post = await getPosts({ slug });
+  const post = await getData("posts", { slug });
 
   return {
     title: post.title,
@@ -24,7 +24,7 @@ export async function generateMetadata({ params }: Props) {
 }
 
 export async function generateStaticParams() {
-  const posts = await getPosts();
+  const posts = await getData("posts");
 
   return posts.map((post: Post) => ({
     slug: post.slug,
@@ -33,8 +33,8 @@ export async function generateStaticParams() {
 
 async function Post({ params }: Props) {
   const { slug } = params;
-  const post: Post = await getPosts({ slug });
-  const postComments: Comment[] = await getComments({ post: post._id });
+  const post: Post = await getData("posts", { slug });
+  const postComments: Comment[] = await getData("comments", { post: post._id });
 
   if (!post) return;
 
@@ -147,7 +147,10 @@ async function Post({ params }: Props) {
           </div>
 
           <div className="flex flex-col md:flex-row gap-3 md:gap-6 items-center md:items-start text-sm text-gray-500">
-            <Avatar href={`/@${post.user.name}}`} src={post.user.image} />
+            <Avatar
+              href={`/account/${post.user.name}}`}
+              src={post.user.image}
+            />
 
             <div className="flex flex-col gap-y-4">
               <div className="flex items-center gap-x-2 justify-center md:justify-start">
