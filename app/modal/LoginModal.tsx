@@ -1,7 +1,7 @@
 "use client";
 
 import { Dialog, Transition } from "@headlessui/react";
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { appSelector } from "../redux/selector";
 import { setLoginModalOpened } from "../features/appSlice";
@@ -15,7 +15,6 @@ import {
 import PhoneEmailSignup from "../components/PhoneEmailSignup";
 import LoginMenu from "../components/LoginMenu";
 import { XMarkIcon } from "@heroicons/react/24/outline";
-import Link from "next/link";
 
 const LOGIN_MENU = {
   title: "Log in to KhanhReview",
@@ -23,7 +22,6 @@ const LOGIN_MENU = {
     {
       icon: <UserIcon width="2rem" height="2rem" />,
       title: "Use phone / email / username",
-      // to: "/login/phone-or-email",
       children: {
         title: "Log in",
         data: [],
@@ -51,7 +49,6 @@ const SIGNUP_MENU = {
     {
       icon: <UserIcon width="2rem" height="2rem" />,
       title: "Use phone or email",
-      // to: "/signup/phone-or-email/email",
       children: {
         title: "Sign up",
         component: PhoneEmailSignup,
@@ -72,6 +69,8 @@ export default function LoginModal() {
   const { loginModalOpened } = useSelector(appSelector);
   const dispatch = useDispatch();
   const [isSignUp, setIsSignUp] = useState(false);
+
+  console.log(isSignUp);
 
   const handleClose = () => {
     dispatch(setLoginModalOpened(false));
@@ -107,29 +106,38 @@ export default function LoginModal() {
             >
               <Dialog.Panel className="w-full max-w-md min-h-[500px] flex flex-col transform overflow-hidden rounded-2xl bg-white align-middle shadow-xl transition-all">
                 <div className="p-6 flex-1">
-                  <span
+                  <button
                     onClick={handleClose}
                     className="w-10 h-10 p-2 rounded-full bg-gray-200 absolute top-5 right-5 cursor-pointer"
                   >
                     <XMarkIcon />
-                  </span>
+                  </button>
 
-                  <LoginMenu title={LOGIN_MENU.title} items={LOGIN_MENU.menu} />
+                  <LoginMenu
+                    title={isSignUp ? SIGNUP_MENU.title : LOGIN_MENU.title}
+                    items={isSignUp ? SIGNUP_MENU.menu : LOGIN_MENU.menu}
+                  />
                 </div>
 
                 {isSignUp ? (
-                  <div className="border-t border-gray-200 py-4 mx-auto">
+                  <div className="border-t border-gray-200 py-5">
                     Already have an account?
-                    <Link href="/login" className="ml-2 text-primary">
+                    <button
+                      className="ml-2 text-primary cursor-pointer"
+                      onClick={() => setIsSignUp(false)}
+                    >
                       Sign in
-                    </Link>
+                    </button>
                   </div>
                 ) : (
                   <div className="border-t border-gray-200 py-5">
                     Don&apos;t have an account?
-                    <Link href="/signup" className="ml-2 text-primary">
+                    <span
+                      className="ml-2 text-primary cursor-pointer"
+                      onClick={() => setIsSignUp(true)}
+                    >
                       Sign up
-                    </Link>
+                    </span>
                   </div>
                 )}
               </Dialog.Panel>

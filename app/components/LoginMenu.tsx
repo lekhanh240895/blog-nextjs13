@@ -1,5 +1,4 @@
 import { MouseEventHandler, useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
 import Link from "next/link";
 import { ChevronLeftIcon } from "@heroicons/react/24/outline";
 import { signIn } from "next-auth/react";
@@ -26,6 +25,11 @@ interface LoginMenuProps {
 
 export default function LoginMenu({ items, title, policy }: LoginMenuProps) {
   const [history, setHistory] = useState<History[]>([{ data: items }]);
+
+  useEffect(() => {
+    setHistory([{ data: items }]);
+  }, [items]);
+
   const current = history[history.length - 1];
   const Component = current.component as () => JSX.Element;
 
@@ -65,13 +69,16 @@ export default function LoginMenu({ items, title, policy }: LoginMenuProps) {
     <div className="">
       {history.length > 1 ? (
         <>
-          <div className="flex w-full items-center rounded-md transition-all gap-2 mt-4 mb-10">
-            <button onClick={handleBack}>
-              <ChevronLeftIcon width={30} height={30} />
-            </button>
+          <button
+            onClick={handleBack}
+            className="absolute left-5 top-5 w-10 h-10 p-2 rounded-full bg-gray-200"
+          >
+            <ChevronLeftIcon />
+          </button>
 
-            <h4 className="text-2xl flex-1 text-cennter">{current.title}</h4>
-          </div>
+          <h4 className="text-2xl flex-1 text-cennter mt-4 mb-10">
+            {current.title}
+          </h4>
 
           <Component />
         </>
@@ -117,13 +124,13 @@ const MenuItem = ({ item, ...props }: MenuItemProps) => {
     <li>
       <Component
         {...props}
-        className="flex items-center gap-3 py-2 px-4 border border-gray-200 rounded-md mb-4"
+        className="flex items-center gap-3 py-2 px-4 border border-gray-200 rounded-md mb-4 cursor-pointer"
       >
         <span className="w-9 h-9 p-1 flex items-center justify-center">
           {item.icon}
         </span>
 
-        <button>{item.title}</button>
+        <span>{item.title}</span>
       </Component>
     </li>
   );
