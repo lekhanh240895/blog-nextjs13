@@ -13,6 +13,8 @@ export async function generateMetadata({ params }: Props) {
   const { slug } = params;
   const category = await getData("categories", { slug });
 
+  if (!category) return {};
+
   return {
     title: category.title,
     description: category.description,

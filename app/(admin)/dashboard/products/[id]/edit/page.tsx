@@ -12,6 +12,8 @@ export async function generateMetadata({ params }: Props) {
   const { id } = params;
   const product = await getData("products", { _id: id });
 
+  if (!product) return {};
+
   return {
     title: product.title,
   };
@@ -34,7 +36,7 @@ async function EditPost({ params }: Props) {
     <section>
       <BackButton />
 
-      <h2 className="text-3xl mb-4 md:mr--24">
+      <h2 className="text-3xl mb-4 md:mr-24">
         Edit product - {editedProduct?.title}
       </h2>
 

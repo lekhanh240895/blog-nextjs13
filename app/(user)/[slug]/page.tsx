@@ -17,6 +17,8 @@ export async function generateMetadata({ params }: Props) {
   const { slug } = params;
   const post = await getData("posts", { slug });
 
+  if (!post) return {};
+
   return {
     title: post.title,
     description: post.description,
@@ -34,9 +36,10 @@ export async function generateStaticParams() {
 async function Post({ params }: Props) {
   const { slug } = params;
   const post: Post = await getData("posts", { slug });
-  const postComments: Comment[] = await getData("comments", { post: post._id });
 
   if (!post) return;
+
+  const postComments: Comment[] = await getData("comments", { post: post._id });
 
   return (
     <article className="post">

@@ -12,6 +12,8 @@ export async function generateMetadata({ params }: Props) {
   const { id } = params;
   const post = await getData("posts", { _id: id });
 
+  if (!post) return {};
+
   return {
     title: post.title,
   };
@@ -36,9 +38,7 @@ async function EditPost({ params }: Props) {
     <section>
       <BackButton />
 
-      <h2 className="text-3xl mb-4 md:mr--24">
-        Edit post - {editedPost.title}
-      </h2>
+      <h2 className="text-3xl mb-4 md:mr-24">Edit post - {editedPost.title}</h2>
 
       <PostForm editedPost={editedPost} />
     </section>

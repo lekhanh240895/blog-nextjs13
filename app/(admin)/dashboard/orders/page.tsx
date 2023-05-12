@@ -1,13 +1,17 @@
 import { getData } from "@/app/lib/getApi";
 import { format } from "date-fns";
-import React from "react";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Orders",
+};
 
 async function Orders() {
   const orders: Order[] = await getData("orders");
 
   return (
     <section>
-      <h2 className="text-3xl uppercase mb-4 md:mr--24">Orders</h2>
+      <h2 className="text-3xl uppercase mb-4 md:mr-24">Orders</h2>
 
       <div className="overflow-x-auto scrollbar-blue">
         <table className="basic table-auto">

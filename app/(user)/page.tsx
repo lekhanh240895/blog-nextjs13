@@ -1,14 +1,15 @@
+import { Suspense } from "react";
 import BlogList from "../components/BlogList";
 import { getData } from "../lib/getApi";
 
 export default async function Home() {
-  const posts = await getData("posts");
-
-  if (!posts) return;
+  const posts: Post[] = await getData("posts");
 
   return (
     <section>
-      <BlogList posts={posts} />
+      <Suspense fallback={<div>Loading...</div>}>
+        <BlogList posts={posts} />
+      </Suspense>
     </section>
   );
 }

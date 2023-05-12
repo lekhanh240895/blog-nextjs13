@@ -1,8 +1,8 @@
 import Image from "next/image";
 import React from "react";
 import { TagIcon } from "@heroicons/react/24/outline";
-import ClientSiteRoute from "./ClientSiteRoute";
 import { format } from "date-fns";
+import ClientSiteRoute from "./ClientSiteRoute";
 import Avatar from "./Avatar";
 
 interface Props {

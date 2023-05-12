@@ -13,7 +13,7 @@ export const getData = async (
     }`;
     const res = await fetch(url, {
       next: {
-        revalidate: 5,
+        revalidate: 10,
       },
     });
     return res.json();
