@@ -1,6 +1,3 @@
-import Header from "../components/Header";
-import Sidebar from "../components/Sidebar";
-
 export const metadata = {
   title: {
     default: "Blog - Reviews - News | KhanhReview",
@@ -16,12 +13,8 @@ export default function UserLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="relative bg-white min-h-screen">
-      <Sidebar />
-
-      <Header />
-
-      <main>{children}</main>
+    <div className="px-4 pt-6 pb-12 md:px-10 md:pt-12 md:pb-24 max-w-7xl mx-auto">
+      {children}
     </div>
   );
 }

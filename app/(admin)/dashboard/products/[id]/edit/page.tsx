@@ -1,6 +1,7 @@
 import BackButton from "@/app/components/admin/BackButton";
 import ProductForm from "@/app/components/admin/ProductForm";
 import { getData } from "@/app/lib/getApi";
+import { Suspense } from "react";
 
 type Props = {
   params: {
@@ -40,7 +41,9 @@ async function EditPost({ params }: Props) {
         Edit product - {editedProduct?.title}
       </h2>
 
-      <ProductForm editedProduct={editedProduct} />
+      <Suspense fallback={"loading..."}>
+        <ProductForm editedProduct={editedProduct} />
+      </Suspense>
     </section>
   );
 }

@@ -10,8 +10,8 @@ import { useRouter } from "next/navigation";
 import NextImage from "next/image";
 import slugify from "slugify";
 import Dropzone from "react-dropzone";
-import { Editor } from "./Editor";
 import { uploadFileFirebase } from "@/app/services/firebaseService";
+import { Editor } from "./Editor";
 import CategorySelect from "./CategorySelect";
 import Spinner from "../Spinner";
 
@@ -95,7 +95,7 @@ function PostForm({ editedPost }: Props) {
       ...data,
       content,
       mainImage: mainImageUrl,
-      user: session?.user.id,
+      user: session?.user._id,
       category,
     };
 

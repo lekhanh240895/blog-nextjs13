@@ -11,15 +11,17 @@ function Comment({ comment }: { comment: Comment }) {
         alt={comment.user.name}
       />
 
-      <div className="space-y-4">
-        <div className="flex gap-x-2">
+      <div>
+        <div className="flex gap-x-2 mb-2">
           <h1>{comment.user.name}</h1>
           <span>
             on {format(new Date(comment.createdAt), "MM/dd/yyyy HH:mm")}
           </span>
         </div>
 
-        <p className="text-gray-500 tracking-wider leading-6">{comment.text}</p>
+        <p className="text-gray-500 tracking-wider leading-6 mb-4">
+          {comment.text}
+        </p>
 
         <button className="btn btn-primary rounded-full py-1 text-gray-100">
           Reply

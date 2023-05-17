@@ -1,17 +1,33 @@
+import { signIn } from "next-auth/react";
 import Link from "next/link";
 import React from "react";
 import { useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
+import { setLoginModalOpened } from "../features/appSlice";
 
 interface FormData {
-  email: string;
+  emailOrUsername: string;
   password: string;
 }
 
 function PhoneEmailLogin() {
   const { register, handleSubmit } = useForm<FormData>();
+  const dispatch = useDispatch();
 
-  const onSubmit = (data: FormData) => {
-    console.log(data);
+  const onSubmit = async (data: FormData) => {
+    try {
+      const res = await signIn("credentials", {
+        email: data.emailOrUsername,
+        username: data.emailOrUsername,
+        password: data.password,
+        redirect: false,
+      });
+      if (res?.ok) {
+        dispatch(setLoginModalOpened(false));
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -28,7 +44,7 @@ function PhoneEmailLogin() {
           <input
             type="text"
             placeholder="Email or username"
-            {...register("email")}
+            {...register("emailOrUsername")}
           />
 
           <input

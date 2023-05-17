@@ -7,13 +7,15 @@ interface Props {
   src: string;
   alt?: string;
   [key: string]: any;
+  fallback?: string;
 }
 
 function Avatar({
   href,
   src,
   alt = "Avatar",
-  className = "relative w-20 h-20 md:w-28 md:h-28 flex-shrink-0",
+  className,
+  fallback: customFallback = "/avatar-placeholder.png",
   ...props
 }: Props) {
   let Component: any;
@@ -31,7 +33,7 @@ function Avatar({
       {...props}
     >
       <Image
-        src={src}
+        src={src || customFallback}
         alt={alt}
         fill
         sizes="100%"

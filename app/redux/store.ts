@@ -1,8 +1,9 @@
-import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
+import { configureStore } from "@reduxjs/toolkit";
 import appSlice from "../features/appSlice";
 import postSlice from "../features/postSlice";
 import categorySlice from "../features/categorySlice";
 import productSlice from "../features/productSlice";
+import commentSlice from "../features/commentSlice";
 
 export const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
     post: postSlice.reducer,
     category: categorySlice.reducer,
     product: productSlice.reducer,
+    comment: commentSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

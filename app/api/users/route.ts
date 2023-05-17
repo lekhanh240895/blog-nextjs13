@@ -1,6 +1,7 @@
 import { mongooseConnect } from "@/app/lib/mongoose";
 import User from "@/app/models/User";
 import { NextResponse } from "next/server";
+import bcrypt from "bcrypt";
 
 export async function GET(req: Request) {
   await mongooseConnect();
@@ -18,11 +19,38 @@ export async function GET(req: Request) {
 export async function POST(req: Request) {
   await mongooseConnect();
 
-  const request = await req.json();
+  const res = await req.json();
 
-  const { name, email, image } = request;
+  const { name, email, image, username, password } = res;
 
-  const newUser = await User.create({ name, email, image });
+  if (!username || !email || !password) {
+    return NextResponse.json("Please add all fields!", {
+      status: 400,
+      statusText: "Please add all fields!",
+    });
+  }
+
+  const userExists = await User.findOne({
+    $or: [{ email }, { username }],
+  });
+
+  if (userExists) {
+    return NextResponse.json("User already exists!", {
+      status: 400,
+      statusText: "User already exists!",
+    });
+  }
+
+  const salt = await bcrypt.genSalt(10);
+  const hashPassword = await bcrypt.hash(password, salt);
+
+  const newUser = await User.create({
+    name,
+    email,
+    image,
+    username,
+    password: hashPassword,
+  });
 
   return NextResponse.json(newUser);
 }
@@ -35,14 +63,22 @@ export async function PUT(req: Request) {
 
   const res = await req.json();
 
-  const { name, image, email } = res;
+  const { name, image, email, username, password } = res;
+
+  if (password) {
+    const salt = await bcrypt.genSalt(10);
+    const hashPassword = await bcrypt.hash(password, salt);
+    res.password = hashPassword;
+  }
 
   const updatedUser = await User.findByIdAndUpdate(
     id,
     {
-      name,
+      name: name || username,
       image,
       email,
+      username,
+      password,
     },
     {
       new: true,
@@ -59,5 +95,5 @@ export async function DELETE(req: Request) {
 
   await User.findByIdAndDelete(id);
 
-  return NextResponse.json("delete ok");
+  return NextResponse.json(true);
 }

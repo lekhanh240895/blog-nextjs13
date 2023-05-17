@@ -120,5 +120,5 @@ export async function DELETE(req: Request) {
 
   await Comment.findByIdAndDelete(id);
 
-  return NextResponse.json("delete ok");
+  return NextResponse.json(true);
 }

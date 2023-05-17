@@ -1,6 +1,7 @@
 import Avatar from "@/app/components/Avatar";
 import ClientSiteRoute from "@/app/components/ClientSiteRoute";
 import Comment from "@/app/components/Comment";
+import Comments from "@/app/components/Comments";
 import PostCommentForm from "@/app/components/PostCommentForm";
 import { getData } from "@/app/lib/getApi";
 import { format } from "date-fns";
@@ -39,7 +40,7 @@ async function Post({ params }: Props) {
 
   if (!post) return;
 
-  const postComments: Comment[] = await getData("comments", { post: post._id });
+  // const postComments: Comment[] = await getData("comments", { post: post._id });
 
   return (
     <article className="post">
@@ -74,15 +75,11 @@ async function Post({ params }: Props) {
             </div>
 
             <div className="flex md:justify-end items-center gap-x-2 flex-shrink-0">
-              <div className="relative h-10 w-10">
-                <Image
-                  src={post.user.image}
-                  alt={post.user.name}
-                  fill
-                  sizes="100%"
-                  className="object-cover object-center rounded-full"
-                />
-              </div>
+              <Avatar
+                className="!w-10 !h-10"
+                src={post.user.image}
+                alt={post.user.name}
+              />
 
               <h3 className="text-lg font-bold">{post.user.name}</h3>
             </div>
@@ -122,7 +119,7 @@ async function Post({ params }: Props) {
       </section>
 
       <div className="divide-y divide-gray-100">
-        <section className="pt-4 pb-10">
+        {/* <section className="pt-4 pb-10">
           {postComments.length > 0 && (
             <div className="mb-4 md:mb-10">
               <h1 className="text-3xl mb-4 md:mb-10">Comments</h1>
@@ -141,7 +138,8 @@ async function Post({ params }: Props) {
           </div>
 
           <PostCommentForm post={post} />
-        </section>
+        </section> */}
+        <Comments postId={post._id} />
 
         <section className="pt-4 pb-10">
           <div className="flex items-baseline gap-x-2 mb-4 md:mb-10 justify-center md:justify-start">

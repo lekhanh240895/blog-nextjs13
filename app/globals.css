@@ -23,6 +23,18 @@
   }
 }
 
+.swiper-pagination-bullet {
+  @apply !bg-gray-600 block md:!hidden;
+}
+
+.swiper-pagination-bullet-active {
+  @apply !bg-primary !w-4 !rounded-full !transition-all;
+}
+
+.swiper-slide.active {
+  @apply !w-[80&];
+}
+
 @layer components {
   h1,
   h2,
@@ -97,6 +109,10 @@
   }
   .post .post-content img {
     @apply my-6 mx-auto;
+  }
+
+  .post .post-content p.ql-align-center {
+    @apply text-center;
   }
 
   .post .post-content iframe {

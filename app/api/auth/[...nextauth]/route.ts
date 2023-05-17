@@ -6,11 +6,15 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { MongoDBAdapter } from "@next-auth/mongodb-adapter";
 import clientPromise from "@/app/lib/mongodb";
 import { logger } from "@/app/services/logger";
-import axios from "axios";
+import User from "@/app/models/User";
+import bcrypt from "bcrypt";
 
 const adminEmails = ["lekhanh240895@gmail.com"];
 
-const authOptions: NextAuthOptions = {
+export const authOptions: NextAuthOptions = {
+  session: {
+    strategy: "jwt",
+  },
   secret: process.env.NEXTAUTH_SECRET,
   providers: [
     GoogleProvider({
@@ -29,36 +33,55 @@ const authOptions: NextAuthOptions = {
       name: "Credentials",
       credentials: {},
       async authorize(credentials, req) {
-        const res = await axios.post("/api/login", credentials);
-        const user = res.data;
+        const { email, username, password } = credentials as {
+          email: string;
+          username: string;
+          password: string;
+        };
 
-        // If no error and we have user data, return it
-        if (res.status === 200 && user) {
-          return user;
+        const user = await User.findOne({
+          $or: [{ email }, { username }],
+        });
+
+        if (!user) {
+          return null;
         }
-        // Return null if user data could not be retrieved
-        return null;
+
+        const validPassword = await bcrypt.compare(password, user.password);
+
+        if (!validPassword) {
+          return null;
+        }
+
+        return user;
       },
     }),
   ],
   adapter: MongoDBAdapter(clientPromise),
   callbacks: {
-    async jwt({ token, account }) {
-      // Persist the OAuth access_token to the token right after signin
+    async jwt({ token, account, user }) {
       if (account) {
         token.accessToken = account.access_token;
+      }
+
+      if (user) {
+        token.id = user.id;
       }
       return token;
     },
     async session({ session, token, user }) {
-      // Send properties to the client, like an access_token from a provider.
-      if (!adminEmails.includes(session.user.email)) {
-        throw new Error("Only admin can access this page!");
-      }
+      // if (!adminEmails.includes(session.user.email)) {
+      //   throw new Error("Only admin can access this page!");
+      // }
 
-      session.user.id = user.id;
+      if (token) {
+        session.user._id = token.id;
+      }
       return session;
     },
+  },
+  pages: {
+    signIn: "/auth/login",
   },
   logger: {
     error(code, metadata) {

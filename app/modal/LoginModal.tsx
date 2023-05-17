@@ -1,7 +1,7 @@
 "use client";
 
 import { Dialog, Transition } from "@headlessui/react";
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { appSelector } from "../redux/selector";
 import { setLoginModalOpened } from "../features/appSlice";
@@ -67,16 +67,11 @@ const SIGNUP_MENU = {
 
 export default function LoginModal() {
   const { loginModalOpened } = useSelector(appSelector);
-  const dispatch = useDispatch();
   const [isSignUp, setIsSignUp] = useState(false);
-
-  console.log(isSignUp);
+  const dispatch = useDispatch();
 
   const handleClose = () => {
     dispatch(setLoginModalOpened(false));
-  };
-  const handleSave = () => {
-    console.log("Login");
   };
   return (
     <Transition appear show={loginModalOpened} as={Fragment}>

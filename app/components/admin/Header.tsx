@@ -9,8 +9,11 @@ function Header() {
 
   return (
     <header className="absolute top-0 left-0 w-full h-14 p-4 bg-gray-200 block md:hidden">
-      <button className="btn btn-secondary w-8 h-8 p-1 relative block md:hidden">
-        <Bars3Icon onClick={() => dispatch(setDashboardSidebarOpened(true))} />
+      <button
+        className="btn btn-secondary w-8 h-8 p-1 relative block md:hidden"
+        onClick={() => dispatch(setDashboardSidebarOpened(true))}
+      >
+        <Bars3Icon />
       </button>
     </header>
   );

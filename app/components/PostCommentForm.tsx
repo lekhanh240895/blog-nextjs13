@@ -4,28 +4,36 @@ import axios from "axios";
 import { useSession } from "next-auth/react";
 import React from "react";
 import { useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
+import { fetchComments } from "../features/commentSlice";
+import { AppDispatch } from "../redux/store";
 
 interface FormData {
   name: string;
   email: string;
-  webstite: string;
+  webstite?: string;
   text: string;
-  saveInfo: boolean;
+  saveInfo?: boolean;
+  website?: string;
 }
 
-function PostCommentForm({ post }: { post: Post }) {
+function PostCommentForm({ postId }: { postId: string }) {
   const { register, handleSubmit, reset } = useForm<FormData>();
   const { data: session } = useSession();
+  const dispatch = useDispatch<AppDispatch>();
 
   const onSubmit = async (data: FormData) => {
     const formData = {
       ...data,
-      post: post._id,
-      user: session?.user.id,
+      post: postId,
+      user: session?.user._id,
     };
     await axios.post("/api/comments", formData);
+    dispatch(fetchComments(postId));
+
     reset();
   };
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="w-full md:w-2/3 space-y-3">
@@ -46,13 +54,13 @@ function PostCommentForm({ post }: { post: Post }) {
             {...register("email", { required: true })}
           />
         </div>
-        <input type="text" placeholder="Website" />
+        <input type="text" placeholder="Website" {...register("website")} />
 
         <label className="block mt-4 text-gray-500">
           <input
             type="checkbox"
             className="w-auto mr-2"
-            {...register("saveInfo", { required: true })}
+            {...register("saveInfo")}
           />
           Save my name, email, and website in this browser for the next time I
           comment.

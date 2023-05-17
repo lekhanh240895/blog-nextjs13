@@ -20,6 +20,8 @@ interface User extends Base {
   email: string;
   bio?: string;
   description?: string;
+  username: string;
+  password: string;
 }
 
 interface Category extends Base {

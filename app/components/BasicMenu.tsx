@@ -1,3 +1,5 @@
+"use client";
+
 import { Menu, Transition } from "@headlessui/react";
 import { ChevronLeftIcon, ChevronUpIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
