@@ -8,6 +8,7 @@ interface Props {
   alt?: string;
   [key: string]: any;
   fallback?: string;
+  className?: string;
 }
 
 function Avatar({
@@ -29,7 +30,9 @@ function Avatar({
 
   return (
     <Component
-      className={`${className} relative w-20 h-20 md:w-28 md:h-28 flex-shrink-0`}
+      className={`${
+        className ? className : "w-20 h-20 md:w-28 md:h-28"
+      } relative flex-shrink-0`}
       {...props}
     >
       <Image

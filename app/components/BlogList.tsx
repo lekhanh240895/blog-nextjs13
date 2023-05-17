@@ -41,7 +41,7 @@ function BlogList({ posts }: Props) {
             <div className="flex items-center gap-2">
               <Avatar
                 src={post.user.image}
-                className="!w-8 !h-8"
+                className="w-8 h-8"
                 href={`/account/@${post.user.name}`}
                 alt={post.user.name}
               />

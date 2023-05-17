@@ -7,15 +7,14 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/autoplay";
 import { useSelector } from "react-redux";
-import { postSelector } from "../redux/selector";
 import Image from "next/image";
 import { TagIcon } from "@heroicons/react/24/outline";
-import ClientSiteRoute from "./ClientSiteRoute";
-import Avatar from "./Avatar";
 import { format } from "date-fns";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/20/solid";
 import React from "react";
 import Link from "next/link";
+import { postSelector } from "../redux/selector";
+import Avatar from "./Avatar";
 
 function PostsSlider() {
   const { posts } = useSelector(postSelector);
@@ -33,7 +32,7 @@ function PostsSlider() {
               clickable: true,
             }}
             className="!pb-12 md:!pb-48"
-            autoplay
+            // autoplay
             breakpoints={{
               1024: {
                 slidesPerView: 1.5,
@@ -46,47 +45,47 @@ function PostsSlider() {
             {posts.map((post) => (
               <SwiperSlide key={post._id}>
                 {({ isActive }) => (
-                  <Link href={"/" + post.slug}>
-                    <div className="relative w-full min-h-[500px]">
-                      <Image
-                        src={post.mainImage}
-                        alt={post.title}
-                        fill
-                        priority
-                        sizes="100%"
-                        className="object-cover object-center "
-                      />
-                    </div>
+                  <div>
+                    <Link href={"/" + post.slug}>
+                      <div className="relative w-full min-h-[500px]">
+                        <Image
+                          src={post.mainImage}
+                          alt={post.title}
+                          fill
+                          priority
+                          sizes="100%"
+                          className="object-cover object-center "
+                        />
+                      </div>
+                    </Link>
 
                     {isActive && (
                       <div className="relative md:absolute z-50 bottom-0 md:translate-y-1/2 left-1/2 -translate-x-1/2 bg-white flex flex-col justify-center px-4 md:px-10 py-4 gap-4 shadow-md">
                         <div className="inline-flex items-center justify-center gap-x-2">
                           <TagIcon className="w-5 h-5 text-primary" />
 
-                          <span className="">
-                            <ClientSiteRoute
-                              route={"/category/" + post.category.slug}
-                            >
+                          <div>
+                            <Link href={"/category/" + post.category.slug}>
                               {post.category?.title}
-                            </ClientSiteRoute>
+                            </Link>
 
-                            <ClientSiteRoute route="/">
+                            <div>
                               {post.category?.parent ? (
                                 <span>
                                   <span>, </span>
-                                  <ClientSiteRoute
-                                    route={
+                                  <Link
+                                    href={
                                       "/category/" + post.category?.parent.slug
                                     }
                                   >
                                     {post.category?.parent.title}
-                                  </ClientSiteRoute>
+                                  </Link>
                                 </span>
                               ) : (
                                 ""
                               )}
-                            </ClientSiteRoute>
-                          </span>
+                            </div>
+                          </div>
                         </div>
 
                         <h1 className="text-3xl font-bold text-center text-black">
@@ -97,7 +96,7 @@ function PostsSlider() {
                           <div className="flex items-center gap-2">
                             <Avatar
                               src={post.user.image}
-                              className="!w-8 !h-8"
+                              className="w-8 h-8"
                               href={`/account/@${post.user.name}`}
                               alt={post.user.name}
                             />
@@ -115,16 +114,16 @@ function PostsSlider() {
                         </div>
                       </div>
                     )}
-                  </Link>
+                  </div>
                 )}
               </SwiperSlide>
             ))}
 
             <div className="absolute left-0 top-0 right-0 h-[500px]">
-              <div className="swiper-left hidden md:flex absolute z-50 cursor-pointer left-5 lg:left-10 top-1/2 -translate-y-1/2 w-10 h-10 lg:w-12 lg:h-12 rounded-full bg-primary text-white p-1 opacity-80 hover:opacity-100 hover:w-14 transition-all items-center justify-center">
+              <div className="swiper-left hidden md:flex absolute z-50 cursor-pointer left-5 lg:left-10 top-1/2 -translate-y-1/2 w-10 h-10 lg:w-12 lg:h-12 rounded-full bg-primary text-white p-1 opacity-80 hover:opacity-100 hover:w-14 lg:hover:w-16 transition-all items-center justify-center">
                 <ChevronLeftIcon />
               </div>
-              <div className="swiper-right hidden md:flex absolute z-50 cursor-pointer right-5 lg:right-10 top-1/2 -translate-y-1/2 w-10 h-10 lg:w-12 lg:h-12 rounded-full bg-primary text-white p-1 opacity-80 hover:opacity-100 hover:w-14 transition-all items-center justify-center">
+              <div className="swiper-right hidden md:flex absolute z-50 cursor-pointer right-5 lg:right-10 top-1/2 -translate-y-1/2 w-10 h-10 lg:w-12 lg:h-12 rounded-full bg-primary text-white p-1 opacity-80 hover:opacity-100 hover:w-14 lg:hover:w-16 transition-all items-center justify-center">
                 <ChevronRightIcon />
               </div>
             </div>

@@ -1,5 +1,8 @@
 import Header from "@/app/components/admin/Header";
 import Sidebar from "@/app/components/admin/Sidebar";
+import DeleteCategory from "@/app/modal/DeleteCategory";
+import DeletePost from "@/app/modal/DeletePost";
+import DeleteProduct from "@/app/modal/DeleteProduct";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -15,7 +18,11 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   return (
-    <>
+    <div>
+      <DeletePost />
+      <DeleteCategory />
+      <DeleteProduct />
+
       <div className="bg-blue-900 min-h-screen grid grid-cols-1 md:grid-cols-4 pt-14 md:pt-0">
         <Header />
 
@@ -25,6 +32,6 @@ export default function DashboardLayout({
           {children}
         </main>
       </div>
-    </>
+    </div>
   );
 }

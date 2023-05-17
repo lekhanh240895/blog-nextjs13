@@ -41,7 +41,7 @@ function HeaderRight() {
           <BasicMenu items={AvtarMenu}>
             <Avatar
               src={session.user.image}
-              className="!w-11 !h-11 hidden md:block relative flex-shrink-0"
+              className="w-11 h-11 hidden md:block"
               alt={session.user.name}
             />
           </BasicMenu>

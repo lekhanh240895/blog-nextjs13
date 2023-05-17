@@ -7,10 +7,18 @@ export async function GET(req: Request) {
   await mongooseConnect();
 
   const { searchParams } = new URL(req.url);
-  const id = searchParams.get("id");
 
-  if (id) {
-    return NextResponse.json(await User.findById(id));
+  const query = Object.fromEntries(searchParams.entries());
+  const conditions = Object.entries(query).map(([key, value]) => ({
+    [key]: value,
+  }));
+
+  if (conditions.length > 0) {
+    const user = await User.findOne({
+      $or: conditions,
+    });
+
+    return NextResponse.json(user);
   }
 
   return NextResponse.json(await User.find({}));

@@ -40,8 +40,6 @@ async function Post({ params }: Props) {
 
   if (!post) return;
 
-  // const postComments: Comment[] = await getData("comments", { post: post._id });
-
   return (
     <article className="post">
       <div className="text-center my-4">
@@ -119,26 +117,6 @@ async function Post({ params }: Props) {
       </section>
 
       <div className="divide-y divide-gray-100">
-        {/* <section className="pt-4 pb-10">
-          {postComments.length > 0 && (
-            <div className="mb-4 md:mb-10">
-              <h1 className="text-3xl mb-4 md:mb-10">Comments</h1>
-
-              <div className="space-y-4 divide-y divide-gray-200">
-                {postComments.map((comment) => (
-                  <Comment key={comment._id} comment={comment} />
-                ))}
-              </div>
-            </div>
-          )}
-
-          <div className="flex items-baseline gap-x-2 mb-4 md:mb-10">
-            <h1 className="text-3xl">Leave a Reply</h1>
-            <span className="block w-2 h-2 rounded-full bg-primary" />
-          </div>
-
-          <PostCommentForm post={post} />
-        </section> */}
         <Comments postId={post._id} />
 
         <section className="pt-4 pb-10">

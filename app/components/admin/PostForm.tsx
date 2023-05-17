@@ -10,10 +10,17 @@ import { useRouter } from "next/navigation";
 import NextImage from "next/image";
 import slugify from "slugify";
 import Dropzone from "react-dropzone";
+import { useDispatch, useSelector } from "react-redux";
+
 import { uploadFileFirebase } from "@/app/services/firebaseService";
+import { categorySelector, userSelector } from "@/app/redux/selector";
+import { AppDispatch } from "@/app/redux/store";
+import { fetchUsers } from "@/app/features/postSlice copy";
+import { fetchCategories } from "@/app/features/categorySlice";
 import { Editor } from "./Editor";
 import CategorySelect from "./CategorySelect";
 import Spinner from "../Spinner";
+import UserSelect from "./UserSelect";
 
 type FormData = {
   title: string;
@@ -30,7 +37,9 @@ type Props = {
 function PostForm({ editedPost }: Props) {
   const [content, setContent] = useState("");
   const [category, setCategory] = useState("");
-  const [categories, setCategories] = useState<Category[]>([]);
+  const [author, setAuthor] = useState("");
+  const { users } = useSelector(userSelector);
+  const { categories } = useSelector(categorySelector);
   const [file, setFile] = useState<File | null>(null);
   const [preview, setPreview] = useState("");
   const {
@@ -43,19 +52,19 @@ function PostForm({ editedPost }: Props) {
   } = useForm<FormData>();
   const router = useRouter();
   const { data: session } = useSession();
+  const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
-    (async () => {
-      const res = await axios.get("/api/categories");
-      setCategories(res.data);
-    })();
-  }, []);
+    dispatch(fetchUsers());
+    dispatch(fetchCategories());
+  }, [dispatch]);
 
   useEffect(() => {
     if (editedPost) {
       setValue("title", editedPost.title);
       setValue("description", editedPost.description);
       setValue("slug", editedPost.slug);
+      setAuthor(editedPost.user._id);
       setContent(editedPost.content);
       if (editedPost.category) {
         setCategory(editedPost.category?._id);
@@ -95,7 +104,7 @@ function PostForm({ editedPost }: Props) {
       ...data,
       content,
       mainImage: mainImageUrl,
-      user: session?.user._id,
+      user: author || session?.user._id,
       category,
     };
 
@@ -167,6 +176,11 @@ function PostForm({ editedPost }: Props) {
           value={category}
           setValue={setCategory}
         />
+      </div>
+
+      <div className="mb-5">
+        <label>Author</label>
+        <UserSelect values={users} value={author} setValue={setAuthor} />
       </div>
 
       <div className="mb-5">

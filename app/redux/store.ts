@@ -4,6 +4,7 @@ import postSlice from "../features/postSlice";
 import categorySlice from "../features/categorySlice";
 import productSlice from "../features/productSlice";
 import commentSlice from "../features/commentSlice";
+import userSlice from "../features/postSlice copy";
 
 export const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ export const store = configureStore({
     category: categorySlice.reducer,
     product: productSlice.reducer,
     comment: commentSlice.reducer,
+    user: userSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

@@ -18,49 +18,51 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
+import Logo from "../Logo";
+
+const links = [
+  {
+    title: "Homepage",
+    href: "/",
+    icon: <HomeModernIcon className="w-5 h-5" />,
+  },
+  {
+    title: "Dashboard",
+    href: "/dashboard",
+    icon: <ChartBarIcon className="w-5 h-5" />,
+  },
+  {
+    title: "Posts",
+    href: "/dashboard/posts",
+    icon: <DocumentChartBarIcon className="w-5 h-5" />,
+  },
+  {
+    title: "Orders",
+    href: "/dashboard/orders",
+    icon: <CircleStackIcon className="w-5 h-5" />,
+  },
+  {
+    title: "Products",
+    href: "/dashboard/products",
+    icon: <BuildingStorefrontIcon className="w-5 h-5" />,
+  },
+  {
+    title: "Categories",
+    href: "/dashboard/categories",
+    icon: <ListBulletIcon className="w-5 h-5" />,
+  },
+  {
+    title: "Settings",
+    href: "/dashboard/settings",
+    icon: <Cog8ToothIcon className="w-5 h-5" />,
+  },
+];
 
 function Sidebar() {
   const { dashboardSidebarOpened } = useSelector(appSelector);
   const dispatch = useDispatch();
   const pathname = usePathname();
 
-  const links = [
-    {
-      title: "Homepage",
-      href: "/",
-      icon: <HomeModernIcon className="w-5 h-5" />,
-    },
-    {
-      title: "Dashboard",
-      href: "/dashboard",
-      icon: <ChartBarIcon className="w-5 h-5" />,
-    },
-    {
-      title: "Posts",
-      href: "/dashboard/posts",
-      icon: <DocumentChartBarIcon className="w-5 h-5" />,
-    },
-    {
-      title: "Orders",
-      href: "/dashboard/orders",
-      icon: <CircleStackIcon className="w-5 h-5" />,
-    },
-    {
-      title: "Products",
-      href: "/dashboard/products",
-      icon: <BuildingStorefrontIcon className="w-5 h-5" />,
-    },
-    {
-      title: "Categories",
-      href: "/dashboard/categories",
-      icon: <ListBulletIcon className="w-5 h-5" />,
-    },
-    {
-      title: "Settings",
-      href: "/dashboard/settings",
-      icon: <Cog8ToothIcon className="w-5 h-5" />,
-    },
-  ];
   return (
     <aside
       className={`bg-white text-black h-full shadow-lg md:bg-inherit md:text-white py-5 pl-5 absolute ${
@@ -76,9 +78,7 @@ function Sidebar() {
         </button>
 
         <div className="flex items-center gap-x-2 mb-4">
-          <div className="w-10 h-10 relative">
-            <Image alt="logo" src="/logo.png" fill sizes="100%" />
-          </div>
+          <Logo className="w-10 h-10" href="/dashboard" />
           <h1 className="text-3xl sm:text-4xl leading-normal md:text-white">
             Admin
           </h1>
