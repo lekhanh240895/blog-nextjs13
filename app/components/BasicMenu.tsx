@@ -69,7 +69,7 @@ export default function BasicMenu({
             as={Fragment}
           >
             <Menu.Items
-              className={`absolute z-50 right-0 top-full mt-2 duration w-56 divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none`}
+              className={`absolute z-50 right-0 top-full mt-2 duration w-56 divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none max-h-[350px] overflow-scroll`}
               as="ul"
             >
               {history.length > 1 && (

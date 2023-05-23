@@ -8,9 +8,12 @@ import "swiper/css/pagination";
 import "swiper/css/autoplay";
 import { useSelector } from "react-redux";
 import Image from "next/image";
-import { TagIcon } from "@heroicons/react/24/outline";
+import {
+  ArrowLeftIcon,
+  ArrowRightIcon,
+  TagIcon,
+} from "@heroicons/react/24/outline";
 import { format } from "date-fns";
-import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/20/solid";
 import React from "react";
 import Link from "next/link";
 import { postSelector } from "../redux/selector";
@@ -32,7 +35,7 @@ function PostsSlider() {
               clickable: true,
             }}
             className="!pb-12 md:!pb-48"
-            // autoplay
+            autoplay
             breakpoints={{
               1024: {
                 slidesPerView: 1.5,
@@ -60,11 +63,10 @@ function PostsSlider() {
                     </Link>
 
                     {isActive && (
-                      <div className="relative md:absolute z-50 bottom-0 md:translate-y-1/2 left-1/2 -translate-x-1/2 bg-white flex flex-col justify-center px-4 md:px-10 py-4 gap-4 shadow-md">
+                      <div className="relative md:absolute z-50 bottom-0 md:translate-y-1/2 left-1/2 -translate-x-1/2 bg-white flex flex-col justify-center px-4 md:px-10 py-4 gap-4 md:gap-6 shadow-md">
                         <div className="inline-flex items-center justify-center gap-x-2">
-                          <TagIcon className="w-5 h-5 text-primary" />
-
-                          <div>
+                          <TagIcon className="w-8 h-8 text-primary" />
+                          <div className="text-2xl">
                             <Link href={"/category/" + post.category.slug}>
                               {post.category?.title}
                             </Link>
@@ -120,11 +122,11 @@ function PostsSlider() {
             ))}
 
             <div className="absolute left-0 top-0 right-0 h-[500px]">
-              <div className="swiper-left hidden md:flex absolute z-50 cursor-pointer left-5 lg:left-10 top-1/2 -translate-y-1/2 w-10 h-10 lg:w-12 lg:h-12 rounded-full bg-primary text-white p-1 opacity-80 hover:opacity-100 hover:w-14 lg:hover:w-16 transition-all items-center justify-center">
-                <ChevronLeftIcon />
+              <div className="swiper-left hidden md:flex absolute z-50 cursor-pointer left-5 lg:left-10 top-1/2 -translate-y-1/2 w-10 h-10 lg:w-12 lg:h-12 rounded-full bg-primary text-white p-4 hover:p-2 opacity-80 hover:opacity-100 hover:w-14 lg:hover:w-16 transition-all items-center justify-center">
+                <ArrowLeftIcon />
               </div>
-              <div className="swiper-right hidden md:flex absolute z-50 cursor-pointer right-5 lg:right-10 top-1/2 -translate-y-1/2 w-10 h-10 lg:w-12 lg:h-12 rounded-full bg-primary text-white p-1 opacity-80 hover:opacity-100 hover:w-14 lg:hover:w-16 transition-all items-center justify-center">
-                <ChevronRightIcon />
+              <div className="swiper-right hidden md:flex absolute z-50 cursor-pointer right-5 lg:right-10 top-1/2 -translate-y-1/2 w-10 h-10 lg:w-12 lg:h-12 rounded-full bg-primary text-white p-4 hover:p-2 opacity-80 hover:opacity-100 hover:w-14 lg:hover:w-16 transition-all items-center justify-center">
+                <ArrowRightIcon />
               </div>
             </div>
           </Swiper>

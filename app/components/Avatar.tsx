@@ -6,9 +6,9 @@ interface Props {
   href?: string;
   src: string;
   alt?: string;
-  [key: string]: any;
-  fallback?: string;
   className?: string;
+  fallback?: string;
+  [key: string]: any;
 }
 
 function Avatar({

@@ -36,20 +36,24 @@ export async function GET(req: Request) {
     return NextResponse.json(post);
   }
 
-  const posts = await Post.find({}).populate([
-    {
-      path: "user",
-      model: User,
-    },
-    {
-      path: "category",
-      model: Category,
-      populate: {
-        path: "parent",
-        model: "Category",
+  const posts = await Post.find({})
+    .populate([
+      {
+        path: "user",
+        model: User,
       },
-    },
-  ]);
+      {
+        path: "category",
+        model: Category,
+        populate: {
+          path: "parent",
+          model: "Category",
+        },
+      },
+    ])
+    .sort({
+      createdAt: "desc",
+    });
 
   return NextResponse.json(posts);
 }
