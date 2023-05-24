@@ -11,7 +11,21 @@ module.exports = {
         primary: "#FF486A",
         secondary: "#7169FE",
       },
-      screens: {},
+      keyframes: {
+        slideUp: {
+          "0%": {
+            opacity: 100,
+            transform: "translateY(calc(50%)) translateX(-50%)",
+          },
+          "100%": {
+            opacity: 0,
+            transform: "translateY(calc(50% + 10px)) translateX(-50%)",
+          },
+        },
+      },
+      animation: {
+        slideUp: "slideUp 1s ease-in-out reverse",
+      },
     },
   },
   plugins: [],
