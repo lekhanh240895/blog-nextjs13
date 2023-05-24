@@ -36,7 +36,7 @@ async function Category({ params }: Props) {
         <EditCategoryButton category={category} />
       </div>
 
-      <div className="flex flex-col md:flex-row items-center justify-center lg:justify-between px-4 py-10 gap-4 lg:gap-48 lg:p-14 tracking-wide lg:tracking-widest lg:leading-7">
+      <div className="flex flex-col lg:flex-row items-center justify-center lg:justify-between px-4 py-10 gap-4 lg:gap-10 tracking-wide lg:tracking-widest lg:leading-7">
         <div className="flex justify-center items-center gap-x-3 md:gap-x-6 min-w-[288px]">
           <TagIcon className="w-12 h-12 md:w-16 md:h-16 text-primary" />
 
@@ -54,7 +54,9 @@ async function Category({ params }: Props) {
           </div>
         </div>
 
-        <p className="text-gray-600 text-left">{category.description}</p>
+        <p className="text-gray-600 text-center lg:text-left">
+          {category.description}
+        </p>
       </div>
 
       <BlogList posts={postsByCategory} />
