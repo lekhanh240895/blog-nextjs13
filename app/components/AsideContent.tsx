@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { ClockIcon } from "@heroicons/react/24/outline";
 import { format } from "date-fns";
+import ClientSiteRoute from "./ClientSiteRoute";
 
 type Props = {
   posts: Post[];
@@ -17,7 +18,8 @@ function AsideContent({ posts, categories }: Props) {
 
         <div>
           {posts.map((post) => (
-            <div
+            <ClientSiteRoute
+              route={`/${post.slug}`}
               key={post._id}
               className="flex flex-col lg:flex-row gap-4 mb-4"
             >
@@ -40,7 +42,7 @@ function AsideContent({ posts, categories }: Props) {
                   </span>
                 </div>
               </div>
-            </div>
+            </ClientSiteRoute>
           ))}
         </div>
       </section>
@@ -53,7 +55,8 @@ function AsideContent({ posts, categories }: Props) {
 
         <div>
           {posts.map((post) => (
-            <div
+            <ClientSiteRoute
+              route={`/${post.slug}`}
               key={post._id}
               className="flex flex-col lg:flex-row gap-4 mb-4"
             >
@@ -76,7 +79,7 @@ function AsideContent({ posts, categories }: Props) {
                   </span>
                 </div>
               </div>
-            </div>
+            </ClientSiteRoute>
           ))}
         </div>
       </section>
@@ -107,12 +110,13 @@ function AsideContent({ posts, categories }: Props) {
                 : bgColors[Math.floor(Math.random() * bgColors.length)];
 
             return (
-              <div
+              <ClientSiteRoute
+                route={`/category/${category.slug}`}
                 key={category._id}
                 className={`px-3 py-1 text-white text-sm ${background}`}
               >
                 {category.title}
-              </div>
+              </ClientSiteRoute>
             );
           })}
         </div>

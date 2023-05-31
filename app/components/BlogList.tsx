@@ -16,7 +16,7 @@ function BlogList({ posts }: Props) {
         <li
           key={post._id}
           // className="min-h-[320px] md:[&:nth-child(6n+1)]:col-span-2 md:[&:nth-child(6n+1)]:row-span-4 lg:[&:nth-child(6n+2)]:row-span-5 md:[&:nth-child(6n+2)]:row-span-6 md:[&:nth-child(6n+3)]:row-span-4 lg:[&:nth-child(6n+3)]:row-span-5 md:[&:nth-child(6n+4)]:row-span-6 lg:[&:nth-child(6n+4)]:row-span-5 md:[&:nth-child(6n+5)]:row-span-4 lg:[&:nth-child(6n+5)]:row-span-5 md:[&:nth-child(6n+6)]:col-span-2 md:[&:nth-child(6n+6)]:row-span-4 space-y-6 flex flex-col justify-between"
-          className="flex flex-col justify-between gap-2 md:gap-6"
+          className="flex flex-col justify-between gap-2 md:gap-4"
         >
           <div className="group cursor-pointer relative grow">
             <ClientSiteRoute route={`${post.slug}`}>
@@ -37,7 +37,7 @@ function BlogList({ posts }: Props) {
             </ClientSiteRoute>
           </div>
 
-          <div className="flex flex-col sm:flex-row flex-wrap items-center justify-center tracking-wider gap-2">
+          <div className="mt-2 flex flex-col sm:flex-row flex-wrap items-center justify-center tracking-wider gap-2">
             <div className="flex items-center gap-2">
               <Avatar
                 src={post.user.image}

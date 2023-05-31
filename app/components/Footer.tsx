@@ -19,11 +19,12 @@ function Footer({ posts, categories }: Props) {
 
           <div>
             {posts.map((post) => (
-              <div
+              <ClientSiteRoute
+                route={`/${post.slug}`}
                 key={post._id}
                 className="flex flex-col lg:flex-row gap-4 mb-4"
               >
-                <div className="w-full lg:w-24 h-24 relative flex-shrink-0">
+                <div className="w-full lg:w-24 min-h-[96px] relative flex-shrink-0 self-stretch">
                   <Image
                     src={post.mainImage}
                     alt={post.title}
@@ -42,7 +43,7 @@ function Footer({ posts, categories }: Props) {
                     </span>
                   </div>
                 </div>
-              </div>
+              </ClientSiteRoute>
             ))}
           </div>
         </section>
@@ -73,12 +74,13 @@ function Footer({ posts, categories }: Props) {
                   : bgColors[Math.floor(Math.random() * bgColors.length)];
 
               return (
-                <div
+                <ClientSiteRoute
+                  route={`/category/${category.slug}`}
                   key={category._id}
                   className={`px-3 py-1 text-white text-sm ${background}`}
                 >
                   {category.title}
-                </div>
+                </ClientSiteRoute>
               );
             })}
           </div>
@@ -120,7 +122,7 @@ function Footer({ posts, categories }: Props) {
             <span className="w-[5px] h-[5px] rounded-full bg-primary ml-2"></span>
           </div>
 
-          <div className="grid grid-cols-3 gap-2">
+          <div className="grid grid-cols-2 lg:grid-cols-3 gap-2">
             <div className="relative  w-auto min-h-[128px] h-auto">
               <Image
                 src="/logo.png"

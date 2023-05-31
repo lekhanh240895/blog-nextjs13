@@ -43,7 +43,6 @@ function PostsSlider() {
             }}
             centeredSlides
             loop
-            autoHeight
           >
             {posts.map((post) => (
               <SwiperSlide key={post._id}>
@@ -63,7 +62,7 @@ function PostsSlider() {
                     </Link>
 
                     {isActive && (
-                      <div className="relative md:absolute z-50 bottom-0 md:translate-y-[calc(50%)] left-1/2 -translate-x-1/2 bg-white flex flex-col justify-center px-4 md:px-10 py-4 gap-4 md:gap-6 shadow-xl animate-slideUp w-2/3">
+                      <div className="static md:absolute z-50 bottom-0 md:translate-y-[calc(50%)] left-1/2 md:-translate-x-1/2 bg-white flex flex-col justify-center px-4 md:px-10 py-4 gap-4 md:gap-6 shadow-xl md:animate-slideUp w-full md:w-2/3">
                         <div className="inline-flex items-center justify-center gap-x-2">
                           <TagIcon className="w-8 h-8 text-primary" />
                           <div className="text-lg md:text-xl lg:text-2xl">

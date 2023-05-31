@@ -1,8 +1,12 @@
 import ClientSiteRoute from "@/app/components/ClientSiteRoute";
+import ProductImageSlider from "@/app/components/ProductImageSlider";
 import { getData } from "@/app/lib/getApi";
+import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/24/outline";
 import { format } from "date-fns";
 import Image from "next/image";
 import "react-quill/dist/quill.snow.css";
+import Swiper from "swiper";
+import { SwiperSlide } from "swiper/react";
 
 interface Props {
   params: {
@@ -73,9 +77,7 @@ async function Product({ params }: Props) {
             <h2 className="italic">{product.description}</h2>
 
             <div className="flex items-center justify-end space-x-2 mt-auto">
-              <ClientSiteRoute
-                route={`/category/${product.category?.title.toLowerCase()}`}
-              >
+              <ClientSiteRoute route={`/category/${product.category.slug}`}>
                 <button className="btn btn-primary text-white">
                   {product.category?.title}
                 </button>
@@ -93,6 +95,10 @@ async function Product({ params }: Props) {
             </div>
           </div>
         </div>
+      </section>
+
+      <section>
+        {product.images.length > 0 && <ProductImageSlider product={product} />}
       </section>
     </article>
   );
