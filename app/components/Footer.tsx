@@ -18,33 +18,34 @@ function Footer({ posts, categories }: Props) {
           </div>
 
           <div>
-            {posts.map((post) => (
-              <ClientSiteRoute
-                route={`/${post.slug}`}
-                key={post._id}
-                className="flex flex-col lg:flex-row gap-4 mb-4"
-              >
-                <div className="w-full lg:w-24 min-h-[96px] relative flex-shrink-0 self-stretch">
-                  <Image
-                    src={post.mainImage}
-                    alt={post.title}
-                    fill
-                    sizes="100%"
-                    className="object-cover object-center"
-                  />
-                </div>
-
-                <div className="flex flex-col justify-between gap-2">
-                  <h2>{post.title}</h2>
-                  <div className="flex items-center gap-2">
-                    <ClockIcon className="w-4 h-4 text-primary" />
-                    <span className="text-sm text-gray-600">
-                      {format(new Date(post.createdAt), "MMMM dd, yyyy")}
-                    </span>
+            {posts.length > 0 &&
+              posts.map((post) => (
+                <ClientSiteRoute
+                  route={`/${post.slug}`}
+                  key={post._id}
+                  className="flex flex-col lg:flex-row gap-4 mb-4"
+                >
+                  <div className="w-full lg:w-24 min-h-[96px] relative flex-shrink-0 self-stretch">
+                    <Image
+                      src={post.mainImage}
+                      alt={post.title}
+                      fill
+                      sizes="100%"
+                      className="object-cover object-center"
+                    />
                   </div>
-                </div>
-              </ClientSiteRoute>
-            ))}
+
+                  <div className="flex flex-col justify-between gap-2">
+                    <h2>{post.title}</h2>
+                    <div className="flex items-center gap-2">
+                      <ClockIcon className="w-4 h-4 text-primary" />
+                      <span className="text-sm text-gray-600">
+                        {format(new Date(post.createdAt), "MMMM dd, yyyy")}
+                      </span>
+                    </div>
+                  </div>
+                </ClientSiteRoute>
+              ))}
           </div>
         </section>
 

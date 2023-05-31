@@ -46,7 +46,7 @@ const CustomComponent = () => (
   </div>
 );
 
-export const Editor = ({ value, onChange }: any) => {
+const Editor = ({ value, onChange }: any) => {
   const quillRef = useRef<Quill | null>(null);
   const reactQuillRef = useRef<ReactQuill | null>(null);
 
@@ -85,7 +85,7 @@ export const Editor = ({ value, onChange }: any) => {
   }, []);
 
   return (
-    <div className="text-editor">
+    <div className="text-editor mt-4">
       <CustomComponent />
       <ReactQuill
         ref={(el) => {
@@ -99,3 +99,5 @@ export const Editor = ({ value, onChange }: any) => {
     </div>
   );
 };
+
+export default Editor;

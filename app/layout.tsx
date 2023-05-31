@@ -1,8 +1,9 @@
 import { Roboto_Slab } from "next/font/google";
 import "./globals.css";
-import ReduxProvider from "./components/admin/Provider";
-import AuthContext from "./AuthContext";
+import ReduxProvider from "./redux/Provider";
+import AuthContext from "./context/AuthContext";
 import LoginModal from "./modal/LoginModal";
+import ScrollTopButton from "./components/ScrollTopButton";
 
 const robotoSlab = Roboto_Slab({
   weight: ["500", "600", "400", "700", "800", "900"],
@@ -36,12 +37,13 @@ export default function RootLayout({
       />
 
       <body className={robotoSlab.className}>
-        <AuthContext>
-          <ReduxProvider>
+        <ReduxProvider>
+          <AuthContext>
             <LoginModal />
             {children}
-          </ReduxProvider>
-        </AuthContext>
+            <ScrollTopButton />
+          </AuthContext>
+        </ReduxProvider>
       </body>
     </html>
   );

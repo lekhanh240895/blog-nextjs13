@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import "react-quill/dist/quill.snow.css";
 import { useForm } from "react-hook-form";
 import { PlusIcon, XMarkIcon } from "@heroicons/react/24/outline";
@@ -11,16 +11,15 @@ import NextImage from "next/image";
 import slugify from "slugify";
 import Dropzone from "react-dropzone";
 import { useDispatch, useSelector } from "react-redux";
-
 import { uploadFileFirebase } from "@/app/services/firebaseService";
 import { categorySelector, userSelector } from "@/app/redux/selector";
 import { AppDispatch } from "@/app/redux/store";
 import { fetchUsers } from "@/app/features/postSlice copy";
 import { fetchCategories } from "@/app/features/categorySlice";
-import { Editor } from "./Editor";
 import CategorySelect from "./CategorySelect";
 import Spinner from "../Spinner";
 import UserSelect from "./UserSelect";
+import dynamic from "next/dynamic";
 
 type FormData = {
   title: string;
@@ -33,6 +32,11 @@ type FormData = {
 type Props = {
   editedPost?: Post | null;
 };
+
+const DynamicEditor = dynamic(() => import("./Editor"), {
+  ssr: false,
+  loading: () => <p>loading...</p>,
+});
 
 function PostForm({ editedPost }: Props) {
   const [content, setContent] = useState("");
@@ -230,7 +234,7 @@ function PostForm({ editedPost }: Props) {
 
       <div className="mb-5">
         <label>Content</label>
-        <Editor value={content} onChange={setContent} />
+        <DynamicEditor value={content} onChange={setContent} />
       </div>
 
       <button

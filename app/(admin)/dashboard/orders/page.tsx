@@ -27,31 +27,34 @@ async function Orders() {
           </thead>
 
           <tbody>
-            {orders.map((order) => (
-              <tr key={order._id}>
-                <td>{format(new Date(order.createdAt), "MM/dd/yyyy HH:mm")}</td>
-                <td>{order.name}</td>
-                <td>{order.email}</td>
-                <td className="min-w-[200px]">
-                  <div className="space-y-2">
-                    {order.line_items.map((item, index) => (
-                      <div key={index}>
-                        <span>{item.quantity} x </span>
-                        <span>{item.price_data.product_data.name}</span>
-                      </div>
-                    ))}
-                  </div>
-                </td>
-                <td>
-                  {order.paid ? (
-                    <span className="text-green-500">Yes</span>
-                  ) : (
-                    <span className="text-primary">No</span>
-                  )}
-                </td>
-                <td className=""></td>
-              </tr>
-            ))}
+            {orders.length > 0 &&
+              orders.map((order) => (
+                <tr key={order._id}>
+                  <td>
+                    {format(new Date(order.createdAt), "MM/dd/yyyy HH:mm")}
+                  </td>
+                  <td>{order.name}</td>
+                  <td>{order.email}</td>
+                  <td className="min-w-[200px]">
+                    <div className="space-y-2">
+                      {order.line_items.map((item, index) => (
+                        <div key={index}>
+                          <span>{item.quantity} x </span>
+                          <span>{item.price_data.product_data.name}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </td>
+                  <td>
+                    {order.paid ? (
+                      <span className="text-green-500">Yes</span>
+                    ) : (
+                      <span className="text-primary">No</span>
+                    )}
+                  </td>
+                  <td className=""></td>
+                </tr>
+              ))}
           </tbody>
         </table>
       </div>

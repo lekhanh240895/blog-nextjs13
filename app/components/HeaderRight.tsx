@@ -3,12 +3,13 @@
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 import Link from "next/link";
 import { ShoppingCartIcon } from "@heroicons/react/24/outline";
-import { signIn, signOut, useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import BasicMenu from "./BasicMenu";
 import Avatar from "./Avatar";
 import { useDispatch, useSelector } from "react-redux";
-import { setLoginModalOpened } from "../features/appSlice";
+import { setCart, setLoginModalOpened } from "../features/appSlice";
 import { appSelector } from "../redux/selector";
+import { useEffect } from "react";
 
 function HeaderRight() {
   const { data: session } = useSession();
@@ -26,6 +27,10 @@ function HeaderRight() {
       onClick: () => signOut(),
     },
   ];
+
+  useEffect(() => {
+    dispatch(setCart(JSON.parse(localStorage.getItem("cart") || "[]")));
+  }, [dispatch]);
 
   return (
     <div className="flex items-center gap-x-3">
