@@ -1,12 +1,9 @@
 import ClientSiteRoute from "@/app/components/ClientSiteRoute";
 import ProductImageSlider from "@/app/components/ProductImageSlider";
 import { getData } from "@/app/lib/getApi";
-import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/24/outline";
 import { format } from "date-fns";
 import Image from "next/image";
 import "react-quill/dist/quill.snow.css";
-import Swiper from "swiper";
-import { SwiperSlide } from "swiper/react";
 
 interface Props {
   params: {

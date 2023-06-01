@@ -68,6 +68,10 @@
     @apply bg-inherit border border-primary text-black md:text-blue-900 hover:bg-primary hover:text-white;
   }
 
+  .btn-text {
+    @apply bg-inherit border-none outline-none;
+  }
+
   table.basic {
     @apply w-full text-center;
   }

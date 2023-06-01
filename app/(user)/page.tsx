@@ -3,6 +3,7 @@ import BlogList from "../components/BlogList";
 import { getData } from "../lib/getApi";
 import PostsSlider from "../components/PostsSlider";
 import AsideContent from "../components/AsideContent";
+import Pagination from "../components/Pagination";
 
 export default async function Home() {
   const posts: Post[] = await getData("posts");
@@ -19,6 +20,8 @@ export default async function Home() {
               <BlogList posts={posts} />
             </Suspense>
           </article>
+
+          <Pagination />
         </div>
 
         <AsideContent posts={posts} categories={categories} />
