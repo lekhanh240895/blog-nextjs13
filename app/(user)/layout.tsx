@@ -30,8 +30,6 @@ export default async function UserLayout({
       <main>{children}</main>
 
       <Footer posts={posts} categories={categories} />
-
-      <ScrollTopButton />
     </div>
   );
 }
