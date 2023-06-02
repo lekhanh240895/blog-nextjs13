@@ -84,6 +84,12 @@ export async function POST(req: Request) {
 
   const newComment = await Comment.create({ text, post, user, replies });
 
+  await Post.findByIdAndUpdate(post, {
+    $push: {
+      comments: newComment._id,
+    },
+  });
+
   return NextResponse.json(newComment);
 }
 
@@ -91,7 +97,7 @@ export async function PUT(req: Request) {
   await mongooseConnect();
 
   const { searchParams } = new URL(req.url);
-  const id = searchParams.get("id");
+  const id = searchParams.get("_id");
 
   const res = await req.json();
 
@@ -116,7 +122,7 @@ export async function PUT(req: Request) {
 export async function DELETE(req: Request) {
   await mongooseConnect();
   const { searchParams } = new URL(req.url);
-  const id = searchParams.get("id");
+  const id = searchParams.get("_id");
 
   await Comment.findByIdAndDelete(id);
 

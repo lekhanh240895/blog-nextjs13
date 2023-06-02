@@ -15,6 +15,9 @@ export const postSlice = createSlice({
   name: "post",
   initialState,
   reducers: {
+    setPosts: (state, action) => {
+      state.posts = action.payload;
+    },
     setEditedPost: (state, action) => {
       state.editedPost = action.payload;
     },

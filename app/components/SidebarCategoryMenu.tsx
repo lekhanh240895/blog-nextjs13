@@ -1,20 +1,20 @@
 import { Menu, Transition } from "@headlessui/react";
 import Link from "next/link";
-import { Fragment, useEffect } from "react";
+import { Fragment } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch } from "../redux/store";
-import { categorySelector } from "../redux/selector";
-import { fetchCategories } from "../features/categorySlice";
+import { postSelector } from "../redux/selector";
 import { ChartBarIcon, ChevronDownIcon } from "@heroicons/react/24/outline";
 import { setSidebarOpened } from "../features/appSlice";
 
 export default function SidebarCategoryMenu() {
-  const { categories } = useSelector(categorySelector);
-  const dispatch = useDispatch<AppDispatch>();
+  const { posts } = useSelector(postSelector);
+  const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(fetchCategories());
-  }, [dispatch]);
+  const categories = Array.from(
+    new Set(posts.map((post) => post.category.title))
+  ).map(
+    (title) => posts.find((post) => post.category.title === title)!.category
+  );
 
   return (
     <Menu

@@ -1,4 +1,5 @@
 import BackButton from "@/app/components/admin/BackButton";
+import EditProductBody from "@/app/components/admin/EditProductBody";
 import ProductForm from "@/app/components/admin/ProductForm";
 import { getData } from "@/app/lib/getApi";
 import { Suspense } from "react";
@@ -28,24 +29,8 @@ export async function generateStaticParams() {
   }));
 }
 
-async function EditPost({ params }: Props) {
-  const { id } = params;
-
-  const editedProduct: Product = await getData("products", { _id: id });
-
-  return (
-    <section>
-      <BackButton />
-
-      <h2 className="text-3xl mb-4 md:mr-24">
-        Edit product - {editedProduct?.title}
-      </h2>
-
-      <Suspense fallback={"loading..."}>
-        <ProductForm editedProduct={editedProduct} />
-      </Suspense>
-    </section>
-  );
+async function EditPost() {
+  return <EditProductBody />;
 }
 
 export default EditPost;

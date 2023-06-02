@@ -9,8 +9,35 @@ export async function GET(req: Request) {
   await mongooseConnect();
 
   const { searchParams } = new URL(req.url);
+  const page = searchParams.get("page");
+  const postsPerPage = 6;
+
+  if (page) {
+    const posts = await Post.find({})
+      .skip((parseInt(page, 10) - 1) * postsPerPage)
+      .limit(postsPerPage)
+      .sort({
+        views: "desc",
+      })
+      .populate([
+        {
+          path: "user",
+          model: User,
+        },
+        {
+          path: "category",
+          model: Category,
+          populate: {
+            path: "parent",
+            model: "Category",
+          },
+        },
+      ]);
+    return NextResponse.json(posts);
+  }
 
   const query = Object.fromEntries(searchParams.entries());
+
   const conditions = Object.entries(query).map(([key, value]) => ({
     [key]: value,
   }));
@@ -37,6 +64,9 @@ export async function GET(req: Request) {
   }
 
   const posts = await Post.find({})
+    .sort({
+      createdAt: "desc",
+    })
     .populate([
       {
         path: "user",
@@ -50,10 +80,7 @@ export async function GET(req: Request) {
           model: "Category",
         },
       },
-    ])
-    .sort({
-      createdAt: "desc",
-    });
+    ]);
 
   return NextResponse.json(posts);
 }
@@ -63,21 +90,16 @@ export async function POST(req: Request) {
 
   const request = await req.json();
 
-  const { title, description, content, user, mainImage, slug, category } =
-    request;
-
-  if (!mongoose.Types.ObjectId.isValid(category)) {
-    const newPost = await Post.create({
-      title,
-      description,
-      content,
-      user,
-      mainImage,
-      slug,
-    });
-
-    return NextResponse.json(newPost);
-  }
+  const {
+    title,
+    description,
+    content,
+    user,
+    mainImage,
+    slug,
+    category,
+    readTime,
+  } = request;
 
   const newPost = await Post.create({
     title,
@@ -86,7 +108,8 @@ export async function POST(req: Request) {
     user,
     mainImage,
     slug,
-    category,
+    category: category || undefined,
+    readTime,
   });
 
   return NextResponse.json(newPost);
@@ -96,30 +119,20 @@ export async function PUT(req: Request) {
   await mongooseConnect();
 
   const { searchParams } = new URL(req.url);
-  const id = searchParams.get("id");
+  const id = searchParams.get("_id");
 
   const res = await req.json();
-  const { title, description, content, user, mainImage, slug, category } = res;
-
-  if (!mongoose.Types.ObjectId.isValid(category)) {
-    const updatedPost = await Post.findByIdAndUpdate(
-      id,
-      {
-        title,
-        description,
-        content,
-        user,
-        mainImage,
-        slug,
-        $unset: { category: 1 },
-      },
-      {
-        new: true,
-      }
-    );
-
-    return NextResponse.json(updatedPost);
-  }
+  const {
+    title,
+    description,
+    content,
+    user,
+    mainImage,
+    slug,
+    category,
+    views,
+    readTime,
+  } = res;
 
   const updatedPost = await Post.findByIdAndUpdate(
     id,
@@ -130,7 +143,9 @@ export async function PUT(req: Request) {
       user,
       mainImage,
       slug,
-      category,
+      views,
+      category: category || undefined,
+      readTime,
     },
     {
       new: true,
@@ -144,7 +159,7 @@ export async function DELETE(req: Request) {
   await mongooseConnect();
 
   const { searchParams } = new URL(req.url);
-  const id = searchParams.get("id");
+  const id = searchParams.get("_id");
 
   await Post.findByIdAndDelete(id);
   return NextResponse.json(true);

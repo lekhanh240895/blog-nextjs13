@@ -18,7 +18,7 @@ export default function DeletePost() {
   }
 
   const handleDelete = async () => {
-    await axios.delete("/api/posts?id=" + selectedPost?._id);
+    await axios.delete("/api/posts?_id=" + selectedPost?._id);
     handleCancel();
     dispatch(fetchPosts());
   };

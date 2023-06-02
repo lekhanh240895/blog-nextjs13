@@ -66,7 +66,7 @@ function PostsSlider() {
                         <div className="inline-flex items-center justify-center gap-x-2">
                           <TagIcon className="w-8 h-8 text-primary" />
                           <div className="text-lg md:text-xl lg:text-2xl">
-                            <Link href={"/category/" + post.category.slug}>
+                            <Link href={"/category/" + post.category?.slug}>
                               {post.category?.title}
                             </Link>
 

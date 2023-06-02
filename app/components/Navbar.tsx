@@ -4,14 +4,20 @@ import Link from "next/link";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../redux/store";
-import { categorySelector, postSelector } from "../redux/selector";
+import { postSelector } from "../redux/selector";
 import { fetchPosts } from "../features/postSlice";
 import BasicMenu from "./BasicMenu";
 import { fetchCategories } from "../features/categorySlice";
 
 function Navbar() {
   const { posts } = useSelector(postSelector);
-  const { categories } = useSelector(categorySelector);
+
+  const categories = Array.from(
+    new Set(posts.map((post) => post.category.title))
+  ).map(
+    (title) => posts.find((post) => post.category.title === title)!.category
+  );
+
   const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {

@@ -22,6 +22,14 @@ module.exports = {
             transform: "translateY(calc(50% + 10px)) translateX(-50%)",
           },
         },
+        opacity: {
+          "0%": {
+            opacity: 0,
+          },
+          "100%": {
+            opacity: 100,
+          },
+        },
       },
       animation: {
         slideUp: "slideUp 1s ease-in-out reverse",

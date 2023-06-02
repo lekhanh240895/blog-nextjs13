@@ -67,7 +67,7 @@ export async function PUT(req: Request) {
   await mongooseConnect();
 
   const { searchParams } = new URL(req.url);
-  const id = searchParams.get("id");
+  const id = searchParams.get("_id");
 
   const res = await req.json();
 
@@ -99,7 +99,7 @@ export async function PUT(req: Request) {
 export async function DELETE(req: Request) {
   await mongooseConnect();
   const { searchParams } = new URL(req.url);
-  const id = searchParams.get("id");
+  const id = searchParams.get("_id");
 
   await User.findByIdAndDelete(id);
 

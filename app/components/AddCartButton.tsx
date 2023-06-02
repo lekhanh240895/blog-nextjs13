@@ -2,17 +2,20 @@
 
 import { ShoppingCartIcon } from "@heroicons/react/24/outline";
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { addProduct } from "../features/appSlice";
-import { appSelector } from "../redux/selector";
 
 function AddCartButton({ productId }: { productId: string }) {
   const dispatch = useDispatch();
-  const { cartProductIds } = useSelector(appSelector);
+
+  const handleAddCart = () => {
+    dispatch(addProduct(productId));
+  };
+
   return (
     <button
       className="btn btn-primary flex items-center justify-center gap-x-4 min-w-[150px] h-10"
-      onClick={() => dispatch(addProduct(productId))}
+      onClick={handleAddCart}
     >
       <ShoppingCartIcon className="w-6 h-6" />
       Add to cart

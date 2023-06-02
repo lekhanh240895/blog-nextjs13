@@ -25,7 +25,7 @@ async function Category({ params }: Props) {
   const { slug } = params;
 
   const posts: Post[] = await getData("posts");
-  const postsByCategory = posts.filter((post) => post.category.slug === slug);
+  const postsByCategory = posts.filter((post) => post.category?.slug === slug);
   const category: Category = await getData("categories", { slug });
 
   if (!category) return;

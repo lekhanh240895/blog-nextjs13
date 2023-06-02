@@ -12,6 +12,9 @@ interface Post extends Base {
   description: string;
   content: string;
   user: User;
+  views: number;
+  readTime: number;
+  comments: Comment[];
 }
 
 interface User extends Base {

@@ -19,7 +19,7 @@ export default function DeleteProduct() {
   }
 
   const handleDelete = async () => {
-    await axios.delete("/api/products?id=" + selectedProduct?._id);
+    await axios.delete("/api/products?_id=" + selectedProduct?._id);
     handleCancel();
     dispatch(fetchProducts());
   };

@@ -132,7 +132,7 @@ function ProductForm({ editedProduct }: Props) {
       };
 
       if (editedProduct) {
-        await axios.put("/api/products?id=" + editedProduct._id, newData);
+        await axios.put("/api/products?_id=" + editedProduct._id, newData);
       } else {
         await axios.post("/api/products", newData);
         setImages([]);

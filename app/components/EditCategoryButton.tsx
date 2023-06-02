@@ -14,10 +14,9 @@ function EditCategoryButton({ category }: Props) {
     <Link
       href={`/dashboard/categories`}
       onClick={() => dispatch(setSelectedCategory(category))}
+      className="btn btn-primary px-4 text-lg"
     >
-      <button className="btn btn-primary px-4 text-lg">
-        Edit this category
-      </button>
+      Edit this category
     </Link>
   );
 }

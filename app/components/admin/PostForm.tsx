@@ -14,12 +14,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { uploadFileFirebase } from "@/app/services/firebaseService";
 import { categorySelector, userSelector } from "@/app/redux/selector";
 import { AppDispatch } from "@/app/redux/store";
-import { fetchUsers } from "@/app/features/postSlice copy";
+import { fetchUsers } from "@/app/features/userSlice";
 import { fetchCategories } from "@/app/features/categorySlice";
 import CategorySelect from "./CategorySelect";
 import Spinner from "../Spinner";
 import UserSelect from "./UserSelect";
 import dynamic from "next/dynamic";
+import { fetchPosts } from "@/app/features/postSlice";
 
 type FormData = {
   title: string;
@@ -27,6 +28,7 @@ type FormData = {
   content: string;
   slug: string;
   category: string[];
+  readTime: number;
 };
 
 type Props = {
@@ -68,6 +70,7 @@ function PostForm({ editedPost }: Props) {
       setValue("title", editedPost.title);
       setValue("description", editedPost.description);
       setValue("slug", editedPost.slug);
+      setValue("readTime", editedPost.readTime);
       setAuthor(editedPost.user._id);
       setContent(editedPost.content);
       if (editedPost.category) {
@@ -113,12 +116,13 @@ function PostForm({ editedPost }: Props) {
     };
 
     if (editedPost) {
-      await axios.put("/api/posts?id=" + editedPost._id, newData);
+      await axios.put("/api/posts?_id=" + editedPost._id, newData);
     } else {
       await axios.post("/api/posts", newData);
       setPreview("");
     }
     router.back();
+    dispatch(fetchPosts());
   };
 
   return (
@@ -173,18 +177,29 @@ function PostForm({ editedPost }: Props) {
         </label>
       </div>
 
-      <div className="mb-5">
-        <label>Category</label>
-        <CategorySelect
-          categories={categories}
-          value={category}
-          setValue={setCategory}
-        />
-      </div>
+      <div className="flex flex-col md:flex-row mb-5 gap-5 md:gap-10 items-center justify-between">
+        <div className="flex-1 w-full">
+          <label>Category</label>
+          <CategorySelect
+            categories={categories}
+            value={category}
+            setValue={setCategory}
+          />
+        </div>
 
-      <div className="mb-5">
-        <label>Author</label>
-        <UserSelect values={users} value={author} setValue={setAuthor} />
+        <div className="flex-1 w-full">
+          <label>Author</label>
+          <UserSelect values={users} value={author} setValue={setAuthor} />
+        </div>
+
+        <div className="flex-1 w-full">
+          <label>Read Time (Minute)</label>
+          <input
+            placeholder="Enter time to read the post"
+            {...register("readTime", { required: true })}
+            type="number"
+          />
+        </div>
       </div>
 
       <div className="mb-5">

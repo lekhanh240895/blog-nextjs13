@@ -120,7 +120,7 @@ export default function CategoryForm({ categories, editedCategory }: Props) {
     };
 
     if (editedCategory) {
-      await axios.put("/api/categories?id=" + editedCategory._id, formData);
+      await axios.put("/api/categories?_id=" + editedCategory._id, formData);
     } else {
       await axios.post("/api/categories", formData);
       reset({ title: "", description: "" });

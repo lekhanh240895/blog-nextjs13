@@ -40,10 +40,11 @@ async function Product({ params }: Props) {
   return (
     <article className="product">
       <div className="text-center my-4">
-        <ClientSiteRoute route={`/dashboard/products/${product._id}/edit`}>
-          <button className="btn btn-primary px-4 text-lg min-w-[244px]">
-            Edit this product
-          </button>
+        <ClientSiteRoute
+          route={`/dashboard/products/${product._id}/edit`}
+          className="btn btn-primary px-4 text-lg min-w-[244px]"
+        >
+          Edit this product
         </ClientSiteRoute>
       </div>
 
@@ -74,19 +75,19 @@ async function Product({ params }: Props) {
             <h2 className="italic">{product.description}</h2>
 
             <div className="flex items-center justify-end space-x-2 mt-auto">
-              <ClientSiteRoute route={`/category/${product.category.slug}`}>
-                <button className="btn btn-primary text-white">
-                  {product.category?.title}
-                </button>
+              <ClientSiteRoute
+                route={`/category/${product.category.slug}`}
+                className="btn btn-primary text-white"
+              >
+                {product.category?.title}
               </ClientSiteRoute>
 
               {product.category?.parent && (
                 <ClientSiteRoute
                   route={`/category/${product.category?.title.toLowerCase()}`}
+                  className="btn btn-primary text-white"
                 >
-                  <button className="btn btn-primary text-white">
-                    {product.category?.parent.title}
-                  </button>
+                  {product.category?.parent.title}
                 </ClientSiteRoute>
               )}
             </div>

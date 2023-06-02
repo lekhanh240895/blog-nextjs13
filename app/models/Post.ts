@@ -9,6 +9,9 @@ const PostSchema = new Schema(
     mainImage: { type: String },
     slug: { type: String },
     category: { type: Schema.Types.ObjectId, ref: "Category" },
+    views: { type: Number, default: 0 },
+    readTime: { type: Number, default: 0 },
+    comments: [{ type: Schema.Types.ObjectId, ref: "Comment" }],
   },
   {
     timestamps: true,

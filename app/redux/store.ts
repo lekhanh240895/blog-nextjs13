@@ -4,7 +4,7 @@ import postSlice from "../features/postSlice";
 import categorySlice from "../features/categorySlice";
 import productSlice from "../features/productSlice";
 import commentSlice from "../features/commentSlice";
-import userSlice from "../features/postSlice copy";
+import userSlice from "../features/userSlice";
 
 export const store = configureStore({
   reducer: {

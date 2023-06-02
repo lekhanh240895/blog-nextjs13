@@ -14,7 +14,6 @@ import {
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 import { signOut } from "next-auth/react";
-import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
@@ -65,9 +64,9 @@ function Sidebar() {
 
   return (
     <aside
-      className={`bg-white text-black h-full shadow-lg md:bg-inherit md:text-white py-5 pl-5 absolute ${
+      className={`bg-white text-black h-full shadow-lg md:bg-inherit md:text-white py-5 pl-5 fixed ${
         dashboardSidebarOpened ? "left-0" : "-left-full"
-      } md:static top-0 z-50 transition-all rounded-r-md w-2/3 md:w-full`}
+      } md:static top-0 z-50 transition-all rounded-r-md w-2/3 md:w-full h-screen`}
     >
       <div>
         <button

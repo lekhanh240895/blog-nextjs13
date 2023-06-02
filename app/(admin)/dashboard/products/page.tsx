@@ -12,10 +12,11 @@ function Products() {
       <div className="flex flex-col md:flex-row justify-between md:items-center">
         <h2 className="text-3xl uppercase mb-4">Products</h2>
 
-        <ClientSiteRoute route="/dashboard/products/create">
-          <span className="btn btn-primary inline-block w-full mb-4 text-center">
-            Create new product
-          </span>
+        <ClientSiteRoute
+          route="/dashboard/products/create"
+          className="btn btn-primary inline-block w-full mb-4 text-center"
+        >
+          Create new product
         </ClientSiteRoute>
       </div>
 

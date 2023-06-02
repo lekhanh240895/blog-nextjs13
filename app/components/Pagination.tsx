@@ -2,24 +2,42 @@
 
 import React from "react";
 import { ArrowRightIcon, ArrowLeftIcon } from "@heroicons/react/24/outline";
+import { useSelector } from "react-redux";
+import { postSelector } from "../redux/selector";
+import { useParams, useRouter } from "next/navigation";
 
 export default function Pagination() {
-  const [active, setActive] = React.useState(1);
+  const params = useParams();
+  const { number } = params;
+  const router = useRouter();
+  const active = parseInt(number, 10) || 1;
+  const { posts } = useSelector(postSelector);
+  const postsPerPage = 6;
+  const numberOfPage = Math.ceil(posts.length / postsPerPage);
+  const pageArr = Array.from({ length: numberOfPage }, (_, i) => i + 1);
 
   const next = () => {
-    if (active === 5) return;
-    setActive(active + 1);
+    if (active === numberOfPage) return;
+
+    router.push("/page/" + (active + 1));
   };
 
   const prev = () => {
     if (active === 1) return;
 
-    setActive(active - 1);
+    if (active - 1 === 1) {
+      return router.push("/");
+    }
+
+    router.push("/page/" + (active - 1));
   };
 
-  const activeClass = "btn";
-  const normalClass = "btn btn-text";
-  const disabledClass = "flex items-center gap-2 btn btn-disabled";
+  const handleSelectPage = (page: number) => {
+    if (page === 1) {
+      return router.push("/");
+    }
+    router.push("/page/" + page);
+  };
 
   return (
     <div className="flex items-center gap-4 my-10 justify-center">
@@ -30,46 +48,24 @@ export default function Pagination() {
             : "flex items-center gap-2 btn btn-text"
         }
         onClick={prev}
-        disabled={active === 1}
       >
         <ArrowLeftIcon strokeWidth={2} className="h-4 w-4" /> Previous
       </button>
       <div className="flex items-center gap-2">
-        <button
-          className={active === 1 ? activeClass : normalClass}
-          onClick={() => setActive(1)}
-        >
-          1
-        </button>
-        <button
-          className={active === 2 ? activeClass : normalClass}
-          onClick={() => setActive(2)}
-        >
-          2
-        </button>
-        <button
-          className={active === 3 ? activeClass : normalClass}
-          onClick={() => setActive(3)}
-        >
-          3
-        </button>
-        <button
-          className={active === 4 ? activeClass : normalClass}
-          onClick={() => setActive(4)}
-        >
-          4
-        </button>
-        <button
-          className={active === 5 ? activeClass : normalClass}
-          onClick={() => setActive(5)}
-        >
-          5
-        </button>
+        {pageArr.map((page) => (
+          <button
+            className={active === page ? "btn" : "btn btn-text"}
+            onClick={() => handleSelectPage(page)}
+            key={page}
+          >
+            {page}
+          </button>
+        ))}
       </div>
 
       <button
         className={
-          active === 5
+          active === numberOfPage
             ? "flex items-center gap-2 btn btn-disabled"
             : "flex items-center gap-2 btn btn-text"
         }

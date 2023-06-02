@@ -69,16 +69,37 @@ function Footer({ posts, categories }: Props) {
                 "bg-orange-500",
                 "bg-teal-500",
               ];
+
+              const focusBgColors = [
+                "focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2",
+                "focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2",
+                "focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2",
+                "focus-visible:ring-2 focus-visible:ring-yellow-500 focus-visible:ring-offset-2",
+                "focus-visible:ring-2 focus-visible:ring-purple-500 focus-visible:ring-offset-2",
+                "focus-visible:ring-2 focus-visible:ring-pink-500 focus-visible:ring-offset-2",
+                "focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2",
+                "focus-visible:ring-2 focus-visible:ring-gray-500 focus-visible:ring-offset-2",
+                "focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-2",
+                "focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2",
+              ];
+
               const background =
                 index < bgColors.length
                   ? bgColors[index]
                   : bgColors[Math.floor(Math.random() * bgColors.length)];
 
+              const focusBg =
+                index < focusBgColors.length
+                  ? focusBgColors[index]
+                  : focusBgColors[
+                      Math.floor(Math.random() * focusBgColors.length)
+                    ];
+
               return (
                 <ClientSiteRoute
                   route={`/category/${category.slug}`}
                   key={category._id}
-                  className={`px-3 py-1 text-white text-sm ${background}`}
+                  className={`px-3 py-1 text-white text-sm ${background} ${focusBg}`}
                 >
                   {category.title}
                 </ClientSiteRoute>

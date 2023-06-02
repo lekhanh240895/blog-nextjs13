@@ -1,12 +1,19 @@
+import AsideContent from "@/app/components/AsideContent";
+import BlogList from "@/app/components/BlogList";
+import Pagination from "@/app/components/Pagination";
+import PostsSlider from "@/app/components/PostsSlider";
+import { getData } from "@/app/lib/getApi";
 import { Suspense } from "react";
-import BlogList from "../components/BlogList";
-import PostsSlider from "../components/PostsSlider";
-import AsideContent from "../components/AsideContent";
-import Pagination from "../components/Pagination";
-import { getData } from "../lib/getApi";
 
-export default async function Home() {
-  const posts = await getData("posts", { page: 1 });
+type Props = {
+  params: {
+    number: number;
+  };
+};
+
+export default async function Home({ params }: Props) {
+  const { number } = params;
+  const posts = await getData("posts", { page: number });
 
   return (
     <section>

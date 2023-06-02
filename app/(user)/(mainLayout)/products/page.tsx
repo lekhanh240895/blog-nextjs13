@@ -49,6 +49,7 @@ async function Products() {
                   <h2 className="font-bold">{product.title}</h2>
                   <p>{product.price} VND</p>
                 </div>
+
                 <AddCartButton productId={product._id} />
               </div>
             </div>

@@ -15,6 +15,7 @@ import { usePathname } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { signOut } from "next-auth/react";
 import SidebarCategoryMenu from "./SidebarCategoryMenu";
+import { UserIcon } from "./Icons";
 
 function Sidebar() {
   const { sidebarOpened } = useSelector(appSelector);
@@ -26,6 +27,11 @@ function Sidebar() {
       title: "Homepage",
       href: "/",
       icon: <HomeModernIcon className="w-5 h-5" />,
+    },
+    {
+      title: "Account",
+      href: "/account",
+      icon: <UserIcon className="w-5 h-5" />,
     },
     {
       title: "Products",
@@ -43,9 +49,9 @@ function Sidebar() {
 
   return (
     <aside
-      className={`bg-gray-200 text-black h-full shadow-xl pt-10 px-4 absolute ${
+      className={`bg-gray-200 text-black h-full shadow-xl pt-10 px-4 fixed ${
         sidebarOpened ? "left-0" : "-left-full"
-      } top-0 z-50 transition-all rounded-r-md w-2/3 sm:w-1/2 block md:hidden`}
+      } top-0 z-50 transition-all rounded-r-md w-2/3 sm:w-1/2 block md:hidden h-screen`}
     >
       <div className="relative">
         <button

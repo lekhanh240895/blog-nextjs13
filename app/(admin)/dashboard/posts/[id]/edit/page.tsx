@@ -1,5 +1,4 @@
-import BackButton from "@/app/components/admin/BackButton";
-import PostForm from "@/app/components/admin/PostForm";
+import EditPostBody from "@/app/components/admin/EditPostBody";
 import { getData } from "@/app/lib/getApi";
 
 type Props = {
@@ -27,22 +26,8 @@ export async function generateStaticParams() {
   }));
 }
 
-async function EditPost({ params }: Props) {
-  const { id } = params;
-
-  const editedPost: Post = await getData("posts", { _id: id });
-
-  if (!editedPost) return;
-
-  return (
-    <section>
-      <BackButton />
-
-      <h2 className="text-3xl mb-4 md:mr-24">Edit post - {editedPost.title}</h2>
-
-      <PostForm editedPost={editedPost} />
-    </section>
-  );
+async function EditPost() {
+  return <EditPostBody />;
 }
 
 export default EditPost;

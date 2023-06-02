@@ -19,7 +19,7 @@ export default function DeleteCategory() {
   }
 
   const handleDelete = async () => {
-    await axios.delete("/api/categories?id=" + selectedCategory?._id);
+    await axios.delete("/api/categories?_id=" + selectedCategory?._id);
     handleCancel();
     dispatch(fetchCategories());
   };

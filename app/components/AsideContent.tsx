@@ -1,13 +1,14 @@
 import Image from "next/image";
-import { ClockIcon } from "@heroicons/react/24/outline";
+import { BookOpenIcon, ClockIcon, EyeIcon } from "@heroicons/react/24/outline";
 import { format } from "date-fns";
 import ClientSiteRoute from "./ClientSiteRoute";
+import { getData, getPopularPosts } from "../lib/getApi";
 
-type Props = {
-  posts: Post[];
-  categories: Category[];
-};
-function AsideContent({ posts, categories }: Props) {
+async function AsideContent() {
+  const posts: Post[] = await getData("posts");
+  const categories: Category[] = await getData("categories");
+  const popularPosts: Post[] = await getPopularPosts();
+
   return (
     <aside className="hidden md:block lg:ml-6 divide-y divide-gray-200">
       <section className="pb-10">
@@ -18,7 +19,7 @@ function AsideContent({ posts, categories }: Props) {
 
         <div>
           {posts.length > 0 &&
-            posts.map((post) => (
+            posts.slice(0, 4).map((post) => (
               <ClientSiteRoute
                 route={`/${post.slug}`}
                 key={post._id}
@@ -36,11 +37,30 @@ function AsideContent({ posts, categories }: Props) {
 
                 <div className="flex flex-col justify-between gap-2">
                   <h2>{post.title}</h2>
-                  <div className="flex items-center gap-2">
-                    <ClockIcon className="w-4 h-4 text-primary" />
-                    <span className="text-sm text-gray-600">
-                      {format(new Date(post.createdAt), "MMMM dd, yyyy")}
-                    </span>
+
+                  <div className="flex flex-wrap items-center gap-2">
+                    <div className="flex items-center gap-2">
+                      <ClockIcon className="w-4 h-4 text-primary" />
+                      <span className="text-sm text-gray-600">
+                        {format(new Date(post.createdAt), "MMMM dd, yyyy")}
+                      </span>
+                    </div>
+
+                    <div className="flex-1 flex items-center gap-2">
+                      <div className="flex items-center gap-2">
+                        <BookOpenIcon className="w-4 h-4 text-primary" />
+                        <span className="text-sm text-gray-600">
+                          {post.readTime}
+                        </span>
+                      </div>
+
+                      <div className="flex items-center gap-2">
+                        <EyeIcon className="w-4 h-4 text-primary" />
+                        <span className="text-sm text-gray-600">
+                          {post.views}
+                        </span>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </ClientSiteRoute>
@@ -55,8 +75,8 @@ function AsideContent({ posts, categories }: Props) {
         </div>
 
         <div>
-          {posts.length > 0 &&
-            posts.map((post) => (
+          {popularPosts.length > 0 &&
+            popularPosts.slice(0, 4).map((post) => (
               <ClientSiteRoute
                 route={`/${post.slug}`}
                 key={post._id}
@@ -74,11 +94,30 @@ function AsideContent({ posts, categories }: Props) {
 
                 <div className="flex flex-col justify-between gap-2">
                   <h2>{post.title}</h2>
-                  <div className="flex items-center gap-2">
-                    <ClockIcon className="w-4 h-4 text-primary" />
-                    <span className="text-sm text-gray-600">
-                      {format(new Date(post.createdAt), "MMMM dd, yyyy")}
-                    </span>
+
+                  <div className="flex flex-wrap items-center gap-2">
+                    <div className="flex items-center gap-2">
+                      <ClockIcon className="w-4 h-4 text-primary" />
+                      <span className="text-sm text-gray-600">
+                        {format(new Date(post.createdAt), "MMMM dd, yyyy")}
+                      </span>
+                    </div>
+
+                    <div className="flex-1 flex items-center gap-2">
+                      <div className="flex items-center gap-2">
+                        <BookOpenIcon className="w-4 h-4 text-primary" />
+                        <span className="text-sm text-gray-600">
+                          {post.readTime}
+                        </span>
+                      </div>
+
+                      <div className="flex items-center gap-2">
+                        <EyeIcon className="w-4 h-4 text-primary" />
+                        <span className="text-sm text-gray-600">
+                          {post.views}
+                        </span>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </ClientSiteRoute>
@@ -106,16 +145,37 @@ function AsideContent({ posts, categories }: Props) {
               "bg-orange-500",
               "bg-teal-500",
             ];
+
+            const focusBgColors = [
+              "focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2",
+              "focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2",
+              "focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2",
+              "focus-visible:ring-2 focus-visible:ring-yellow-500 focus-visible:ring-offset-2",
+              "focus-visible:ring-2 focus-visible:ring-purple-500 focus-visible:ring-offset-2",
+              "focus-visible:ring-2 focus-visible:ring-pink-500 focus-visible:ring-offset-2",
+              "focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2",
+              "focus-visible:ring-2 focus-visible:ring-gray-500 focus-visible:ring-offset-2",
+              "focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-2",
+              "focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2",
+            ];
+
             const background =
               index < bgColors.length
                 ? bgColors[index]
                 : bgColors[Math.floor(Math.random() * bgColors.length)];
 
+            const focusBg =
+              index < focusBgColors.length
+                ? focusBgColors[index]
+                : focusBgColors[
+                    Math.floor(Math.random() * focusBgColors.length)
+                  ];
+
             return (
               <ClientSiteRoute
                 route={`/category/${category.slug}`}
                 key={category._id}
-                className={`px-3 py-1 text-white text-sm ${background}`}
+                className={`btn px-3 py-1 text-white text-sm ${background} ${focusBg}`}
               >
                 {category.title}
               </ClientSiteRoute>

@@ -1,9 +1,7 @@
 import Avatar from "@/app/components/Avatar";
 import ClientSiteRoute from "@/app/components/ClientSiteRoute";
-import Comment from "@/app/components/Comment";
 import Comments from "@/app/components/Comments";
-import PostCommentForm from "@/app/components/PostCommentForm";
-import { getData } from "@/app/lib/getApi";
+import { getData, updateView } from "@/app/lib/getApi";
 import { format } from "date-fns";
 import Image from "next/image";
 import "react-quill/dist/quill.snow.css";
@@ -38,15 +36,18 @@ async function Post({ params }: Props) {
   const { slug } = params;
   const post: Post = await getData("posts", { slug });
 
+  await updateView(post._id);
+
   if (!post) return;
 
   return (
     <article className="post">
       <div className="text-center my-4">
-        <ClientSiteRoute route={`/dashboard/posts/${post._id}/edit`}>
-          <button className="btn btn-primary px-4 text-lg min-w-[244px]">
-            Edit this post
-          </button>
+        <ClientSiteRoute
+          route={`/dashboard/posts/${post._id}/edit`}
+          className="btn btn-primary px-4 text-lg min-w-[244px]"
+        >
+          Edit this post
         </ClientSiteRoute>
       </div>
 
@@ -89,19 +90,17 @@ async function Post({ params }: Props) {
             <div className="flex items-center justify-end space-x-2 mt-auto">
               <ClientSiteRoute
                 route={`/category/${post.category?.title.toLowerCase()}`}
+                className="btn btn-primary bg-primary"
               >
-                <button className="btn btn-primary bg-primary">
-                  {post.category?.title}
-                </button>
+                {post.category?.title}
               </ClientSiteRoute>
 
               {post.category?.parent && (
                 <ClientSiteRoute
                   route={`/category/${post.category?.title.toLowerCase()}`}
+                  className="btn btn-primary bg-primary"
                 >
-                  <button className="btn btn-primary bg-primary">
-                    {post.category?.parent.title}
-                  </button>
+                  {post.category?.parent.title}
                 </ClientSiteRoute>
               )}
             </div>

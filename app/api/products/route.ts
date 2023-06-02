@@ -69,7 +69,7 @@ export async function PUT(req: Request) {
   await mongooseConnect();
 
   const { searchParams } = new URL(req.url);
-  const id = searchParams.get("id");
+  const id = searchParams.get("_id");
 
   const res = await req.json();
   const { title, description, price, images, category, properties, slug } = res;
@@ -97,7 +97,7 @@ export async function DELETE(req: Request) {
   await mongooseConnect();
 
   const { searchParams } = new URL(req.url);
-  const id = searchParams.get("id");
+  const id = searchParams.get("_id");
 
   await Product.findByIdAndDelete(id);
   return NextResponse.json(true);
