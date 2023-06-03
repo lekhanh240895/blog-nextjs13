@@ -51,7 +51,11 @@ export default function LoginMenu({ items, title, policy }: LoginMenuProps) {
                 await signIn("facebook");
               }
               if (item.title === "Continue with Google") {
-                await signIn("google");
+                try {
+                  await signIn("google");
+                } catch (error) {
+                  console.log(error);
+                }
               }
               if (item.title === "Continue with Github") {
                 await signIn("github");

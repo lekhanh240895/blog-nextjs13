@@ -18,9 +18,6 @@ export default async function UserLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const posts: Post[] = await getData("posts");
-  const categories: Category[] = await getData("categories");
-
   return (
     <div className="relative bg-white min-h-screen">
       <Sidebar />
@@ -29,7 +26,8 @@ export default async function UserLayout({
 
       <main>{children}</main>
 
-      <Footer posts={posts} categories={categories} />
+      {/* @ts-expect-error Async Server Component */}
+      <Footer />
     </div>
   );
 }

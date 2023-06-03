@@ -40,7 +40,9 @@ export default function RootLayout({
         <ReduxProvider>
           <AuthContext>
             <LoginModal />
+
             {children}
+
             <ScrollTopButton />
           </AuthContext>
         </ReduxProvider>

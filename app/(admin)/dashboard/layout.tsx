@@ -18,7 +18,7 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div>
+    <>
       <DeletePost />
       <DeleteCategory />
       <DeleteProduct />
@@ -32,6 +32,6 @@ export default function DashboardLayout({
           {children}
         </main>
       </div>
-    </div>
+    </>
   );
 }

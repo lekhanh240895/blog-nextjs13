@@ -2,12 +2,12 @@ import Image from "next/image";
 import { ClockIcon } from "@heroicons/react/24/outline";
 import { format } from "date-fns";
 import ClientSiteRoute from "./ClientSiteRoute";
+import { getData } from "../lib/getApi";
 
-type Props = {
-  posts: Post[];
-  categories: Category[];
-};
-function Footer({ posts, categories }: Props) {
+async function Footer() {
+  const posts: Post[] = await getData("posts");
+  const categories: Category[] = await getData("categories");
+
   return (
     <footer className="max-w-7xl mx-auto px-4 pt-6 pb-12 md:px-6 md:pt-12 md:pb-24">
       <div className="grid grid-cols-1 md:grid-cols-4 gap-10">

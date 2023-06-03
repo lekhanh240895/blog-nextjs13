@@ -5,7 +5,6 @@ type Props = {
 };
 
 function BlogList({ posts }: Props) {
-  console.log(posts.length);
   return (
     <ul className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-10 grid-flow-dense">
       {posts.length > 0 &&

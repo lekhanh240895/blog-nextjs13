@@ -4,7 +4,7 @@ import {
 } from "@/app/features/appSlice";
 import { fetchCategories } from "@/app/features/categorySlice";
 import { AppDispatch } from "@/app/redux/store";
-import React, { Dispatch, SetStateAction, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 
 type Props = {

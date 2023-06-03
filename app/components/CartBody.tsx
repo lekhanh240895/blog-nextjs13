@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import CartForm from "@/app/components/CartForm";
 import CartTable from "@/app/components/CartTable";
 import { useDispatch, useSelector } from "react-redux";
-import { clearCart, setCart } from "@/app/features/appSlice";
+import { clearCart } from "@/app/features/appSlice";
 import { appSelector } from "@/app/redux/selector";
 import Link from "next/link";
 
