@@ -18,14 +18,16 @@ export default function CategorySelect({ categories, value, setValue }: Props) {
     (async () => {
       if (value) {
         try {
-          const res = await axios.get("/api/categories?_id=" + value);
-          setSelectedCategory(res.data);
+          const res = await fetch("/api/categories?_id=" + value);
+          setSelectedCategory(await res.json());
         } catch (error) {
           console.log(error);
         }
       }
     })();
   }, [value]);
+
+  console.log({ selectedCategory });
 
   return (
     <Listbox value={value} onChange={setValue}>

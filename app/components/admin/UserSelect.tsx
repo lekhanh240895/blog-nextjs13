@@ -16,8 +16,8 @@ export default function UserSelect({ values, value, setValue }: Props) {
     (async () => {
       if (value) {
         try {
-          const res = await axios.get("/api/users?_id=" + value);
-          setSelectedUser(res.data);
+          const res = await fetch("/api/users?_id=" + value);
+          setSelectedUser(await res.json());
         } catch (error) {
           console.log(error);
         }

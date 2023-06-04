@@ -30,8 +30,8 @@ export const postSlice = createSlice({
 });
 
 export const fetchPosts = createAsyncThunk("posts/fetchPosts", async () => {
-  const response = await axios.get("/api/posts");
-  return response.data;
+  const response = await fetch("/api/posts");
+  return await response.json();
 });
 
 // Action creators are generated for each case reducer function
