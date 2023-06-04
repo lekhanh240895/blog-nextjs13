@@ -22,8 +22,8 @@ export const categorySlice = createSlice({
 export const fetchCategories = createAsyncThunk(
   "categories/fetchCategories",
   async () => {
-    const response = await axios.get("/api/categories");
-    return response.data;
+    const response = await fetch("/api/categories");
+    return await response.json();
   }
 );
 
