@@ -2,18 +2,18 @@ import AsideContent from "@/app/components/AsideContent";
 import BlogList from "@/app/components/BlogList";
 import Pagination from "@/app/components/Pagination";
 import PostsSlider from "@/app/components/PostsSlider";
-import { getData } from "@/app/lib/getApi";
+import { getPostsByPage } from "@/app/lib/api";
 import { Suspense } from "react";
 
 type Props = {
   params: {
-    number: number;
+    number: string;
   };
 };
 
 export default async function Home({ params }: Props) {
   const { number } = params;
-  const posts = await getData("posts", { page: number });
+  const posts = await getPostsByPage(number);
 
   return (
     <section>

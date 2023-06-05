@@ -1,3 +1,5 @@
+"use client";
+
 import axios from "axios";
 import { useSession } from "next-auth/react";
 import React from "react";
@@ -33,7 +35,12 @@ function PostCommentForm({ postId }: { postId: string }) {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit(onSubmit)} className="pt-4 pb-10">
+      <div className="flex items-baseline gap-x-2 mb-4 md:mb-10">
+        <h1 className="text-3xl">Leave a Reply</h1>
+        <span className="block w-2 h-2 rounded-full bg-primary" />
+      </div>
+
       <div className="w-full md:w-2/3 space-y-3">
         <textarea
           placeholder="Comment"

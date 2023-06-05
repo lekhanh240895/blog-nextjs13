@@ -1,5 +1,5 @@
 import EditPostBody from "@/app/components/admin/EditPostBody";
-import { getData } from "@/app/lib/getApi";
+import { getPosts } from "@/app/lib/api";
 
 type Props = {
   params: {
@@ -9,7 +9,7 @@ type Props = {
 
 export async function generateMetadata({ params }: Props) {
   const { id } = params;
-  const post = await getData("posts", { _id: id });
+  const post = await getPosts({ _id: id });
 
   if (!post) return {};
 
@@ -19,7 +19,7 @@ export async function generateMetadata({ params }: Props) {
 }
 
 export async function generateStaticParams() {
-  const posts: Post[] = await getData("posts");
+  const posts: Post[] = await getPosts();
 
   return posts.map((post) => ({
     id: post._id,

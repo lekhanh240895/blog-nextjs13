@@ -2,7 +2,6 @@
 
 import BackButton from "@/app/components/admin/BackButton";
 import ProductForm from "@/app/components/admin/ProductForm";
-import { getData } from "@/app/lib/getApi";
 import { productSelector } from "@/app/redux/selector";
 import { useParams } from "next/navigation";
 import { Suspense } from "react";

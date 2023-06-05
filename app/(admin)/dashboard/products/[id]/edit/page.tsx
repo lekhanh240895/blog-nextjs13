@@ -1,8 +1,5 @@
-import BackButton from "@/app/components/admin/BackButton";
 import EditProductBody from "@/app/components/admin/EditProductBody";
-import ProductForm from "@/app/components/admin/ProductForm";
-import { getData } from "@/app/lib/getApi";
-import { Suspense } from "react";
+import { getProducts } from "@/app/lib/api";
 
 type Props = {
   params: {
@@ -12,7 +9,7 @@ type Props = {
 
 export async function generateMetadata({ params }: Props) {
   const { id } = params;
-  const product = await getData("products", { _id: id });
+  const product = await getProducts({ _id: id });
 
   if (!product) return {};
 
@@ -22,7 +19,7 @@ export async function generateMetadata({ params }: Props) {
 }
 
 export async function generateStaticParams() {
-  const products: Product[] = await getData("products");
+  const products: Product[] = await getProducts();
 
   return products.map((product) => ({
     id: product._id,

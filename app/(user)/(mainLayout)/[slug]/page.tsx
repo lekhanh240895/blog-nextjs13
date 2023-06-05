@@ -1,7 +1,8 @@
 import Avatar from "@/app/components/Avatar";
 import ClientSiteRoute from "@/app/components/ClientSiteRoute";
 import Comments from "@/app/components/Comments";
-import { getData, updateView } from "@/app/lib/getApi";
+import PostCommentForm from "@/app/components/PostCommentForm";
+import { getPosts, updateView } from "@/app/lib/api";
 import { format } from "date-fns";
 import Image from "next/image";
 import "react-quill/dist/quill.snow.css";
@@ -14,7 +15,7 @@ interface Props {
 
 export async function generateMetadata({ params }: Props) {
   const { slug } = params;
-  const post = await getData("posts", { slug });
+  const post = await getPosts({ slug });
 
   if (!post) return {};
 
@@ -25,7 +26,7 @@ export async function generateMetadata({ params }: Props) {
 }
 
 export async function generateStaticParams() {
-  const posts = await getData("posts");
+  const posts = await getPosts();
 
   return posts.map((post: Post) => ({
     slug: post.slug,
@@ -34,7 +35,7 @@ export async function generateStaticParams() {
 
 async function Post({ params }: Props) {
   const { slug } = params;
-  const post: Post = await getData("posts", { slug });
+  const post: Post = await getPosts({ slug });
 
   await updateView(post._id);
 
@@ -116,7 +117,9 @@ async function Post({ params }: Props) {
       </section>
 
       <div className="divide-y divide-gray-100">
-        <Comments postId={post._id} />
+        <Comments comments={post.comments} />
+
+        <PostCommentForm postId={post._id} />
 
         <section className="pt-4 pb-10">
           <div className="flex items-baseline gap-x-2 mb-4 md:mb-10 justify-center md:justify-start">

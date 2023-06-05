@@ -27,8 +27,6 @@ export default function CategorySelect({ categories, value, setValue }: Props) {
     })();
   }, [value]);
 
-  console.log({ selectedCategory });
-
   return (
     <Listbox value={value} onChange={setValue}>
       <div className="relative mt-1">

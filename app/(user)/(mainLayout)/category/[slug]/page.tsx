@@ -1,6 +1,6 @@
 import BlogList from "@/app/components/BlogList";
 import EditCategoryButton from "@/app/components/EditCategoryButton";
-import { getData } from "@/app/lib/getApi";
+import { getCategories, getPosts } from "@/app/lib/api";
 import { TagIcon } from "@heroicons/react/24/outline";
 
 interface Props {
@@ -11,7 +11,7 @@ interface Props {
 
 export async function generateMetadata({ params }: Props) {
   const { slug } = params;
-  const category = await getData("categories", { slug });
+  const category: Category = await getCategories({ slug });
 
   if (!category) return {};
 
@@ -21,12 +21,20 @@ export async function generateMetadata({ params }: Props) {
   };
 }
 
+export async function generateStaticParams() {
+  const categories: Category[] = await getCategories();
+
+  return categories.map((category) => ({
+    slug: category.slug,
+  }));
+}
+
 async function Category({ params }: Props) {
   const { slug } = params;
 
-  const posts: Post[] = await getData("posts");
+  const posts: Post[] = await getPosts();
   const postsByCategory = posts.filter((post) => post.category?.slug === slug);
-  const category: Category = await getData("categories", { slug });
+  const category: Category = await getCategories({ slug });
 
   if (!category) return;
 

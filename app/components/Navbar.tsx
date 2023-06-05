@@ -1,42 +1,31 @@
-"use client";
-
-import Link from "next/link";
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch } from "../redux/store";
-import { postSelector } from "../redux/selector";
-import { fetchPosts } from "../features/postSlice";
+import { getPopularPosts } from "../lib/api";
 import BasicMenu from "./BasicMenu";
-import { fetchCategories } from "../features/categorySlice";
+import ClientSiteRoute from "./ClientSiteRoute";
 
-function Navbar() {
-  const { posts } = useSelector(postSelector);
+async function Navbar() {
+  const posts: Post[] = await getPopularPosts();
 
-  const categories = Array.from(
+  const categories: Category[] = Array.from(
     new Set(posts.map((post) => post.category.title))
   ).map(
     (title) => posts.find((post) => post.category.title === title)!.category
   );
 
-  const dispatch = useDispatch<AppDispatch>();
-
-  useEffect(() => {
-    dispatch(fetchPosts());
-    dispatch(fetchCategories());
-  }, [dispatch]);
-
   return (
     <nav className="items-center justify-center gap-x-4 hidden md:flex text-xl pt-4">
-      <Link href="/" className="px-1 md:px-2 hover:text-primary">
+      <ClientSiteRoute route="/" className="px-1 md:px-2 hover:text-primary">
         Home
-      </Link>
+      </ClientSiteRoute>
 
-      <Link href="/products" className="px-1 md:px-2 hover:text-primary">
+      <ClientSiteRoute
+        route="/products"
+        className="px-1 md:px-2 hover:text-primary"
+      >
         Products
-      </Link>
+      </ClientSiteRoute>
 
       {posts.length > 0 && (
-        <BasicMenu items={posts} rotateIconDown>
+        <BasicMenu items={posts.slice(0, 4)} rotateIconDown>
           <span className="group-hover:text-primary transition-all">
             Top Posts
           </span>
@@ -51,9 +40,12 @@ function Navbar() {
         </BasicMenu>
       )}
 
-      <Link href="/contact" className="px-1 md:px-2 hover:text-primary">
+      <ClientSiteRoute
+        route="/contact"
+        className="px-1 md:px-2 hover:text-primary"
+      >
         Contact
-      </Link>
+      </ClientSiteRoute>
     </nav>
   );
 }

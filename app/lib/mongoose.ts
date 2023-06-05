@@ -2,9 +2,17 @@ import mongoose from "mongoose";
 
 export function mongooseConnect() {
   if (mongoose.connection.readyState === 1) {
-    return mongoose.connection.asPromise();
+    try {
+      return mongoose.connection.asPromise();
+    } catch (error) {
+      console.log(`Unable to connect to the Mongodb  ${error} `);
+    }
   } else {
-    const uri = process.env.MONGODB_URI as string;
-    return mongoose.connect(uri);
+    try {
+      const uri = process.env.MONGODB_URI as string;
+      return mongoose.connect(uri);
+    } catch (error) {
+      console.log(`Unable to connect to the Mongodb  ${error} `);
+    }
   }
 }

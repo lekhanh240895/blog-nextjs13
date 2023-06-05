@@ -1,6 +1,6 @@
 import AddCartButton from "@/app/components/AddCartButton";
 import ClientSiteRoute from "@/app/components/ClientSiteRoute";
-import { getData } from "@/app/lib/getApi";
+import { getProducts } from "@/app/lib/api";
 import Image from "next/image";
 
 export async function generateMetadata() {
@@ -10,7 +10,7 @@ export async function generateMetadata() {
 }
 
 async function Products() {
-  const products: Product[] = await getData("products");
+  const products: Product[] = await getProducts();
 
   return (
     <div>

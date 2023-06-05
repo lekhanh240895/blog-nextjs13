@@ -11,7 +11,6 @@ const nextConfig = {
         hostname: "**.**",
       },
     ],
-    domains: ["firebasestorage.googleapis.com"],
   },
 };
 

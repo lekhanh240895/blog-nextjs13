@@ -2,11 +2,11 @@ import Image from "next/image";
 import { BookOpenIcon, ClockIcon, EyeIcon } from "@heroicons/react/24/outline";
 import { format } from "date-fns";
 import ClientSiteRoute from "./ClientSiteRoute";
-import { getData, getPopularPosts } from "../lib/getApi";
+import { getCategories, getPopularPosts, getPosts } from "../lib/api";
 
 async function AsideContent() {
-  const posts: Post[] = await getData("posts");
-  const categories: Category[] = await getData("categories");
+  const posts: Post[] = await getPosts();
+  const categories: Category[] = await getCategories();
   const popularPosts: Post[] = await getPopularPosts();
 
   return (

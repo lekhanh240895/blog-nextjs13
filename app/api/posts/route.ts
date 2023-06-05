@@ -1,8 +1,8 @@
 import { mongooseConnect } from "@/app/lib/mongoose";
 import Category from "@/app/models/Category";
+import Comment from "@/app/models/Comment";
 import Post from "@/app/models/Post";
 import User from "@/app/models/User";
-import mongoose from "mongoose";
 import { NextResponse } from "next/server";
 
 export async function GET(req: Request) {
@@ -32,6 +32,10 @@ export async function GET(req: Request) {
             model: "Category",
           },
         },
+        {
+          path: "comments",
+          model: Comment,
+        },
       ]);
     return NextResponse.json(posts);
   }
@@ -58,6 +62,10 @@ export async function GET(req: Request) {
           model: "Category",
         },
       },
+      {
+        path: "comments",
+        model: Comment,
+      },
     ]);
 
     return NextResponse.json(post);
@@ -79,6 +87,10 @@ export async function GET(req: Request) {
           path: "parent",
           model: "Category",
         },
+      },
+      {
+        path: "comments",
+        model: Comment,
       },
     ]);
 

@@ -1,4 +1,4 @@
-import { getData } from "@/app/lib/getApi";
+import { getOrders } from "@/app/lib/api";
 import { format } from "date-fns";
 import { Metadata } from "next";
 
@@ -7,7 +7,7 @@ export const metadata: Metadata = {
 };
 
 async function Orders() {
-  const orders: Order[] = await getData("orders");
+  const orders: Order[] = await getOrders();
 
   return (
     <section>

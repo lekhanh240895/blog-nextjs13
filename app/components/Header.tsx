@@ -56,6 +56,7 @@ function Header() {
         <HeaderRight />
       </div>
 
+      {/* @ts-expect-error Async Server Component */}
       <Navbar />
     </header>
   );

@@ -1,8 +1,6 @@
 import Footer from "../components/Footer";
 import Header from "../components/Header";
-import ScrollTopButton from "../components/ScrollTopButton";
 import Sidebar from "../components/Sidebar";
-import { getData } from "../lib/getApi";
 
 export const metadata = {
   title: {

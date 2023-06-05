@@ -3,10 +3,10 @@ import BlogList from "../components/BlogList";
 import PostsSlider from "../components/PostsSlider";
 import AsideContent from "../components/AsideContent";
 import Pagination from "../components/Pagination";
-import { getData } from "../lib/getApi";
+import { getPostsByPage } from "../lib/api";
 
 export default async function Home() {
-  const posts = await getData("posts", { page: 1 });
+  const posts = await getPostsByPage("1");
 
   return (
     <section>
