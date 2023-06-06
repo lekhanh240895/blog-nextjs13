@@ -6,7 +6,6 @@ import FacebookProvider from "next-auth/providers/facebook";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { MongoDBAdapter } from "@next-auth/mongodb-adapter";
 import clientPromise from "@/app/lib/mongodb";
-import { logger } from "@/app/services/logger";
 import User from "@/app/models/User";
 import bcrypt from "bcrypt";
 
@@ -83,17 +82,6 @@ const authOptions: NextAuthOptions = {
   },
   pages: {
     signIn: "/auth/login",
-  },
-  logger: {
-    error(code, metadata) {
-      logger.error(code, metadata);
-    },
-    warn(code) {
-      logger.warn(code);
-    },
-    debug(code, metadata) {
-      logger.debug(code, metadata);
-    },
   },
 };
 
