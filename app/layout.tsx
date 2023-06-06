@@ -5,6 +5,7 @@ import AuthContext from "./context/AuthContext";
 import LoginModal from "./modal/LoginModal";
 import ScrollTopButton from "./components/ScrollTopButton";
 import ToastContainer from "./components/ToastContainer";
+import "react-toastify/dist/ReactToastify.css";
 
 const robotoSlab = Roboto_Slab({
   weight: ["500", "600", "400", "700", "800", "900"],

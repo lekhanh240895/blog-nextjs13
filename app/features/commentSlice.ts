@@ -29,8 +29,8 @@ export const commentSlice = createSlice({
 export const fetchComments = createAsyncThunk(
   "comments/fetchComments",
   async (postId: string) => {
-    const response = await fetch("/api/comments?post=" + postId);
-    return await response.json();
+    const response = await axios.get("/api/comments?post=" + postId);
+    return response.data;
   }
 );
 

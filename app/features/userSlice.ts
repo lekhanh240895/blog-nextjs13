@@ -27,8 +27,8 @@ export const userSlice = createSlice({
 });
 
 export const fetchUsers = createAsyncThunk("users/fetchUsers", async () => {
-  const response = await fetch("/api/users");
-  return await response.json();
+  const response = await axios.get("/api/users");
+  return response.data;
 });
 
 // Action creators are generated for each case reducer function

@@ -18,8 +18,8 @@ export default function CategorySelect({ categories, value, setValue }: Props) {
     (async () => {
       if (value) {
         try {
-          const res = await fetch("/api/categories?_id=" + value);
-          setSelectedCategory(await res.json());
+          const res = await axios.get("/api/categories?_id=" + value);
+          setSelectedCategory(res.data);
         } catch (error) {
           console.log(error);
         }

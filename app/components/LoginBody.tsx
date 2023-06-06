@@ -16,10 +16,10 @@ function LoginBody() {
   const callbackUrl = searchParams.get("callbackUrl");
 
   useEffect(() => {
-    if (session) {
+    if (session && !message) {
       router.push(callbackUrl || window.location.origin);
     }
-  }, [callbackUrl, router, session]);
+  }, [callbackUrl, router, session, message]);
 
   return (
     <div className="flex justify-center items-center flex-col gap-4">
@@ -38,12 +38,18 @@ function LoginBody() {
         >
           Try again
         </button>
-        <button
-          className="btn bg-white"
-          onClick={() => dispatch(setLoginModalOpened(true))}
-        >
-          Login
-        </button>
+        {message ? (
+          <button className="btn bg-white" onClick={() => router.push("/")}>
+            Go to Homepage
+          </button>
+        ) : (
+          <button
+            className="btn bg-white"
+            onClick={() => dispatch(setLoginModalOpened(true))}
+          >
+            Login
+          </button>
+        )}
       </div>
     </div>
   );
