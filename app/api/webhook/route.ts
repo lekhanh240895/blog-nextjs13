@@ -16,7 +16,7 @@ interface IObject extends Stripe.Event.Data.Object {
 }
 
 // This is your Stripe CLI webhook secret for testing your endpoint locally.
-const endpointSecret: string = "whsec_XvCZXOluSUmFHdzu8uFQouPfYlHtJgYr";
+const endpointSecret = process.env.STRIPE_WEBHOOK_ENDPOINT_SECRET!;
 
 export async function POST(req: Request) {
   await mongooseConnect();
