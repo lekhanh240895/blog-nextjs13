@@ -4,6 +4,8 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { setLoginModalOpened } from "../features/appSlice";
+import { toast } from "react-toastify";
+import Spinner from "./Spinner";
 
 interface FormData {
   emailOrUsername: string;
@@ -11,27 +13,39 @@ interface FormData {
 }
 
 function PhoneEmailLogin() {
-  const { register, handleSubmit } = useForm<FormData>();
+  const {
+    register,
+    handleSubmit,
+    formState: { isSubmitting },
+  } = useForm<FormData>();
   const dispatch = useDispatch();
 
   const onSubmit = async (data: FormData) => {
-    try {
-      const res = await signIn("credentials", {
-        email: data.emailOrUsername,
-        username: data.emailOrUsername,
-        password: data.password,
-        redirect: false,
+    const res = await signIn("credentials", {
+      email: data.emailOrUsername,
+      username: data.emailOrUsername,
+      password: data.password,
+      redirect: false,
+    });
+
+    if (!res?.error) {
+      toast("Đăng nhập thành công!", {
+        type: "success",
+        autoClose: 2000,
       });
-      if (res?.ok) {
-        dispatch(setLoginModalOpened(false));
-      }
-    } catch (error) {
-      console.log(error);
+      dispatch(setLoginModalOpened(false));
+    } else {
+      console.log(res?.error);
+      toast("Thông tin đăng nhập không chính xác !", {
+        type: "error",
+      });
     }
   };
 
   return (
     <div>
+      {isSubmitting && <Spinner />}
+
       <div className="flex items-center justify-between gap-2 mb-1">
         Email or username
         <Link href="/login/phone-or-email/phone" className="text-gray-500">
@@ -60,7 +74,12 @@ function PhoneEmailLogin() {
             Forgot password?
           </Link>
 
-          <button type="submit" className="btn btn-primary w-full">
+          <button
+            type="submit"
+            className={`btn btn-primary w-full ${
+              isSubmitting && "btn-disabled"
+            }`}
+          >
             Log in
           </button>
         </div>

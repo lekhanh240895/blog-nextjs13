@@ -14,7 +14,7 @@ function Products() {
 
         <ClientSiteRoute
           route="/dashboard/products/create"
-          className="btn btn-primary inline-block w-full mb-4 text-center"
+          className="btn btn-primary inline-block mb-4 text-center"
         >
           Create new product
         </ClientSiteRoute>

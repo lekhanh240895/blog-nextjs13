@@ -25,7 +25,7 @@ function ProductImageSlider({ product }: Props) {
         pagination={{
           clickable: true,
         }}
-        className="!pb-12 md:!pb-48"
+        className="!pb-12"
         autoplay
         breakpoints={{
           1024: {

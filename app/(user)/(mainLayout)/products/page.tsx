@@ -8,6 +8,7 @@ export async function generateMetadata() {
     title: "Products",
   };
 }
+export const revalidate = 60;
 
 async function Products() {
   const products: Product[] = await getProducts();

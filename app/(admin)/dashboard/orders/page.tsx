@@ -1,10 +1,13 @@
 import { getOrders } from "@/app/lib/api";
 import { format } from "date-fns";
 import { Metadata } from "next";
+import { vi } from "date-fns/locale";
 
 export const metadata: Metadata = {
   title: "Orders",
 };
+
+export const revalidate = 60;
 
 async function Orders() {
   const orders: Order[] = await getOrders();
@@ -31,7 +34,9 @@ async function Orders() {
               orders.map((order) => (
                 <tr key={order._id}>
                   <td>
-                    {format(new Date(order.createdAt), "MM/dd/yyyy HH:mm")}
+                    {format(new Date(order.createdAt), "MM/dd/yyyy HH:mm", {
+                      locale: vi,
+                    })}
                   </td>
                   <td>{order.name}</td>
                   <td>{order.email}</td>

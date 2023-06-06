@@ -1,6 +1,10 @@
 import BackButton from "@/app/components/admin/BackButton";
 import ProductForm from "@/app/components/admin/ProductForm";
 
+export const metadata = {
+  title: "Create product",
+};
+
 export default function CreateProduct() {
   return (
     <section>

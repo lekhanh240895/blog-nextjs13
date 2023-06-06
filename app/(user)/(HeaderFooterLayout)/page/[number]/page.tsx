@@ -11,6 +11,8 @@ type Props = {
   };
 };
 
+export const revalidate = 60;
+
 export default async function Home({ params }: Props) {
   const { number } = params;
   const posts = await getPostsByPage(number);

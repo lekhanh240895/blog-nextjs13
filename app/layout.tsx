@@ -4,6 +4,7 @@ import ReduxProvider from "./redux/Provider";
 import AuthContext from "./context/AuthContext";
 import LoginModal from "./modal/LoginModal";
 import ScrollTopButton from "./components/ScrollTopButton";
+import ToastContainer from "./components/ToastContainer";
 
 const robotoSlab = Roboto_Slab({
   weight: ["500", "600", "400", "700", "800", "900"],
@@ -46,6 +47,8 @@ export default function RootLayout({
             <ScrollTopButton />
           </AuthContext>
         </ReduxProvider>
+
+        <ToastContainer limit={2} position="top-center" />
       </body>
     </html>
   );

@@ -12,6 +12,7 @@ function LoginBody() {
   const router = useRouter();
   const { data: session } = useSession();
   const searchParams = useSearchParams();
+  const message = searchParams.get("message");
   const callbackUrl = searchParams.get("callbackUrl");
 
   useEffect(() => {
@@ -23,7 +24,7 @@ function LoginBody() {
   return (
     <div className="flex justify-center items-center flex-col gap-4">
       <h1 className="text-white text-center text-5xl mb-8">
-        Auth is required to access this page
+        {message ? message : "Auth is required to access this page"}
       </h1>
 
       <p className="text-xl text-center text-gray-400 mb-8">

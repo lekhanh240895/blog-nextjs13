@@ -17,6 +17,13 @@
   background-color: rgb(30 58 138);
 }
 
+.Toastify__toast-container {
+  width: 100% !important;
+  max-width: 450px;
+  min-width: 320px;
+  text-align: center;
+}
+
 @media screen and (max-width: 768px) {
   ::-webkit-scrollbar {
     display: none;
@@ -24,7 +31,7 @@
 }
 
 .swiper-pagination-bullet {
-  @apply !bg-gray-600 block md:!hidden;
+  @apply !bg-gray-600;
 }
 
 .swiper-pagination-bullet-active {

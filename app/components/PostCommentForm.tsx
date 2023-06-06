@@ -7,6 +7,7 @@ import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { fetchComments } from "../features/commentSlice";
 import { AppDispatch } from "../redux/store";
+import Spinner from "./Spinner";
 
 interface FormData {
   name: string;
@@ -18,7 +19,12 @@ interface FormData {
 }
 
 function PostCommentForm({ postId }: { postId: string }) {
-  const { register, handleSubmit, reset } = useForm<FormData>();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { isSubmitting },
+  } = useForm<FormData>();
   const { data: session } = useSession();
   const dispatch = useDispatch<AppDispatch>();
 
@@ -28,6 +34,7 @@ function PostCommentForm({ postId }: { postId: string }) {
       post: postId,
       user: session?.user._id,
     };
+
     await axios.post("/api/comments", formData);
     dispatch(fetchComments(postId));
 
@@ -36,6 +43,7 @@ function PostCommentForm({ postId }: { postId: string }) {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="pt-4 pb-10">
+      {isSubmitting && <Spinner />}
       <div className="flex items-baseline gap-x-2 mb-4 md:mb-10">
         <h1 className="text-3xl">Leave a Reply</h1>
         <span className="block w-2 h-2 rounded-full bg-primary" />
@@ -73,7 +81,9 @@ function PostCommentForm({ postId }: { postId: string }) {
 
         <button
           type="submit"
-          className="btn btn-primary px-6 py-2 md:px-8 md:py-2 rounded-full md:text-lg"
+          className={`btn btn-primary px-6 py-2 md:px-8 md:py-2 rounded-full md:text-lg ${
+            isSubmitting && "btn-disabled"
+          }`}
         >
           Post Comment
         </button>

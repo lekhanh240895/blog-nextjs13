@@ -1,6 +1,8 @@
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
+import "react-toastify/dist/ReactToastify.css";
+import ToastContainer from "../components/ToastContainer";
 
 export const metadata = {
   title: {

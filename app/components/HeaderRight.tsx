@@ -65,7 +65,7 @@ function HeaderRight() {
           className="btn btn-primary h-9 md:h-11 grid place-items-center"
           onClick={() => dispatch(setLoginModalOpened(true))}
         >
-          Log in
+          Đăng nhập
         </button>
       )}
     </div>

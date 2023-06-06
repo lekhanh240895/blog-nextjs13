@@ -14,20 +14,20 @@ async function Navbar() {
   return (
     <nav className="items-center justify-center gap-x-4 hidden md:flex text-xl pt-4">
       <ClientSiteRoute route="/" className="px-1 md:px-2 hover:text-primary">
-        Home
+        Trang chủ
       </ClientSiteRoute>
 
       <ClientSiteRoute
         route="/products"
         className="px-1 md:px-2 hover:text-primary"
       >
-        Products
+        Sản phẩm
       </ClientSiteRoute>
 
       {posts.length > 0 && (
         <BasicMenu items={posts.slice(0, 4)} rotateIconDown>
           <span className="group-hover:text-primary transition-all">
-            Top Posts
+            Thịnh hành
           </span>
         </BasicMenu>
       )}
@@ -35,7 +35,7 @@ async function Navbar() {
       {categories.length > 0 && (
         <BasicMenu items={categories} rotateIconDown itemPreHref="category">
           <span className="group-hover:text-primary transition-all">
-            Categories
+            Danh mục
           </span>
         </BasicMenu>
       )}
@@ -44,7 +44,7 @@ async function Navbar() {
         route="/contact"
         className="px-1 md:px-2 hover:text-primary"
       >
-        Contact
+        Liên lạc
       </ClientSiteRoute>
     </nav>
   );

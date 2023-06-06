@@ -1,5 +1,10 @@
 import BackButton from "@/app/components/admin/BackButton";
 import PostForm from "@/app/components/admin/PostForm";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Create posts",
+};
 
 export default function CreatePost() {
   return (

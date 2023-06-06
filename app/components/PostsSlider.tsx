@@ -6,7 +6,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/autoplay";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Image from "next/image";
 import {
   ArrowLeftIcon,
@@ -14,13 +14,21 @@ import {
   TagIcon,
 } from "@heroicons/react/24/outline";
 import { format } from "date-fns";
-import React from "react";
+import React, { useEffect } from "react";
 import Link from "next/link";
 import { postSelector } from "../redux/selector";
 import Avatar from "./Avatar";
+import { AppDispatch } from "../redux/store";
+import { fetchPosts } from "../features/postSlice";
+import { vi } from "date-fns/locale";
 
 function PostsSlider() {
   const { posts } = useSelector(postSelector);
+  const dispatch = useDispatch<AppDispatch>();
+
+  useEffect(() => {
+    dispatch(fetchPosts());
+  }, [dispatch]);
 
   return (
     <>
@@ -34,7 +42,7 @@ function PostsSlider() {
             pagination={{
               clickable: true,
             }}
-            className="!pb-12 md:!pb-48"
+            className="!pb-12 md:!pb-44"
             autoplay
             breakpoints={{
               1024: {
@@ -109,7 +117,8 @@ function PostsSlider() {
                           <div className="">
                             {format(
                               new Date(post.createdAt),
-                              "MMM d, yyyy HH:mm"
+                              "dd MMMM, yyyy HH:mm",
+                              { locale: vi }
                             )}
                           </div>
                         </div>
@@ -121,10 +130,10 @@ function PostsSlider() {
             ))}
 
             <div className="absolute left-0 top-0 right-0 h-[500px]">
-              <div className="swiper-left hidden md:flex absolute z-50 cursor-pointer left-5 lg:left-10 top-1/2 -translate-y-1/2 w-10 h-10 lg:w-12 lg:h-12 rounded-full bg-primary text-white p-3 opacity-80 hover:opacity-100 hover:w-14 lg:hover:w-16 transition-all items-center justify-center">
+              <div className="swiper-left flex absolute z-50 cursor-pointer left-5 lg:left-10 top-1/2 -translate-y-1/2 w-10 h-10 lg:w-12 lg:h-12 rounded-full bg-primary text-white p-3 opacity-80 hover:opacity-100 hover:w-14 lg:hover:w-16 transition-all items-center justify-center">
                 <ArrowLeftIcon />
               </div>
-              <div className="swiper-right hidden md:flex absolute z-50 cursor-pointer right-5 lg:right-10 top-1/2 -translate-y-1/2 w-10 h-10 lg:w-12 lg:h-12 rounded-full bg-primary text-white p-3 opacity-80 hover:opacity-100 hover:w-14 lg:hover:w-16 transition-all items-center justify-center">
+              <div className="swiper-right flex absolute z-50 cursor-pointer right-5 lg:right-10 top-1/2 -translate-y-1/2 w-10 h-10 lg:w-12 lg:h-12 rounded-full bg-primary text-white p-3 opacity-80 hover:opacity-100 hover:w-14 lg:hover:w-16 transition-all items-center justify-center">
                 <ArrowRightIcon />
               </div>
             </div>

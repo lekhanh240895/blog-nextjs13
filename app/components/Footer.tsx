@@ -1,11 +1,12 @@
 import Image from "next/image";
-import { ClockIcon } from "@heroicons/react/24/outline";
+import { BookOpenIcon, ClockIcon, EyeIcon } from "@heroicons/react/24/outline";
 import { format } from "date-fns";
 import ClientSiteRoute from "./ClientSiteRoute";
-import { getCategories, getPosts } from "../lib/api";
+import { getCategories, getPopularPosts } from "../lib/api";
+import { vi } from "date-fns/locale";
 
 async function Footer() {
-  const posts: Post[] = await getPosts();
+  const posts: Post[] = await getPopularPosts();
   const categories: Category[] = await getCategories();
 
   return (
@@ -13,13 +14,13 @@ async function Footer() {
       <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
         <section>
           <div className="flex items-baseline mb-6">
-            <h1 className="text-2xl">Popular Posts</h1>
+            <h1 className="text-2xl">Thịnh Hành</h1>
             <span className="w-[5px] h-[5px] rounded-full bg-primary ml-2"></span>
           </div>
 
           <div>
             {posts.length > 0 &&
-              posts.map((post) => (
+              posts.slice(0, 4).map((post) => (
                 <ClientSiteRoute
                   route={`/${post.slug}`}
                   key={post._id}
@@ -37,11 +38,32 @@ async function Footer() {
 
                   <div className="flex flex-col justify-between gap-2">
                     <h2>{post.title}</h2>
-                    <div className="flex items-center gap-2">
-                      <ClockIcon className="w-4 h-4 text-primary" />
-                      <span className="text-sm text-gray-600">
-                        {format(new Date(post.createdAt), "MMMM dd, yyyy")}
-                      </span>
+
+                    <div className="flex flex-wrap items-center gap-2">
+                      <div className="flex items-center gap-2">
+                        <ClockIcon className="w-4 h-4 text-primary" />
+                        <span className="text-sm text-gray-600">
+                          {format(new Date(post.createdAt), "dd-MM-yyyy", {
+                            locale: vi,
+                          })}
+                        </span>
+                      </div>
+
+                      <div className="flex-1 flex items-center gap-2">
+                        <div className="flex items-center gap-2">
+                          <BookOpenIcon className="w-4 h-4 text-primary" />
+                          <span className="text-sm text-gray-600">
+                            {post.readTime}
+                          </span>
+                        </div>
+
+                        <div className="flex items-center gap-2">
+                          <EyeIcon className="w-4 h-4 text-primary" />
+                          <span className="text-sm text-gray-600">
+                            {post.views}
+                          </span>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </ClientSiteRoute>
@@ -51,7 +73,7 @@ async function Footer() {
 
         <section>
           <div className="flex items-baseline mb-6">
-            <h1 className="text-2xl">Tag Cloud</h1>
+            <h1 className="text-2xl">Danh Mục</h1>
             <span className="w-[5px] h-[5px] rounded-full bg-primary ml-2"></span>
           </div>
 
@@ -119,28 +141,28 @@ async function Footer() {
               route="/"
               className="px-1 md:px-2 hover:text-primary pb-5"
             >
-              Home
+              Trang chủ
             </ClientSiteRoute>
 
             <ClientSiteRoute
               route="/products"
               className="px-1 md:px-2 hover:text-primary py-5"
             >
-              Products
+              Sản phẩm
             </ClientSiteRoute>
 
             <ClientSiteRoute
               route="/contact"
               className="px-1 md:px-2 hover:text-primary py-5"
             >
-              Contact
+              Liên lạc
             </ClientSiteRoute>
           </nav>
         </section>
 
         <section className="">
           <div className="flex items-baseline mb-4">
-            <h1 className="text-2xl">Gallery</h1>
+            <h1 className="text-2xl">Thư Viện Ảnh</h1>
             <span className="w-[5px] h-[5px] rounded-full bg-primary ml-2"></span>
           </div>
 

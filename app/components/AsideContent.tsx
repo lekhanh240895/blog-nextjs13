@@ -3,6 +3,7 @@ import { BookOpenIcon, ClockIcon, EyeIcon } from "@heroicons/react/24/outline";
 import { format } from "date-fns";
 import ClientSiteRoute from "./ClientSiteRoute";
 import { getCategories, getPopularPosts, getPosts } from "../lib/api";
+import { vi } from "date-fns/locale";
 
 async function AsideContent() {
   const posts: Post[] = await getPosts();
@@ -13,7 +14,7 @@ async function AsideContent() {
     <aside className="hidden md:block lg:ml-6 divide-y divide-gray-200">
       <section className="pb-10">
         <div className="flex items-baseline mb-4">
-          <h1 className="text-2xl">Recent Posts</h1>
+          <h1 className="text-2xl">Gần Đây</h1>
           <span className="w-[5px] h-[5px] rounded-full bg-primary ml-2"></span>
         </div>
 
@@ -42,7 +43,9 @@ async function AsideContent() {
                     <div className="flex items-center gap-2">
                       <ClockIcon className="w-4 h-4 text-primary" />
                       <span className="text-sm text-gray-600">
-                        {format(new Date(post.createdAt), "MMMM dd, yyyy")}
+                        {format(new Date(post.createdAt), "dd-MM-yyyy", {
+                          locale: vi,
+                        })}
                       </span>
                     </div>
 
@@ -70,7 +73,7 @@ async function AsideContent() {
 
       <section className="py-10">
         <div className="flex items-baseline mb-4">
-          <h1 className="text-2xl">Popular Posts</h1>
+          <h1 className="text-2xl">Thịnh Hành</h1>
           <span className="w-[5px] h-[5px] rounded-full bg-primary ml-2"></span>
         </div>
 
@@ -99,7 +102,9 @@ async function AsideContent() {
                     <div className="flex items-center gap-2">
                       <ClockIcon className="w-4 h-4 text-primary" />
                       <span className="text-sm text-gray-600">
-                        {format(new Date(post.createdAt), "MMMM dd, yyyy")}
+                        {format(new Date(post.createdAt), "dd-MM-yyyy", {
+                          locale: vi,
+                        })}
                       </span>
                     </div>
 
@@ -127,7 +132,7 @@ async function AsideContent() {
 
       <section className="py-10">
         <div className="flex items-baseline mb-4">
-          <h1 className="text-2xl">Tag Cloud</h1>
+          <h1 className="text-2xl">Danh Mục</h1>
           <span className="w-[5px] h-[5px] rounded-full bg-primary ml-2"></span>
         </div>
 
@@ -186,7 +191,7 @@ async function AsideContent() {
 
       <section className="py-10">
         <div className="flex items-baseline mb-4">
-          <h1 className="text-2xl">Advertising</h1>
+          <h1 className="text-2xl">Quảng cáo</h1>
           <span className="w-[5px] h-[5px] rounded-full bg-primary ml-2"></span>
         </div>
 

@@ -5,6 +5,8 @@ import AsideContent from "../components/AsideContent";
 import Pagination from "../components/Pagination";
 import { getPostsByPage } from "../lib/api";
 
+export const revalidate = 60;
+
 export default async function Home() {
   const posts = await getPostsByPage("1");
 

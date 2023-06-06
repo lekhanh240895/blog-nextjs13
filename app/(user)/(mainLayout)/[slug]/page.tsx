@@ -6,12 +6,16 @@ import { getPosts, updateView } from "@/app/lib/api";
 import { format } from "date-fns";
 import Image from "next/image";
 import "react-quill/dist/quill.snow.css";
+import { vi } from "date-fns/locale";
+import { Suspense } from "react";
 
 interface Props {
   params: {
     slug: string;
   };
 }
+
+export const revalidate = 60;
 
 export async function generateMetadata({ params }: Props) {
   const { slug } = params;
@@ -70,7 +74,9 @@ async function Post({ params }: Props) {
               <h1 className="text-4xl font-extrabold">{post.title}</h1>
 
               <p className="tracking-wider">
-                {format(new Date(post.createdAt), "MMM d, yyyy HH:mm")}
+                {format(new Date(post.createdAt), "dd MMMM yyyy HH:mm", {
+                  locale: vi,
+                })}
               </p>
             </div>
 
@@ -117,7 +123,9 @@ async function Post({ params }: Props) {
       </section>
 
       <div className="divide-y divide-gray-100">
-        <Comments comments={post.comments} />
+        <Suspense fallback={"loading..."}>
+          <Comments postId={post._id} />
+        </Suspense>
 
         <PostCommentForm postId={post._id} />
 

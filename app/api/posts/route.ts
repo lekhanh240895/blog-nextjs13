@@ -13,11 +13,11 @@ export async function GET(req: Request) {
   const postsPerPage = 6;
 
   if (page) {
-    const posts = await Post.find({})
+    const posts: Post[] = await Post.find({})
       .skip((parseInt(page, 10) - 1) * postsPerPage)
       .limit(postsPerPage)
       .sort({
-        views: "desc",
+        createdAt: "desc",
       })
       .populate([
         {
@@ -35,6 +35,12 @@ export async function GET(req: Request) {
         {
           path: "comments",
           model: Comment,
+          populate: [
+            {
+              path: "user",
+              model: "User",
+            },
+          ],
         },
       ]);
     return NextResponse.json(posts);
@@ -65,6 +71,12 @@ export async function GET(req: Request) {
       {
         path: "comments",
         model: Comment,
+        populate: [
+          {
+            path: "user",
+            model: "User",
+          },
+        ],
       },
     ]);
 
@@ -91,6 +103,12 @@ export async function GET(req: Request) {
       {
         path: "comments",
         model: Comment,
+        populate: [
+          {
+            path: "user",
+            model: "User",
+          },
+        ],
       },
     ]);
 

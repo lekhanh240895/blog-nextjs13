@@ -9,7 +9,7 @@ import { logger } from "@/app/services/logger";
 import User from "@/app/models/User";
 import bcrypt from "bcrypt";
 
-const adminEmails = ["lekhanh240895@gmail.com"];
+const admins = ["admin@gm.com", "lekhanh240895@gmail.com"];
 
 export const authOptions: NextAuthOptions = {
   session: {
@@ -70,12 +70,12 @@ export const authOptions: NextAuthOptions = {
       return token;
     },
     async session({ session, token, user }) {
-      // if (!adminEmails.includes(session.user.email)) {
-      //   throw new Error("Only admin can access this page!");
-      // }
-
       if (token) {
         session.user._id = token.id;
+
+        if (admins.includes(session.user.email)) {
+          token.role = "admin";
+        }
       }
       return session;
     },

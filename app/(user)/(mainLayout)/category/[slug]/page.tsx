@@ -9,6 +9,8 @@ interface Props {
   };
 }
 
+export const revalidate = 60;
+
 export async function generateMetadata({ params }: Props) {
   const { slug } = params;
   const category: Category = await getCategories({ slug });

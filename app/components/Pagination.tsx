@@ -50,7 +50,7 @@ export default function Pagination() {
         }
         onClick={prev}
       >
-        <ArrowLeftIcon strokeWidth={2} className="h-4 w-4" /> Previous
+        <ArrowLeftIcon strokeWidth={2} className="h-4 w-4" /> Trước
       </button>
 
       <div className="flex items-center gap-2">
@@ -75,7 +75,7 @@ export default function Pagination() {
         }
         onClick={next}
       >
-        Next
+        Sau
         <ArrowRightIcon strokeWidth={2} className="h-4 w-4" />
       </button>
     </div>

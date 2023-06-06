@@ -1,6 +1,7 @@
 import React from "react";
 import Avatar from "./Avatar";
 import { format } from "date-fns";
+import { vi } from "date-fns/locale";
 
 function Comment({ comment }: { comment: Comment }) {
   return (
@@ -15,7 +16,10 @@ function Comment({ comment }: { comment: Comment }) {
         <div className="flex gap-x-2 mb-2">
           <h1>{comment.user.name}</h1>
           <span>
-            on {format(new Date(comment.createdAt), "MM/dd/yyyy HH:mm")}
+            on{" "}
+            {format(new Date(comment.createdAt), "MM/dd/yyyy HH:mm", {
+              locale: vi,
+            })}
           </span>
         </div>
 

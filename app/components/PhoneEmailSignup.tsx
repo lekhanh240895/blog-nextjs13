@@ -2,8 +2,13 @@ import Link from "next/link";
 import React from "react";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import DateSelect from "./DateSelect";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { setLoginModalOpened } from "../features/appSlice";
+import { signIn } from "next-auth/react";
+import Spinner from "./Spinner";
 
 type FormData = {
   username: string;
@@ -41,21 +46,15 @@ function PhoneEmailSignup() {
     (_, i) => i + start_year
   );
 
-  const { register, handleSubmit } = useForm<FormData>();
+  const {
+    register,
+    handleSubmit,
+    formState: { isSubmitting },
+  } = useForm<FormData>();
 
   useEffect(() => {
     setDays(Array.from({ length: getMonthDays(month, year) }, (_, i) => i + 1));
   }, [month, year]);
-
-  function validateEmail(email: string) {
-    if (
-      // eslint-disable-next-line
-      /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)
-    ) {
-      return true;
-    }
-    return false;
-  }
 
   const getMonthDays = (month: number, year: number) => {
     const months30 = [4, 6, 9, 11];
@@ -75,15 +74,38 @@ function PhoneEmailSignup() {
     return `${year}${m}${d}`;
   };
 
-  const onSubmit = (data: FormData) => {
+  const onSubmit = async (data: FormData) => {
     const formData = {
-      data,
+      ...data,
       birthday: formatDate(year, month, day),
     };
+
+    try {
+      await axios.post("/api/users", formData);
+
+      await signIn("credentials", {
+        email: formData.email,
+        username: formData.username,
+        password: formData.password,
+        redirect: false,
+      });
+
+      toast("Đăng ký thành công!", {
+        type: "success",
+        autoClose: 2000,
+      });
+
+      dispatch(setLoginModalOpened(false));
+    } catch (error: any) {
+      toast("Đăng ký không thành công!", {
+        type: "error",
+      });
+    }
   };
 
   return (
     <div>
+      {isSubmitting && <Spinner />}
       <p className="text-left">When&apos;s your birthday?</p>
 
       <div className="flex flex-wrap gap-3">
@@ -115,7 +137,7 @@ function PhoneEmailSignup() {
       </p>
 
       <div className="flex items-center justify-between mb-1">
-        Email
+        Email / Username
         <span className="text-gray-500">Sign up with phone</span>
       </div>
 
@@ -136,7 +158,7 @@ function PhoneEmailSignup() {
           <input
             type="password"
             placeholder="Password"
-            {...register("username", { required: true })}
+            {...register("password", { required: true })}
           />
 
           <Link href="/login/email/forget-password" className="block text-left">

@@ -30,30 +30,50 @@ export const getPosts = async (options?: Options) => {
       {
         path: "comments",
         model: Comment,
+        populate: [
+          {
+            path: "user",
+            model: "User",
+          },
+        ],
       },
     ]);
 
     return JSON.parse(JSON.stringify(post));
   }
 
-  const posts = await Post.find().populate([
-    {
-      path: "user",
-      model: User,
-    },
-    {
-      path: "category",
-      model: Category,
-      populate: {
-        path: "parent",
-        model: "Category",
+  const posts = await Post.find()
+    .sort({
+      createdAt: "desc",
+    })
+    .populate([
+      {
+        path: "user",
+        model: User,
       },
-    },
-    {
-      path: "comments",
-      model: Comment,
-    },
-  ]);
+      {
+        path: "category",
+        model: Category,
+        populate: {
+          path: "parent",
+          model: "Category",
+        },
+      },
+      {
+        path: "comments",
+        model: Comment,
+        populate: [
+          {
+            path: "user",
+            model: "User",
+          },
+          {
+            path: "post",
+            model: "Post",
+          },
+        ],
+      },
+    ]);
 
   return JSON.parse(JSON.stringify(posts));
 };
@@ -66,7 +86,7 @@ export const getPostsByPage = async (page: string) => {
     .skip((parseInt(page, 10) - 1) * postsPerPage)
     .limit(postsPerPage)
     .sort({
-      views: "desc",
+      createdAt: "desc",
     })
     .populate([
       {
@@ -141,16 +161,20 @@ export const getProducts = async (options?: Options) => {
   await mongooseConnect();
 
   if (options) {
-    const product = await Product.findOne(options).populate([
-      {
-        path: "category",
-        model: Category,
-        populate: {
-          path: "parent",
-          model: "Category",
+    const product = await Product.findOne(options)
+      .sort({
+        createdAt: "desc",
+      })
+      .populate([
+        {
+          path: "category",
+          model: Category,
+          populate: {
+            path: "parent",
+            model: "Category",
+          },
         },
-      },
-    ]);
+      ]);
 
     return JSON.parse(JSON.stringify(product));
   }
@@ -183,6 +207,70 @@ export const getOrders = async (options?: Options) => {
   });
 
   return JSON.parse(JSON.stringify(orders));
+};
+
+export const getComments = async (postId?: string, options?: Options) => {
+  await mongooseConnect();
+
+  if (options) {
+    const commennt = await Order.findOne(options).populate([
+      {
+        path: "user",
+        model: User,
+      },
+      {
+        path: "post",
+        model: Post,
+        populate: [
+          {
+            path: "user",
+            model: User,
+          },
+          {
+            path: "category",
+            model: Category,
+            populate: {
+              path: "parent",
+              model: "Category",
+            },
+          },
+        ],
+      },
+    ]);
+
+    return JSON.parse(JSON.stringify(commennt));
+  }
+
+  const comments = await Comment.find({ post: postId })
+    .sort({
+      createdAt: -1,
+    })
+    .populate([
+      {
+        path: "user",
+        model: User,
+      },
+      {
+        path: "post",
+        model: Post,
+        populate: [
+          {
+            path: "user",
+            model: User,
+          },
+          {
+            path: "category",
+            model: Category,
+            populate: {
+              path: "parent",
+              model: "Category",
+            },
+          },
+        ],
+      },
+    ]);
+
+  return JSON.parse(JSON.stringify(comments));
 };
 
 export const updateView = async (id: string) => {

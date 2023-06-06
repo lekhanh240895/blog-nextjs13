@@ -1,7 +1,6 @@
 import ClientSiteRoute from "@/app/components/ClientSiteRoute";
 import ProductImageSlider from "@/app/components/ProductImageSlider";
 import { getProducts } from "@/app/lib/api";
-import { format } from "date-fns";
 import Image from "next/image";
 import "react-quill/dist/quill.snow.css";
 
@@ -30,6 +29,8 @@ export async function generateStaticParams() {
     slug: product.slug,
   }));
 }
+
+export const revalidate = 60;
 
 async function Product({ params }: Props) {
   const { slug } = params;
@@ -64,10 +65,6 @@ async function Product({ params }: Props) {
           <div className="flex flex-col md:flex-row justify-between items-start gap-4">
             <div className="space-y-2">
               <h1 className="text-4xl font-extrabold">{product.title}</h1>
-
-              <p className="tracking-wider">
-                {format(new Date(product.createdAt), "MMM d, yyyy HH:mm")}
-              </p>
             </div>
           </div>
 
