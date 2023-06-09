@@ -1,6 +1,7 @@
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
+import { openGraphImage } from "../share-metadata";
 
 export const metadata = {
   title: {
@@ -9,6 +10,12 @@ export const metadata = {
   },
   description:
     "Trang cập nhật sản phẩm hot và đáng mua trong các lĩnh vực công nghệ, thời trang, thể thao và kinh doanh v.v. Theo dõi để không bỏ lỡ thông tin!",
+  openGraph: {
+    title: "Blog - Reviews - News | KhanhReview",
+    description:
+      "Trang cập nhật sản phẩm hot và đáng mua trong các lĩnh vực công nghệ, thời trang, thể thao và kinh doanh v.v. Theo dõi để không bỏ lỡ thông tin!",
+    ...openGraphImage,
+  },
 };
 
 export default async function UserLayout({

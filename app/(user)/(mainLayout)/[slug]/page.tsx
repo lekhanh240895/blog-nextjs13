@@ -8,6 +8,7 @@ import Image from "next/image";
 import "react-quill/dist/quill.snow.css";
 import { vi } from "date-fns/locale";
 import { Suspense } from "react";
+import { openGraphImage } from "@/app/share-metadata";
 
 interface Props {
   params: {
@@ -26,6 +27,11 @@ export async function generateMetadata({ params }: Props) {
   return {
     title: post.title,
     description: post.description,
+    openGraph: {
+      title: post.title,
+      description: post.description,
+      images: [post.mainImage],
+    },
   };
 }
 

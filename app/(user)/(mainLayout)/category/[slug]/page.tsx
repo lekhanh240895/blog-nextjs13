@@ -1,6 +1,7 @@
 import BlogList from "@/app/components/BlogList";
 import EditCategoryButton from "@/app/components/EditCategoryButton";
 import { getCategories, getPosts } from "@/app/lib/api";
+import { openGraphImage } from "@/app/share-metadata";
 import { TagIcon } from "@heroicons/react/24/outline";
 
 interface Props {
@@ -20,6 +21,11 @@ export async function generateMetadata({ params }: Props) {
   return {
     title: category.title,
     description: category.description,
+    openGraph: {
+      title: category.title,
+      description: category.description,
+      ...openGraphImage,
+    },
   };
 }
 
