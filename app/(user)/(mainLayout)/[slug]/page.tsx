@@ -147,7 +147,7 @@ async function Post({ params }: Props) {
               src={post.user.image}
             />
 
-            <div className="flex flex-col gap-y-4">
+            <div className="flex flex-col gap-y-4 justify-between">
               <div className="flex items-center gap-x-2 justify-center md:justify-start">
                 <h1>{post.user.name}</h1>
                 <span className="w-1 h-1 rounded-full bg-primary" />
@@ -155,9 +155,7 @@ async function Post({ params }: Props) {
               </div>
 
               <p className="text-gray-500 tracking-wider leading-6 text-center md:text-left">
-                Hello! My name is Mary Buzard!, Actively writing articles for
-                this website. I really like tutorials and illustrations, so stay
-                alert for my next tutorials.
+                {post.user.description} ehhehhe
               </p>
 
               <button className="btn btn-primary rounded-full py-2 md:py-1 text-gray-100 max-w-[150px] self-center md:self-start">

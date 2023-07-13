@@ -6,10 +6,10 @@ import ClientSiteRoute from "./ClientSiteRoute";
 function Header() {
   return (
     <header className="bg-inherit max-w-7xl mx-auto pt-10 md:pt-20 px-2 sm:px-4 md:px-10 space-y-4">
-      <div className="flex gap-x-1 items-center justify-between">
+      <div className="flex gap-2 md:gap-3 items-center justify-between">
         <div className="hidden md:flex gap-x-4 ">
           <ClientSiteRoute route="/">
-            <span className="w-11 h-11 flex items-center justify-center transition hover:-translate-y-1 ease-in-out duration-200">
+            <span className="w-11 h-11 flex items-center justify-center transition-all hover:-translate-y-1">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 320 512"
@@ -20,8 +20,9 @@ function Header() {
               </svg>
             </span>
           </ClientSiteRoute>
+
           <ClientSiteRoute route="/">
-            <span className="w-11 h-11 flex items-center justify-center transition hover:-translate-y-1 ease-in-out duration-200">
+            <span className="w-11 h-11 flex items-center justify-center transition-all hover:-translate-y-1">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 512 512"
@@ -32,8 +33,9 @@ function Header() {
               </svg>
             </span>
           </ClientSiteRoute>
+
           <ClientSiteRoute route="/">
-            <span className="w-11 h-11 flex items-center justify-center transition hover:-translate-y-1 ease-in-out duration-200">
+            <span className="w-11 h-11 flex items-center justify-center transition-all hover:-translate-y-1">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 448 512"
@@ -48,13 +50,18 @@ function Header() {
 
         <MenuButton />
 
-        <h1 className="hidden md:flex text-3xl sm:text-4xl md:text-5xl lg:text-7xl gap-x-1 md:gap-x-2 items-baseline transition hover:-translate-y-1 ease-in-out duration-200">
+        <h1 className="hidden text-blue-900 lg:flex text-3xl sm:text-4xl md:text-5xl lg:text-7xl gap-x-1 md:gap-x-2 items-baseline transition-all hover:-translate-y-1">
           KhanhReview
           <span className="w-1 h-1 sm:w-2 sm:h-2 md:w-3 md:h-3 rounded-full bg-primary" />
         </h1>
 
         <HeaderRight />
       </div>
+
+      <h1 className="flex text-blue-900 lg:hidden justify-center items-baseline text-4xl sm:text-5xl lg:text-7xl gap-x-1 md:gap-x-2 transition-all hover:-translate-y-1">
+        KhanhReview
+        <span className="w-1 h-1 sm:w-2 sm:h-2 md:w-3 md:h-3 rounded-full bg-primary" />
+      </h1>
 
       {/* @ts-expect-error Async Server Component */}
       <Navbar />

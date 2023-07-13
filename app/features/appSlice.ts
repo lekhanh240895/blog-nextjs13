@@ -11,6 +11,7 @@ interface AppState {
   sidebarOpened: boolean;
   cartProductIds: string[];
   loginModalOpened: boolean;
+  showSearchBar: boolean;
 }
 
 const initialState: AppState = {
@@ -24,6 +25,7 @@ const initialState: AppState = {
   selectedProduct: null,
   cartProductIds: [],
   loginModalOpened: false,
+  showSearchBar: false,
 };
 
 export const appSlice = createSlice({
@@ -84,6 +86,9 @@ export const appSlice = createSlice({
     setLoginModalOpened: (state, action) => {
       state.loginModalOpened = action.payload;
     },
+    setShowSearchBar: (state, action) => {
+      state.showSearchBar = action.payload;
+    },
   },
 });
 
@@ -103,6 +108,7 @@ export const {
   clearCart,
   setCart,
   setLoginModalOpened,
+  setShowSearchBar,
 } = appSlice.actions;
 
 export default appSlice;

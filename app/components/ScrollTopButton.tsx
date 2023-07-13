@@ -27,7 +27,7 @@ function ScrollTopButton() {
     <>
       {visibled && (
         <div
-          className="btn btn-primary fixed bottom-10 right-10 w-11 h-11 p-3 text-white shadow-xl rounded-full transition hover:-translate-y-1 ease-in-out duration-200 cursor-pointer z-50"
+          className="btn btn-primary fixed bottom-10 right-10 w-11 h-11 p-3 text-white shadow-xl rounded-full transition-all hover:-translate-y-1 cursor-pointer z-50"
           onClick={scrollToTop}
         >
           <ChevronUpIcon />
