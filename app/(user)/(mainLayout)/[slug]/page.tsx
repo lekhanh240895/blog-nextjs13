@@ -47,9 +47,9 @@ async function Post({ params }: Props) {
   const { slug } = params;
   const post: Post = await getPosts({ slug });
 
-  await updateView(post._id);
-
   if (!post) return;
+
+  await updateView(post._id);
 
   return (
     <article className="post">
