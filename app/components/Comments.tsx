@@ -19,7 +19,7 @@ function Comments({ postId }: Props) {
   const { data: comments, error } = useSwr(apiUrl, fetcher);
 
   return (
-    <section className="pt-4">
+    <section className="pt-4 pb-6">
       <div>
         <h1 className="text-3xl mb-4 md:mb-10">Comments</h1>
 

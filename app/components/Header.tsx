@@ -50,7 +50,7 @@ function Header() {
 
         <MenuButton />
 
-        <h1 className="hidden text-blue-900 lg:flex text-3xl sm:text-4xl md:text-5xl lg:text-7xl gap-x-1 md:gap-x-2 items-baseline transition-all hover:-translate-y-1">
+        <h1 className="hidden text-blue-900 xl:flex text-3xl sm:text-4xl md:text-5xl lg:text-7xl gap-x-1 md:gap-x-2 items-baseline transition-all hover:-translate-y-1">
           KhanhReview
           <span className="w-1 h-1 sm:w-2 sm:h-2 md:w-3 md:h-3 rounded-full bg-primary" />
         </h1>
@@ -58,7 +58,7 @@ function Header() {
         <HeaderRight />
       </div>
 
-      <h1 className="flex text-blue-900 lg:hidden justify-center items-baseline text-4xl sm:text-5xl lg:text-7xl gap-x-1 md:gap-x-2 transition-all hover:-translate-y-1">
+      <h1 className="flex text-blue-900 xl:hidden justify-center items-baseline text-4xl sm:text-5xl lg:text-7xl gap-x-1 md:gap-x-2 transition-all hover:-translate-y-1">
         KhanhReview
         <span className="w-1 h-1 sm:w-2 sm:h-2 md:w-3 md:h-3 rounded-full bg-primary" />
       </h1>
