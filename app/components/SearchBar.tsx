@@ -4,7 +4,7 @@ import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 import Link from "next/link";
 import { BookOpenIcon, TagIcon } from "@heroicons/react/24/outline";
 import Avatar from "./Avatar";
-import { useDeferredValue, useEffect, useState } from "react";
+import { useDeferredValue, useEffect, useRef, useState } from "react";
 import useSwr, { Fetcher } from "swr";
 import axios from "axios";
 import {
@@ -17,6 +17,8 @@ import { fetchPosts } from "../features/postSlice";
 import { AppDispatch } from "../redux/store";
 import { fetchUsers } from "../features/userSlice";
 import { fetchCategories } from "../features/categorySlice";
+import { Router } from "next/router";
+import { useRouter } from "next/navigation";
 
 type SearchType = {
   type: string;
@@ -34,6 +36,8 @@ function SearchBar() {
   const { posts: postsStore } = useSelector(postSelector);
   const { users: usersStore } = useSelector(userSelector);
   const { categories: categoriesStore } = useSelector(categorySelector);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const router = useRouter();
 
   useEffect(() => {
     dispatch(fetchPosts());
@@ -46,6 +50,10 @@ function SearchBar() {
 
     setRecentSearchs(stored ? JSON.parse(stored) : []);
   }, []);
+
+  useEffect(() => {
+    if (inputRef.current) inputRef.current.focus();
+  });
 
   const fetcher: Fetcher<
     {
@@ -82,6 +90,13 @@ function SearchBar() {
     localStorage.setItem("recentSearchs", JSON.stringify(newRecentSearchs));
 
     setShowSearchBar(!showSearchBar);
+    setQuery("");
+  };
+
+  const handleSubmit = (e: any) => {
+    e.preventDefault();
+    router.push(`/search?q=${query}`);
+    setShowSearchBar(!showSearchBar);
   };
 
   return (
@@ -97,16 +112,18 @@ function SearchBar() {
         <MagnifyingGlassIcon />
       </span>
 
-      {showSearchBar && (
-        <input
-          type="text"
-          placeholder="Bạn đang tìm kiếm điều gì?"
-          className="h-full rounded-full p-0 bg-inherit text-white shadow-none placeholder:text-white/90 focus-visible:border-none focus-visible:ring-transparent focus-visible:ring-offset-transparent transition-all"
-          onChange={(e) => setQuery(e.target.value)}
-          value={query}
-        />
-      )}
-
+      <form onSubmit={handleSubmit}>
+        {showSearchBar && (
+          <input
+            type="text"
+            placeholder="Bạn đang tìm kiếm điều gì?"
+            className="h-full rounded-full p-0 bg-inherit text-white shadow-none placeholder:text-white/90 focus-visible:border-none focus-visible:ring-transparent focus-visible:ring-offset-transparent transition-all"
+            onChange={(e) => setQuery(e.target.value)}
+            value={query}
+            ref={inputRef}
+          />
+        )}
+      </form>
       {/* Search results */}
       {showSearchBar && (
         <div className="absolute top-full left-0 right-0 bg-white shadow-lg shadow-gray-400 mt-2 rounded-b-md text-black z-10 max-h-[300px] md:max-h-[500px] overflow-scroll">
