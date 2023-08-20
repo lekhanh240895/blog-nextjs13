@@ -1,7 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { ShoppingCartIcon } from "@heroicons/react/24/outline";
+import {
+  Bars3Icon,
+  EllipsisHorizontalIcon,
+  ShoppingCartIcon,
+} from "@heroicons/react/24/outline";
 import { signOut, useSession } from "next-auth/react";
 import BasicMenu from "./BasicMenu";
 import Avatar from "./Avatar";
@@ -59,13 +63,22 @@ function HeaderRight() {
           </BasicMenu>
         </>
       ) : (
-        <button
-          className="btn btn-primary h-9 md:h-11 grid place-items-center transition-all hover:-translate-y-1 flex-shrink-0"
-          onClick={() => dispatch(setLoginModalOpened(true))}
-          type="button"
-        >
-          Đăng nhập
-        </button>
+        <>
+          <button
+            className="md:hidden flex-shrink-0 icon hover:-translate-y-1"
+            type="button"
+          >
+            <EllipsisHorizontalIcon className="w-8 h-8" />
+          </button>
+
+          <button
+            className="hidden md:grid btn btn-primary h-9 md:h-11 place-items-center transition-all hover:-translate-y-1 flex-shrink-0"
+            onClick={() => dispatch(setLoginModalOpened(true))}
+            type="button"
+          >
+            Đăng nhập
+          </button>
+        </>
       )}
     </div>
   );

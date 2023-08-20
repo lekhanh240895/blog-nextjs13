@@ -105,12 +105,13 @@ function SearchBar() {
         showSearchBar && "!w-64"
       }`}
     >
-      <span
-        className="text-white h-9 w-9 sm:h-10 sm:w-10 md:w-11 md:h-11 flex items-center justify-center p-2 flex-shrink-0 cursor-pointer"
+      <button
+        className="icon flex-shrink-0"
         onClick={() => setShowSearchBar(!showSearchBar)}
+        type="button"
       >
-        <MagnifyingGlassIcon />
-      </span>
+        <MagnifyingGlassIcon className="w-6 h-6 md:w-7 md:h-7" />
+      </button>
 
       <form onSubmit={handleSubmit}>
         {showSearchBar && (
@@ -124,6 +125,7 @@ function SearchBar() {
           />
         )}
       </form>
+
       {/* Search results */}
       {showSearchBar && (
         <div className="absolute top-full left-0 right-0 bg-white shadow-lg shadow-gray-400 mt-2 rounded-b-md text-black z-10 max-h-[300px] md:max-h-[500px] overflow-scroll">
