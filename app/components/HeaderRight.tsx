@@ -23,11 +23,11 @@ function HeaderRight() {
 
   const AvtarMenu = [
     {
-      title: "Account",
+      title: "Tài khoản",
       slug: "account",
     },
     {
-      title: "Sign Out",
+      title: "Đăng xuất",
       onClick: () => signOut(),
     },
   ];
@@ -35,6 +35,13 @@ function HeaderRight() {
   useEffect(() => {
     dispatch(setCart(JSON.parse(localStorage.getItem("cart") || "[]")));
   }, [dispatch]);
+
+  const MORE_MENU = [
+    {
+      title: "Đăng nhập",
+      onClick: () => dispatch(setLoginModalOpened(true)),
+    },
+  ];
 
   return (
     <div className="flex items-center gap-x-3">
@@ -64,12 +71,11 @@ function HeaderRight() {
         </>
       ) : (
         <>
-          <button
-            className="md:hidden flex-shrink-0 icon hover:-translate-y-1"
-            type="button"
-          >
-            <EllipsisHorizontalIcon className="w-8 h-8" />
-          </button>
+          <BasicMenu items={MORE_MENU}>
+            <div className="md:hidden flex-shrink-0 icon hover:-translate-y-1">
+              <EllipsisHorizontalIcon className="w-8 h-8" />
+            </div>
+          </BasicMenu>
 
           <button
             className="hidden md:grid btn btn-primary h-9 md:h-11 place-items-center transition-all hover:-translate-y-1 flex-shrink-0"

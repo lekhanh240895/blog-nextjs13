@@ -3,12 +3,13 @@ import BlogList from "../components/BlogList";
 import PostsSlider from "../components/PostsSlider";
 import AsideContent from "../components/AsideContent";
 import Pagination from "../components/Pagination";
-import { getPostsByPage } from "../lib/api";
+import { getPosts, getPostsByPage } from "../lib/api";
 
 export const revalidate = 60;
 
 export default async function Home() {
-  const posts = await getPostsByPage("1");
+  const posts = await getPostsByPage("1", 6);
+  const totalPosts: Post[] = await getPosts();
 
   return (
     <section>
@@ -22,7 +23,7 @@ export default async function Home() {
             </Suspense>
           </article>
 
-          <Pagination />
+          <Pagination itemsLength={totalPosts.length} numberPerPage={6} />
         </div>
 
         {/* @ts-expect-error Async Server Component */}

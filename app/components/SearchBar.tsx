@@ -95,13 +95,13 @@ function SearchBar() {
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    router.push(`/search?q=${query}`);
+    router.push(`/search?q=${query}&page=1&perPage=1`);
     setShowSearchBar(!showSearchBar);
   };
 
   return (
     <div
-      className={`bg-primary relative text-white pr-3 flex items-center rounded-full h-9 w-9 sm:h-10 sm:w-10 md:h-11 md:w-11 transition-all duration-300 ${
+      className={`bg-primary relative text-white flex items-center rounded-full h-9 w-9 sm:h-10 sm:w-10 md:h-11 md:w-11 transition-all duration-300 ${
         showSearchBar && "!w-64"
       }`}
     >

@@ -103,7 +103,7 @@ export default function LoginModal() {
                 <div className="p-6 flex-1">
                   <button
                     onClick={handleClose}
-                    className="w-10 h-10 p-2 rounded-full bg-gray-200 absolute top-5 right-5 cursor-pointer"
+                    className="w-8 h-8 md:w-10 md:h-10 p-2 rounded-full bg-gray-200 absolute top-4 right-4 md:top-5 md:right-5 cursor-pointer"
                   >
                     <XMarkIcon />
                   </button>

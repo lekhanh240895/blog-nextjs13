@@ -2,7 +2,7 @@ import AsideContent from "@/app/components/AsideContent";
 import BlogList from "@/app/components/BlogList";
 import Pagination from "@/app/components/Pagination";
 import PostsSlider from "@/app/components/PostsSlider";
-import { getPostsByPage } from "@/app/lib/api";
+import { getPosts, getPostsByPage } from "@/app/lib/api";
 import { Suspense } from "react";
 
 type Props = {
@@ -15,7 +15,8 @@ export const revalidate = 60;
 
 export default async function Home({ params }: Props) {
   const { number } = params;
-  const posts = await getPostsByPage(number);
+  const totalPosts: Post[] = await getPosts();
+  const posts: Post[] = await getPostsByPage(number, 6);
 
   return (
     <section>
@@ -29,7 +30,7 @@ export default async function Home({ params }: Props) {
             </Suspense>
           </article>
 
-          <Pagination />
+          <Pagination itemsLength={totalPosts.length} numberPerPage={6} />
         </div>
 
         {/* @ts-expect-error Async Server Component */}

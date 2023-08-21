@@ -9,43 +9,6 @@ export async function GET(req: Request) {
   await mongooseConnect();
 
   const { searchParams } = new URL(req.url);
-  const page = searchParams.get("page");
-  const postsPerPage = 6;
-
-  if (page) {
-    const posts: Post[] = await Post.find({})
-      .skip((parseInt(page, 10) - 1) * postsPerPage)
-      .limit(postsPerPage)
-      .sort({
-        createdAt: "desc",
-      })
-      .populate([
-        {
-          path: "user",
-          model: User,
-        },
-        {
-          path: "category",
-          model: Category,
-          populate: {
-            path: "parent",
-            model: "Category",
-          },
-        },
-        {
-          path: "comments",
-          model: Comment,
-          populate: [
-            {
-              path: "user",
-              model: "User",
-            },
-          ],
-        },
-      ]);
-    return NextResponse.json(posts);
-  }
-
   const query = Object.fromEntries(searchParams.entries());
 
   const conditions = Object.entries(query).map(([key, value]) => ({

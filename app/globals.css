@@ -24,12 +24,6 @@
   text-align: center;
 }
 
-/* @media screen and (max-width: 768px) {
-  ::-webkit-scrollbar {
-    display: none;
-  }
-} */
-
 .swiper-pagination-bullet {
   @apply !bg-gray-600;
 }

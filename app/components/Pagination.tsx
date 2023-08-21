@@ -2,24 +2,29 @@
 
 import React from "react";
 import { ArrowRightIcon, ArrowLeftIcon } from "@heroicons/react/24/outline";
-import { useSelector } from "react-redux";
-import { postSelector } from "../redux/selector";
 import { useParams, useRouter } from "next/navigation";
 
-export default function Pagination() {
-  const { posts } = useSelector(postSelector);
+type Props = {
+  itemsLength: number;
+  numberPerPage?: number;
+  destination?: string;
+};
+export default function Pagination({
+  itemsLength,
+  numberPerPage = 6,
+  destination = "/page/",
+}: Props) {
   const params = useParams();
   const { number } = params;
   const router = useRouter();
   const active = parseInt(number, 10) || 1;
-  const postsPerPage = 6;
-  const numberOfPage = Math.ceil(posts.length / postsPerPage) || 1;
+  const numberOfPage = Math.ceil(itemsLength / numberPerPage) || 1;
   const pageArr = Array.from({ length: numberOfPage }, (_, i) => i + 1);
 
   const next = () => {
     if (active === numberOfPage) return;
 
-    router.push("/page/" + (active + 1));
+    router.push(destination + (active + 1));
   };
 
   const prev = () => {
@@ -29,14 +34,14 @@ export default function Pagination() {
       return router.push("/");
     }
 
-    router.push("/page/" + (active - 1));
+    router.push(destination + (active - 1));
   };
 
   const handleSelectPage = (page: number) => {
     if (page === 1) {
       return router.push("/");
     }
-    router.push("/page/" + page);
+    router.push(destination + page);
   };
 
   return (

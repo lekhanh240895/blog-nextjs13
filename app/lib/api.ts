@@ -78,9 +78,8 @@ export const getPosts = async (options?: Options) => {
   return JSON.parse(JSON.stringify(posts));
 };
 
-export const getPostsByPage = async (page: string) => {
+export const getPostsByPage = async (page: string, postsPerPage: number) => {
   await mongooseConnect();
-  const postsPerPage = 6;
 
   const posts = await Post.find({})
     .skip((parseInt(page, 10) - 1) * postsPerPage)
