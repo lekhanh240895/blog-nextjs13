@@ -74,7 +74,10 @@ const authOptions: NextAuthOptions = {
         session.user._id = token.id;
 
         if (admins.includes(session.user.email)) {
+          session.user.role = "admin";
           token.role = "admin";
+        } else {
+          session.user.role = "user";
         }
       }
       return session;

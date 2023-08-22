@@ -156,6 +156,20 @@ export const getCategories = async (options?: Options) => {
   return JSON.parse(JSON.stringify(categories));
 };
 
+export const getUsers = async (options?: Options) => {
+  await mongooseConnect();
+
+  if (options) {
+    const user = await User.findOne(options);
+
+    return JSON.parse(JSON.stringify(user));
+  }
+
+  const users = await User.find({});
+
+  return JSON.parse(JSON.stringify(users));
+};
+
 export const getProducts = async (options?: Options) => {
   await mongooseConnect();
 

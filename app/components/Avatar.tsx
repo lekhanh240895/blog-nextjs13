@@ -40,7 +40,7 @@ function Avatar({
         alt={alt}
         fill
         sizes="100%"
-        className="rounded-full object-cover object-center"
+        className="rounded-full object-cover object-center shadow-lg"
       />
     </Component>
   );

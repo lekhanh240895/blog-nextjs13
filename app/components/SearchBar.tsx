@@ -95,7 +95,7 @@ function SearchBar() {
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    router.push(`/search?q=${query}&page=1&perPage=1`);
+    router.push(`/search?q=${query}`);
     setShowSearchBar(!showSearchBar);
   };
 
@@ -128,7 +128,7 @@ function SearchBar() {
 
       {/* Search results */}
       {showSearchBar && (
-        <div className="absolute top-full left-0 right-0 bg-white shadow-lg shadow-gray-400 mt-2 rounded-b-md text-black z-10 max-h-[300px] md:max-h-[500px] overflow-scroll">
+        <div className="absolute top-full left-0 right-0 bg-white shadow-lg shadow-gray-400 mt-2 rounded-b-md text-black z-10 max-h-[300px] md:max-h-[500px] overflow-scroll transition-all">
           {data ? (
             <>
               {posts && posts.length > 0 && (
@@ -160,7 +160,7 @@ function SearchBar() {
 
                   {users.map((user) => (
                     <Link
-                      href={`/account/${user.username}`}
+                      href={`/author/${user.username}`}
                       key={user._id}
                       className="hover:bg-gray-100 px-4 py-2 block"
                       onClick={() => handleSearch("user", user._id)}
@@ -234,7 +234,7 @@ function SearchBar() {
                       if (user)
                         return (
                           <Link
-                            href={`/account/${user.username}`}
+                            href={`/author/${user.username}`}
                             key={user._id}
                             className="hover:bg-gray-100 px-4 py-2 block"
                             onClick={() => handleSearch("user", user._id)}

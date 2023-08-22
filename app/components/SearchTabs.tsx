@@ -11,6 +11,7 @@ import { postSelector } from "../redux/selector";
 import { useSelector } from "react-redux";
 import { TagIcon } from "@heroicons/react/20/solid";
 import Pagination from "./Pagination";
+import Image from "next/image";
 
 function classNames(...classes: any) {
   return classes.filter(Boolean).join(" ");
@@ -37,33 +38,25 @@ export default function SearchTabs() {
     return res.data;
   };
 
-  const apiUrl = `/api/search?q=${query}&page=${page}&perPage=${numberPerPage}`;
-  const { data: pageData } = useSwr(apiUrl, fetcher);
+  const apiUrl = `/api/search?q=${query}`;
+  const { data } = useSwr(apiUrl, fetcher);
 
-  const popularPosts = pageData?.popularPosts;
-  const posts = pageData?.posts;
-  const categories = pageData?.categories;
-  const users = pageData?.users;
-
-  const url = `/api/search?q=${query}`;
-  const { data } = useSwr(url, fetcher);
-
-  const totalPopularPosts = data?.popularPosts;
-  const totalPost = data?.posts;
-  const totalCategories = data?.categories;
-  const totalUsers = data?.users;
+  const popularPosts = data?.popularPosts;
+  const posts = data?.posts;
+  const categories = data?.categories;
+  const users = data?.users;
   return (
     <div>
       <div className="w-full pb-16">
         <Tab.Group>
-          <Tab.List className="flex space-x-1 rounded-xl bg-blue-900/20 p-1">
+          <Tab.List className="flex space-x-1 rounded-xl bg-blue-900 p-1">
             <Tab
               className={({ selected }) =>
                 classNames(
-                  "w-full rounded-lg py-2.5 text-sm font-medium leading-5 text-blue-700",
+                  "w-full rounded-lg py-2.5 text-sm font-medium leading-5",
                   "ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2",
                   selected
-                    ? "bg-white shadow"
+                    ? "bg-blue-100 shadow text-black"
                     : "text-blue-100 hover:bg-white/[0.12] hover:text-white"
                 )
               }
@@ -74,10 +67,10 @@ export default function SearchTabs() {
             <Tab
               className={({ selected }) =>
                 classNames(
-                  "w-full rounded-lg py-2.5 text-sm font-medium leading-5 text-blue-700",
+                  "w-full rounded-lg py-2.5 text-sm font-medium leading-5",
                   "ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2",
                   selected
-                    ? "bg-white shadow"
+                    ? "bg-blue-100 shadow text-black"
                     : "text-blue-100 hover:bg-white/[0.12] hover:text-white"
                 )
               }
@@ -87,10 +80,10 @@ export default function SearchTabs() {
             <Tab
               className={({ selected }) =>
                 classNames(
-                  "w-full rounded-lg py-2.5 text-sm font-medium leading-5 text-blue-700",
+                  "w-full rounded-lg py-2.5 text-sm font-medium leading-5",
                   "ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2",
                   selected
-                    ? "bg-white shadow"
+                    ? "bg-blue-100 shadow text-black"
                     : "text-blue-100 hover:bg-white/[0.12] hover:text-white"
                 )
               }
@@ -100,10 +93,10 @@ export default function SearchTabs() {
             <Tab
               className={({ selected }) =>
                 classNames(
-                  "w-full rounded-lg py-2.5 text-sm font-medium leading-5 text-blue-700",
+                  "w-full rounded-lg py-2.5 text-sm font-medium leading-5",
                   "ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2",
                   selected
-                    ? "bg-white shadow"
+                    ? "bg-blue-100 shadow text-black"
                     : "text-blue-100 hover:bg-white/[0.12] hover:text-white"
                 )
               }
@@ -126,24 +119,35 @@ export default function SearchTabs() {
                     key={post._id}
                     className=" rounded-md p-2 hover:bg-gray-100 block ring-offset-1 ring-offset-blue-400 focus:outline-none focus:ring-2"
                   >
-                    <h3 className="text-sm font-medium leading-5 text-black">
-                      {post.title}
-                    </h3>
+                    <div className="flex items-stretch gap-2 md:gap-3">
+                      <div className="w-20 h-20 relative">
+                        <Image
+                          src={post.mainImage}
+                          alt={post.title}
+                          fill
+                          className="object-cover object-center rounded"
+                        />
+                      </div>
 
-                    <ul className="mt-1 flex space-x-1 text-xs font-normal leading-4 text-gray-500">
-                      <li>{format(new Date(post.createdAt), "MM/dd/yyyy")}</li>
-                      <li>&middot;</li>
-                      <li>{post.comments.length} comments</li>
-                      <li>&middot;</li>
-                    </ul>
+                      <div>
+                        <h3 className="text-sm font-medium leading-5 text-black">
+                          {post.title}
+                        </h3>
+
+                        <ul className="mt-1 flex space-x-1 text-xs font-normal leading-4 text-gray-500">
+                          <li>
+                            {format(new Date(post.createdAt), "MM/dd/yyyy")}
+                          </li>
+                          <li>&middot;</li>
+                          <li>{post.comments.length} bình luận</li>
+                          <li>&middot;</li>
+                          <li>{post.views} lượt xem</li>
+                        </ul>
+                      </div>
+                    </div>
                   </Link>
                 ))}
               </ul>
-
-              <Pagination
-                itemsLength={totalPopularPosts?.length || 0}
-                numberPerPage={numberPerPage}
-              />
             </Tab.Panel>
 
             <Tab.Panel
@@ -159,16 +163,32 @@ export default function SearchTabs() {
                     key={post._id}
                     className=" rounded-md p-2 hover:bg-gray-100 block ring-offset-1 ring-offset-blue-400 focus:outline-none focus:ring-2"
                   >
-                    <h3 className="text-sm font-medium leading-5 text-black">
-                      {post.title}
-                    </h3>
+                    <div className="flex items-stretch gap-2 md:gap-3">
+                      <div className="w-20 h-20 relative">
+                        <Image
+                          src={post.mainImage}
+                          alt={post.title}
+                          fill
+                          className="object-cover object-center rounded"
+                        />
+                      </div>
 
-                    <ul className="mt-1 flex space-x-1 text-xs font-normal leading-4 text-gray-500">
-                      <li>{format(new Date(post.createdAt), "MM/dd/yyyy")}</li>
-                      <li>&middot;</li>
-                      <li>{post.comments.length} comments</li>
-                      <li>&middot;</li>
-                    </ul>
+                      <div>
+                        <h3 className="text-sm font-medium leading-5 text-black">
+                          {post.title}
+                        </h3>
+
+                        <ul className="mt-1 flex space-x-1 text-xs font-normal leading-4 text-gray-500">
+                          <li>
+                            {format(new Date(post.createdAt), "MM/dd/yyyy")}
+                          </li>
+                          <li>&middot;</li>
+                          <li>{post.comments.length} bình luận</li>
+                          <li>&middot;</li>
+                          <li>{post.views} lượt xem</li>
+                        </ul>
+                      </div>
+                    </div>
                   </Link>
                 ))}
               </ul>
@@ -183,14 +203,16 @@ export default function SearchTabs() {
               <ul>
                 {users?.map((user) => (
                   <Link
-                    href={`/account/${user.name}`}
+                    href={`/author/${user.username}`}
                     key={user._id}
-                    className="rounded-md flex gap-2 p-2 ring-offset-1 ring-offset-blue-400 focus:outline-none focus:ring-2"
+                    className="rounded-md flex items-stretch gap-2 p-2 ring-offset-1 ring-offset-blue-400 focus:outline-none focus:ring-2"
                   >
-                    <Avatar src={user.image} className="w-10 h-10" />
+                    <Avatar src={user.image} className="w-20 h-20" />
 
-                    <div>
-                      <h3 className="text-black text-sm">{user.name}</h3>
+                    <div className="">
+                      <h3 className="text-black text-sm leading-5">
+                        {user.name}
+                      </h3>
                       <p className="flex gap-1 items-center text-xs text-gray-500 leading-4">
                         <span>
                           {

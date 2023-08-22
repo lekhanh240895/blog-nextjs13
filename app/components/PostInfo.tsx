@@ -16,7 +16,7 @@ function PostInfo({ post }: Props) {
           <Avatar
             src={post.user.image}
             className="w-8 h-8"
-            href={`/account/@${post.user.name}`}
+            href={`/author/${post.user.username}`}
             alt={post.user.name}
           />
           <h2>{post.user.name}</h2>

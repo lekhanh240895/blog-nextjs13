@@ -8,7 +8,7 @@ import Image from "next/image";
 import "react-quill/dist/quill.snow.css";
 import { vi } from "date-fns/locale";
 import { Suspense } from "react";
-import { openGraphImage } from "@/app/share-metadata";
+import EditButton from "@/app/components/EditButton";
 
 interface Props {
   params: {
@@ -54,12 +54,7 @@ async function Post({ params }: Props) {
   return (
     <article className="post">
       <div className="text-center my-4">
-        <ClientSiteRoute
-          route={`/dashboard/posts/${post._id}/edit`}
-          className="btn btn-primary px-4 text-lg min-w-[244px]"
-        >
-          Edit this post
-        </ClientSiteRoute>
+        <EditButton post={post} />
       </div>
 
       <section className="relative min-h-[256px] ">
@@ -143,7 +138,7 @@ async function Post({ params }: Props) {
 
           <div className="flex flex-col md:flex-row gap-3 md:gap-6 items-center md:items-start text-sm text-gray-500">
             <Avatar
-              href={`/account/${post.user.name}}`}
+              href={`/author/${post.user.username}}`}
               src={post.user.image}
             />
 
@@ -155,11 +150,11 @@ async function Post({ params }: Props) {
               </div>
 
               <p className="text-gray-500 tracking-wider leading-6 text-center md:text-left">
-                {post.user.description} ehhehhe
+                {post.user.description}
               </p>
 
-              <button className="btn btn-primary rounded-full py-2 md:py-1 text-gray-100 max-w-[150px] self-center md:self-start">
-                View All Articles
+              <button className="btn btn-primary rounded-full py-2 md:py-1 text-gray-100 max-w-[250px] self-center md:self-start">
+                Xem tất cả bài viết
               </button>
             </div>
           </div>
