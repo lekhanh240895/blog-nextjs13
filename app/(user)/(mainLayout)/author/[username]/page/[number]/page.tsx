@@ -1,48 +1,24 @@
 import Avatar from "@/app/components/Avatar";
 import BlogList from "@/app/components/BlogList";
-import EditProfileButton from "@/app/components/EditProfileButton";
 import Pagination from "@/app/components/Pagination";
 import { getPosts, getPostsByPage, getUsers } from "@/app/lib/api";
-import { openGraphImage } from "@/app/share-metadata";
 
 interface Props {
   params: {
     username: string;
+    number: string;
   };
 }
 
 export const revalidate = 60;
 
-export async function generateMetadata({ params }: Props) {
-  const { username } = params;
-  const user: User = await getUsers({ username });
-
-  if (!user) return {};
-
-  return {
-    title: user.name,
-    description: user.description,
-    openGraph: {
-      title: user.name,
-      description: user.description,
-      ...openGraphImage,
-    },
-  };
-}
-
-export async function generateStaticParams() {
-  const users: User[] = await getUsers();
-
-  return users.map((user) => ({
-    username: user.username,
-  }));
-}
-
 async function Author({ params }: Props) {
-  const { username } = params;
+  const { username, number } = params;
 
   const user: User = await getUsers({ username });
-  const postsPerPage: Post[] = await getPostsByPage(1, 6, { user: user._id });
+  const postsPerPage: Post[] = await getPostsByPage(parseInt(number, 10), 6, {
+    user: user._id,
+  });
   const userPosts: Post[] = await getPosts({ user: user._id });
 
   if (!user || !userPosts.length) return;
@@ -65,8 +41,6 @@ async function Author({ params }: Props) {
               <div className="w-2 h-2 text-black bg-primary rounded-full"></div>
               <h3 className="text-gray-600">{userPosts.length} Articles</h3>
             </div>
-
-            <EditProfileButton />
           </div>
         </div>
 

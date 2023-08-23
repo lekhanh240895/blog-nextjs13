@@ -1,4 +1,5 @@
 import BlogList from "@/app/components/BlogList";
+import EditPostButton from "@/app/components/EditPostButton";
 import EditCategoryButton from "@/app/components/EditCategoryButton";
 import Pagination from "@/app/components/Pagination";
 import { getCategories, getPosts, getPostsByPage } from "@/app/lib/api";
@@ -8,6 +9,7 @@ import { TagIcon } from "@heroicons/react/24/outline";
 interface Props {
   params: {
     slug: string;
+    number: string;
   };
 }
 
@@ -39,11 +41,11 @@ export async function generateStaticParams() {
 }
 
 async function Category({ params }: Props) {
-  const { slug } = params;
+  const { slug, number } = params;
 
   const category: Category = await getCategories({ slug });
   const postsByCategory: Post[] = await getPosts({ category: category._id });
-  const postsPerPage: Post[] = await getPostsByPage(1, 2, {
+  const postsPerPage: Post[] = await getPostsByPage(parseInt(number, 10), 2, {
     category: category._id,
   });
 

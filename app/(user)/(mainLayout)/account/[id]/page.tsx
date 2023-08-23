@@ -1,7 +1,12 @@
 import React from "react";
 
 function Account() {
-  return <div>Account</div>;
+  return (
+    <form>
+      <input type="text" placeholder="Name" />
+      <input type="text" placeholder="Username" />
+    </form>
+  );
 }
 
 export default Account;

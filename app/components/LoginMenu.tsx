@@ -72,7 +72,7 @@ export default function LoginMenu({ items, title, policy }: LoginMenuProps) {
   };
 
   return (
-    <div className="">
+    <div>
       {history.length > 1 ? (
         <>
           <button
@@ -82,7 +82,7 @@ export default function LoginMenu({ items, title, policy }: LoginMenuProps) {
             <ChevronLeftIcon />
           </button>
 
-          <h4 className="text-2xl flex-1 text-cennter mt-4 mb-10">
+          <h4 className="text-2xl flex-1 text-center mt-4 mb-10">
             {current.title}
           </h4>
 

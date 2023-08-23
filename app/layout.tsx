@@ -6,6 +6,7 @@ import LoginModal from "./modal/LoginModal";
 import ScrollTopButton from "./components/ScrollTopButton";
 import ToastContainer from "./components/ToastContainer";
 import "react-toastify/dist/ReactToastify.css";
+import EditProfileModal from "./modal/EditProfileModal";
 
 const robotoSlab = Roboto_Slab({
   weight: ["500", "600", "400", "700", "800", "900"],
@@ -42,6 +43,7 @@ export default function RootLayout({
         <ReduxProvider>
           <AuthContext>
             <LoginModal />
+            <EditProfileModal />
 
             {children}
 

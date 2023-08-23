@@ -27,7 +27,7 @@ export default function SidebarCategoryMenu() {
             <div className="group transition-all flex gap-x-1 items-center">
               <ChartBarIcon className="w-5 h-5" />
 
-              <span className="">Categories</span>
+              <span className="">Danh mục</span>
 
               <ChevronDownIcon
                 className={`w-4 h-4 inline-block transition-all ${

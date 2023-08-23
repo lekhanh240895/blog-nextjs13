@@ -16,7 +16,7 @@ export const revalidate = 60;
 export default async function Home({ params }: Props) {
   const { number } = params;
   const totalPosts: Post[] = await getPosts();
-  const posts: Post[] = await getPostsByPage(number, 6);
+  const posts: Post[] = await getPostsByPage(parseInt(number, 10), 6);
 
   return (
     <section>

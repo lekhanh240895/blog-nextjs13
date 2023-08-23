@@ -4,7 +4,7 @@ import Link from "next/link";
 import React from "react";
 import { useSession } from "next-auth/react";
 
-function EditButton({ post }: { post: Post }) {
+function EditPostButton({ post }: { post: Post }) {
   const { data: session } = useSession();
 
   return (
@@ -15,11 +15,11 @@ function EditButton({ post }: { post: Post }) {
           href={`/dashboard/posts/${post._id}/edit`}
           className="btn btn-primary px-4 text-lg min-w-[244px]"
         >
-          Chỉnh sửa bài viết
+          Chỉnh sửa bài viết này
         </Link>
       )}
     </>
   );
 }
 
-export default EditButton;
+export default EditPostButton;

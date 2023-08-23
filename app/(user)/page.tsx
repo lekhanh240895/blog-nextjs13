@@ -8,7 +8,7 @@ import { getPosts, getPostsByPage } from "../lib/api";
 export const revalidate = 60;
 
 export default async function Home() {
-  const posts = await getPostsByPage("1", 6);
+  const posts = await getPostsByPage(1, 6);
   const totalPosts: Post[] = await getPosts();
 
   return (

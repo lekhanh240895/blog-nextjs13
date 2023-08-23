@@ -12,7 +12,7 @@ type Props = {
 export default function Pagination({
   itemsLength,
   numberPerPage = 6,
-  destination = "/page/",
+  destination = "",
 }: Props) {
   const params = useParams();
   const { number } = params;
@@ -24,7 +24,7 @@ export default function Pagination({
   const next = () => {
     if (active === numberOfPage) return;
 
-    router.push(destination + (active + 1));
+    router.push(destination + "/page/" + (active + 1));
   };
 
   const prev = () => {
@@ -34,14 +34,14 @@ export default function Pagination({
       return router.push("/");
     }
 
-    router.push(destination + (active - 1));
+    router.push(destination + "/page/" + (active - 1));
   };
 
   const handleSelectPage = (page: number) => {
     if (page === 1) {
-      return router.push("/");
+      return router.push(destination);
     }
-    router.push(destination + page);
+    router.push(destination + "/page/" + page);
   };
 
   return (

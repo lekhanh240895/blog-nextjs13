@@ -35,7 +35,7 @@ function Post({ post }: Props) {
           </div>
         </ClientSiteRoute>
 
-        <div className="absolute top-2 right-2 bg-primary text-white flex items-center gap-3 px-4 py-1 rounded-full z-10">
+        <div className="absolute top-2 right-2 bg-primary text-white flex items-center gap-3 px-4 py-1 rounded-full z-1">
           <div className="flex gap-1 items-center">
             <ChatBubbleLeftIcon className="w-4 h-4" />
             <span>{post.comments.length}</span>

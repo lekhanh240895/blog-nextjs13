@@ -10,39 +10,41 @@ interface Options {
   [key: string]: any;
 }
 
+export const getPost = async (options?: Options) => {
+  await mongooseConnect();
+
+  const post = await Post.findOne(options).populate([
+    {
+      path: "user",
+      model: User,
+    },
+    {
+      path: "category",
+      model: Category,
+      populate: {
+        path: "parent",
+        model: "Category",
+      },
+    },
+    {
+      path: "comments",
+      model: Comment,
+      populate: [
+        {
+          path: "user",
+          model: "User",
+        },
+      ],
+    },
+  ]);
+
+  return JSON.parse(JSON.stringify(post));
+};
+
 export const getPosts = async (options?: Options) => {
   await mongooseConnect();
 
-  if (options) {
-    const post = await Post.findOne(options).populate([
-      {
-        path: "user",
-        model: User,
-      },
-      {
-        path: "category",
-        model: Category,
-        populate: {
-          path: "parent",
-          model: "Category",
-        },
-      },
-      {
-        path: "comments",
-        model: Comment,
-        populate: [
-          {
-            path: "user",
-            model: "User",
-          },
-        ],
-      },
-    ]);
-
-    return JSON.parse(JSON.stringify(post));
-  }
-
-  const posts = await Post.find()
+  const posts = await Post.find(options || {})
     .sort({
       createdAt: "desc",
     })
@@ -78,11 +80,15 @@ export const getPosts = async (options?: Options) => {
   return JSON.parse(JSON.stringify(posts));
 };
 
-export const getPostsByPage = async (page: string, postsPerPage: number) => {
+export const getPostsByPage = async (
+  page: number,
+  postsPerPage: number,
+  options?: Options
+) => {
   await mongooseConnect();
 
-  const posts = await Post.find({})
-    .skip((parseInt(page, 10) - 1) * postsPerPage)
+  const posts = await Post.find(options || {})
+    .skip((page - 1) * postsPerPage)
     .limit(postsPerPage)
     .sort({
       createdAt: "desc",

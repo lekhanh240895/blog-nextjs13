@@ -11,20 +11,22 @@ import BasicMenu from "./BasicMenu";
 import Avatar from "./Avatar";
 import { useDispatch, useSelector } from "react-redux";
 import { setCart, setLoginModalOpened } from "../features/appSlice";
-import { appSelector } from "../redux/selector";
+import { appSelector, userSelector } from "../redux/selector";
 import { useEffect } from "react";
 import SearchBar from "./SearchBar";
 
 function HeaderRight() {
   const { data: session } = useSession();
   const { cartProductIds } = useSelector(appSelector);
+  const { users } = useSelector(userSelector);
+  const currentUser = users.find((user) => user._id === session?.user._id);
 
   const dispatch = useDispatch();
 
   const AvtarMenu = [
     {
       title: "Tài khoản",
-      slug: "account",
+      slug: `author/${currentUser?.username}`,
     },
     {
       title: "Đăng xuất",

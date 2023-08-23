@@ -1,7 +1,7 @@
 "use client";
 
 import { setSidebarOpened } from "@/app/features/appSlice";
-import { appSelector } from "@/app/redux/selector";
+import { appSelector, userSelector } from "@/app/redux/selector";
 import {
   ArrowLeftOnRectangleIcon,
   BuildingStorefrontIcon,
@@ -13,7 +13,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
-import { signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import SidebarCategoryMenu from "./SidebarCategoryMenu";
 import { UserIcon } from "./Icons";
 
@@ -21,25 +21,28 @@ function Sidebar() {
   const { sidebarOpened } = useSelector(appSelector);
   const dispatch = useDispatch();
   const pathname = usePathname();
+  const { data: session } = useSession();
+  const { users } = useSelector(userSelector);
+  const currentUser = users.find((user) => user._id === session?.user._id);
 
   const links = [
     {
-      title: "Homepage",
+      title: "Trang chủ",
       href: "/",
       icon: <HomeModernIcon className="w-5 h-5" />,
     },
     {
-      title: "Account",
-      href: "/account",
+      title: "Tài khoản",
+      href: `/author/${currentUser?.username}`,
       icon: <UserIcon className="w-5 h-5" />,
     },
     {
-      title: "Products",
+      title: "Sản phẩm",
       href: "/products",
       icon: <BuildingStorefrontIcon className="w-5 h-5" />,
     },
     {
-      title: "Settings",
+      title: "Cài đặt",
       href: "/settings",
       icon: <Cog8ToothIcon className="w-5 h-5" />,
     },

@@ -2,13 +2,13 @@ import Avatar from "@/app/components/Avatar";
 import ClientSiteRoute from "@/app/components/ClientSiteRoute";
 import Comments from "@/app/components/Comments";
 import PostCommentForm from "@/app/components/PostCommentForm";
-import { getPosts, updateView } from "@/app/lib/api";
+import { getPost, getPosts, updateView } from "@/app/lib/api";
 import { format } from "date-fns";
 import Image from "next/image";
 import "react-quill/dist/quill.snow.css";
 import { vi } from "date-fns/locale";
 import { Suspense } from "react";
-import EditButton from "@/app/components/EditButton";
+import EditPostButton from "@/app/components/EditPostButton";
 
 interface Props {
   params: {
@@ -20,7 +20,7 @@ export const revalidate = 60;
 
 export async function generateMetadata({ params }: Props) {
   const { slug } = params;
-  const post = await getPosts({ slug });
+  const post = await getPost({ slug });
 
   if (!post) return {};
 
@@ -45,7 +45,7 @@ export async function generateStaticParams() {
 
 async function Post({ params }: Props) {
   const { slug } = params;
-  const post: Post = await getPosts({ slug });
+  const post: Post = await getPost({ slug });
 
   if (!post) return;
 
@@ -54,7 +54,7 @@ async function Post({ params }: Props) {
   return (
     <article className="post">
       <div className="text-center my-4">
-        <EditButton post={post} />
+        <EditPostButton post={post} />
       </div>
 
       <section className="relative min-h-[256px] ">
