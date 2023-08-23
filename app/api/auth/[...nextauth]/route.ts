@@ -11,7 +11,7 @@ import bcrypt from "bcrypt";
 
 const admins = ["admin@gm.com", "lekhanh240895@gmail.com"];
 
-export const authOptions: NextAuthOptions = {
+const authOptions: NextAuthOptions = {
   session: {
     strategy: "jwt",
   },
