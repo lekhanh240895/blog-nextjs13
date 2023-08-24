@@ -1,5 +1,4 @@
 import CartBody from "@/app/components/CartBody";
-import { Suspense } from "react";
 
 export async function generateMetadata() {
   return {
@@ -8,11 +7,7 @@ export async function generateMetadata() {
 }
 
 function Cart() {
-  return (
-    <Suspense fallback={"loading..."}>
-      <CartBody />
-    </Suspense>
-  );
+  return <CartBody />;
 }
 
 export default Cart;

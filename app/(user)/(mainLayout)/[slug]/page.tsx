@@ -124,9 +124,7 @@ async function Post({ params }: Props) {
       </section>
 
       <div className="divide-y divide-gray-100">
-        <Suspense fallback={"loading..."}>
-          <Comments postId={post._id} />
-        </Suspense>
+        <Comments postId={post._id} />
 
         <PostCommentForm postId={post._id} />
 

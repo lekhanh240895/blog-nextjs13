@@ -51,7 +51,7 @@
   }
 
   .btn {
-    @apply flex justify-center rounded-md border border-transparent px-4 py-2 text-sm font-medium bg-gray-300 text-black hover:bg-slate-300 md:bg-blue-100 md:text-blue-900 md:hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 transition-all shadow-md;
+    @apply flex justify-center items-center rounded-md border border-transparent px-4 py-2 text-sm font-medium bg-gray-300 text-black hover:bg-slate-300 md:bg-blue-100 md:text-blue-900 md:hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 transition-all shadow-md;
   }
 
   .btn-secondary {
