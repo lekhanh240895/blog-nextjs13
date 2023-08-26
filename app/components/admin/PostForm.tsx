@@ -1,6 +1,6 @@
 "use client";
 
-import React, { Suspense, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import "react-quill/dist/quill.snow.css";
 import { useForm } from "react-hook-form";
 import { PlusIcon, XMarkIcon } from "@heroicons/react/24/outline";

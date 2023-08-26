@@ -17,8 +17,8 @@ import { fetchPosts } from "../features/postSlice";
 import { AppDispatch } from "../redux/store";
 import { fetchUsers } from "../features/userSlice";
 import { fetchCategories } from "../features/categorySlice";
-import { Router } from "next/router";
 import { useRouter } from "next/navigation";
+import useOnClickOutside from "../hooks/useOnClickOutside";
 
 type SearchType = {
   type: string;
@@ -38,6 +38,11 @@ function SearchBar() {
   const { categories: categoriesStore } = useSelector(categorySelector);
   const inputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
+  const searchBarRef = useRef<HTMLDivElement | null>(null);
+
+  useOnClickOutside(searchBarRef, () => setShowSearchBar(false));
+
+  useEffect(() => {}, []);
 
   useEffect(() => {
     dispatch(fetchPosts());
@@ -104,14 +109,14 @@ function SearchBar() {
       className={`bg-primary relative text-white flex items-center rounded-full h-9 w-9 sm:h-10 sm:w-10 md:h-11 md:w-11 transition-all duration-300 ${
         showSearchBar && "!w-64"
       }`}
+      ref={searchBarRef}
     >
-      <button
+      <span
         className="icon flex-shrink-0"
         onClick={() => setShowSearchBar(!showSearchBar)}
-        type="button"
       >
         <MagnifyingGlassIcon className="w-6 h-6 md:w-7 md:h-7" />
-      </button>
+      </span>
 
       <form onSubmit={handleSubmit}>
         {showSearchBar && (

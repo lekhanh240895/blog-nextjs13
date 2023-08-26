@@ -66,12 +66,16 @@ const authOptions: NextAuthOptions = {
 
       if (user) {
         token.id = user.id;
+        token.username = user.username;
       }
+
+      console.log("jwt", { account, user });
       return token;
     },
     async session({ session, token, user }) {
       if (token) {
         session.user._id = token.id;
+        session.user.username = token.username;
 
         if (admins.includes(session.user.email)) {
           session.user.role = "admin";
@@ -80,6 +84,8 @@ const authOptions: NextAuthOptions = {
           session.user.role = "user";
         }
       }
+
+      console.log("session", { session, user, token });
       return session;
     },
   },

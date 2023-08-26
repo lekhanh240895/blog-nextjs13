@@ -8,13 +8,12 @@ import { setSidebarOpened } from "../features/appSlice";
 function MenuButton() {
   const dispatch = useDispatch();
   return (
-    <button
+    <span
       className="md:hidden flex-shrink-0 icon hover:-translate-y-1"
       onClick={() => dispatch(setSidebarOpened(true))}
-      type="button"
     >
       <Bars3Icon />
-    </button>
+    </span>
   );
 }
 

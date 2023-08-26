@@ -1,20 +1,68 @@
 "use client";
 
 import { Dialog, Transition } from "@headlessui/react";
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { appSelector } from "../redux/selector";
 import { setEditProfileModalOpened } from "../features/appSlice";
-import { XMarkIcon } from "@heroicons/react/24/outline";
+import { PencilIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { useSession } from "next-auth/react";
+import Avatar from "../components/Avatar";
+import { useForm } from "react-hook-form";
+import { uploadFileFirebase } from "../services/firebaseService";
+import axios from "axios";
+
+interface FormData {
+  image: string;
+  username: string;
+  name: string;
+  description: string;
+}
 
 function EditProfileModal() {
   const { editProfileModalOpened } = useSelector(appSelector);
   const dispatch = useDispatch();
+  const { register, handleSubmit, setValue } = useForm<FormData>();
+  const { data: session } = useSession();
+  const [file, setFile] = useState<File | null>(null);
+  const [preview, setPreview] = useState("");
+
+  useEffect(() => {
+    if (session) {
+      setValue("image", session.user.image);
+      setValue("name", session.user.name);
+      setValue("username", session.user.username);
+      setValue("description", session.user.description);
+    }
+  }, [session, setValue]);
+
+  useEffect(() => {
+    if (file) {
+      const url = URL.createObjectURL(file);
+      setPreview(url);
+    } else {
+      setPreview("");
+    }
+  }, [file, setValue]);
 
   const handleClose = () => dispatch(setEditProfileModalOpened(false));
-  const { data: session } = useSession();
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFile = e.target.files?.[0];
 
+    if (selectedFile) setFile(selectedFile);
+  };
+
+  const onSubmit = async (data: FormData) => {
+    if (file) {
+      data.image = (await uploadFileFirebase("images", file)) as string;
+    }
+
+    console.log({ data });
+
+    await axios.put(`users?_id=${session?.user._id}`, {
+      data,
+    });
+  };
   return (
     <Transition appear show={editProfileModalOpened} as={Fragment}>
       <Dialog onClose={handleClose}>
@@ -31,7 +79,7 @@ function EditProfileModal() {
         </Transition.Child>
 
         <div className="fixed inset-0 overflow-y-auto">
-          <div className="flex min-h-full items-center justify-center p-4">
+          <div className="flex min-h-full items-center justify-center p-4 relative z-50 min-w-[120px]">
             <Transition.Child
               as={Fragment}
               enter="ease-out duration-300"
@@ -41,48 +89,91 @@ function EditProfileModal() {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className="w-full max-w-md min-h-[500px] transform overflow-hidden rounded-2xl bg-white shadow-xl transition-all">
-                <div className="p-6 flex flex-col">
+              <Dialog.Panel className="w-full max-w-3xl min-h-[500px] transform overflow-hidden rounded-2xl bg-white shadow-xl transition-all">
+                <div className="flex flex-col">
                   <button
                     onClick={handleClose}
-                    className="w-8 h-8 md:w-10 md:h-10 p-2 rounded-full bg-gray-200 absolute top-4 right-4 md:top-5 md:right-5 cursor-pointer"
+                    className="w-8 h-8 md:w-10 md:h-10 p-2 rounded-full bg-gray-200 hover:bg-gray-300 absolute top-4 right-4 md:top-5 md:right-5 cursor-pointer"
                   >
                     <XMarkIcon />
                   </button>
 
-                  <form className="flex-1">
-                    <h4 className="text-2xl text-center mt-4 mb-10">
+                  <form onSubmit={handleSubmit(onSubmit)}>
+                    <h1 className="p-6 text-2xl border-b border-gray-200">
                       Chỉnh sửa hồ sơ
-                    </h4>
+                    </h1>
 
-                    <div className="mb-4 flex gap-2 items-center">
-                      <label htmlFor="name" className="w-40">
-                        Name:
-                      </label>
-                      <input id="name" type="text" placeholder="Name" />
+                    <div className="p-6 divide-y divide-gray-200">
+                      <div className="px-4 py-6 flex flex-col gap-1 md:flex-row md:gap-2 md:items-center">
+                        <label htmlFor="name" className="w-32">
+                          Ảnh hồ sơ
+                        </label>
+
+                        <div className="flex-1 flex justify-center">
+                          <div className="relative">
+                            <Avatar
+                              src={preview ? preview : session?.user.image}
+                            />
+
+                            <label htmlFor="image">
+                              <PencilIcon className="absolute -bottom-1 right-0 w-8 h-8 bg-white border border-gray-300 rounded-full p-[6px] cursor-pointer" />
+                            </label>
+
+                            <input
+                              id="image"
+                              type="file"
+                              hidden
+                              accept="image/*"
+                              onChange={handleChange}
+                            />
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="px-4 py-6 flex flex-col gap-1 md:flex-row md:gap-2 md:items-center">
+                        <label htmlFor="username" className="w-32">
+                          Username
+                        </label>
+                        <input
+                          id="username"
+                          type="text"
+                          placeholder="Username"
+                          {...register("username")}
+                        />
+                      </div>
+
+                      <div className="px-4 py-6 flex flex-col gap-1 md:flex-row md:gap-2 md:items-center">
+                        <label htmlFor="name" className="w-32">
+                          Name
+                        </label>
+                        <input
+                          id="name"
+                          type="text"
+                          placeholder="Name"
+                          {...register("name")}
+                        />
+                      </div>
+
+                      <div className="px-4 py-6 flex flex-col gap-1 md:flex-row md:gap-2 md:items-center">
+                        <label htmlFor="description" className="w-32">
+                          Mô tả bản thân
+                        </label>
+                        <textarea
+                          id="description"
+                          placeholder="Description"
+                          className="h-20"
+                          {...register("description")}
+                        />
+                      </div>
                     </div>
 
-                    <div className="mb-4 flex gap-2 items-center">
-                      <label htmlFor="username" className="w-40">
-                        Username:
-                      </label>
-                      <input id="username" type="text" placeholder="Username" />
-                    </div>
-
-                    <div className="mb-4 flex gap-2 items-center">
-                      <label htmlFor="description" className="w-40">
-                        Mô tả bản thân:
-                      </label>
-                      <textarea
-                        id="description"
-                        placeholder="Description"
-                        className="h-20"
-                      />
-                    </div>
-
-                    <div className="flex gap-3 justify-end">
-                      <button className="btn btn-primary">Save</button>
-                      <button className="btn btn-secondary">Cancel</button>
+                    <div className="p-6 flex gap-3 justify-end">
+                      <button className="btn btn-primary min-w-[120px]">
+                        Save
+                      </button>
+                      <button className="btn btn-secondary min-w-[120px]">
+                        Cancel
+                      </button>
                     </div>
                   </form>
                 </div>

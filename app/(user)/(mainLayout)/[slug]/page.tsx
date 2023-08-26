@@ -7,8 +7,8 @@ import { format } from "date-fns";
 import Image from "next/image";
 import "react-quill/dist/quill.snow.css";
 import { vi } from "date-fns/locale";
-import { Suspense } from "react";
 import EditPostButton from "@/app/components/EditPostButton";
+import { notFound } from "next/navigation";
 
 interface Props {
   params: {
@@ -47,7 +47,7 @@ async function Post({ params }: Props) {
   const { slug } = params;
   const post: Post = await getPost({ slug });
 
-  if (!post) return;
+  if (!post) return notFound();
 
   await updateView(post._id);
 

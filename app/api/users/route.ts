@@ -29,7 +29,7 @@ export async function POST(req: Request) {
 
   const res = await req.json();
 
-  const { name, email, image, username, password } = res;
+  const { email, image, username, password } = res;
 
   if (!email || !username || !password) {
     return NextResponse.json("Please add all fields!", {
@@ -53,7 +53,6 @@ export async function POST(req: Request) {
   const hashPassword = await bcrypt.hash(password, salt);
 
   const newUser = await User.create({
-    name: username,
     email,
     image,
     username,
@@ -82,7 +81,7 @@ export async function PUT(req: Request) {
   const updatedUser = await User.findByIdAndUpdate(
     id,
     {
-      name: name || username,
+      name,
       image,
       email,
       username,

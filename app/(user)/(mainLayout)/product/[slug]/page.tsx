@@ -2,6 +2,7 @@ import ClientSiteRoute from "@/app/components/ClientSiteRoute";
 import ProductImageSlider from "@/app/components/ProductImageSlider";
 import { getProducts } from "@/app/lib/api";
 import Image from "next/image";
+import { notFound } from "next/navigation";
 import "react-quill/dist/quill.snow.css";
 
 interface Props {
@@ -41,7 +42,7 @@ async function Product({ params }: Props) {
   const { slug } = params;
   const product: Product = await getProducts({ slug });
 
-  if (!product) return;
+  if (!product) return notFound();
 
   return (
     <article className="product">

@@ -5,10 +5,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { postSelector } from "../redux/selector";
 import { ChartBarIcon, ChevronDownIcon } from "@heroicons/react/24/outline";
 import { setSidebarOpened } from "../features/appSlice";
+import { usePathname } from "next/navigation";
 
 export default function SidebarCategoryMenu() {
   const { posts } = useSelector(postSelector);
   const dispatch = useDispatch();
+  const pathname = usePathname();
 
   const categories = Array.from(
     new Set(posts.map((post) => post.category.title))
@@ -46,7 +48,7 @@ export default function SidebarCategoryMenu() {
             leaveFrom="transform opacity-100 translate-x-0"
             leaveTo="transform opacity-0 -translate-x-5"
           >
-            <Menu.Items className="absolute left-[calc(50%+10px)] top-0 mt-2 w-40 divide-y divide-gray-100 rounded-md bg-gray-200 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+            <Menu.Items className="absolute left-[150px] top-0 mt-2 w-40 divide-y divide-gray-100 rounded-md bg-gray-200 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
               {categories.length > 0 &&
                 categories.map((category) => (
                   <div className="p-1" key={category._id}>
@@ -55,7 +57,9 @@ export default function SidebarCategoryMenu() {
                         <Link
                           href={"/category/" + category.slug}
                           className={`${
-                            active ? "bg-slate-300" : "text-gray-900"
+                            pathname.includes(category.slug)
+                              ? "bg-slate-300"
+                              : "text-gray-900"
                           } flex w-full items-center rounded-md px-2 py-2 transition-all`}
                           onClick={() => {
                             dispatch(setSidebarOpened(false));

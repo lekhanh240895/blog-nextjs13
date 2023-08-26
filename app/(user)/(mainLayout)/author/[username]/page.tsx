@@ -4,6 +4,7 @@ import EditProfileButton from "@/app/components/EditProfileButton";
 import Pagination from "@/app/components/Pagination";
 import { getPosts, getPostsByPage, getUsers } from "@/app/lib/api";
 import { openGraphImage } from "@/app/share-metadata";
+import { notFound } from "next/navigation";
 
 interface Props {
   params: {
@@ -42,10 +43,11 @@ async function Author({ params }: Props) {
   const { username } = params;
 
   const user: User = await getUsers({ username });
+
+  if (!user) return notFound();
+
   const postsPerPage: Post[] = await getPostsByPage(1, 6, { user: user._id });
   const userPosts: Post[] = await getPosts({ user: user._id });
-
-  if (!user || !userPosts.length) return;
 
   return (
     <article>
@@ -65,8 +67,6 @@ async function Author({ params }: Props) {
               <div className="w-2 h-2 text-black bg-primary rounded-full"></div>
               <h3 className="text-gray-600">{userPosts.length} Articles</h3>
             </div>
-
-            <EditProfileButton />
           </div>
         </div>
 
@@ -77,11 +77,13 @@ async function Author({ params }: Props) {
 
       <BlogList posts={postsPerPage} />
 
-      <Pagination
-        itemsLength={userPosts.length}
-        numberPerPage={6}
-        destination={`/author/${user.username}`}
-      />
+      {userPosts.length > 0 && (
+        <Pagination
+          itemsLength={userPosts.length}
+          numberPerPage={6}
+          destination={`/author/${user.username}`}
+        />
+      )}
     </article>
   );
 }

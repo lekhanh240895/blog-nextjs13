@@ -4,6 +4,7 @@ import Pagination from "@/app/components/Pagination";
 import { getCategories, getPosts, getPostsByPage } from "@/app/lib/api";
 import { openGraphImage } from "@/app/share-metadata";
 import { TagIcon } from "@heroicons/react/24/outline";
+import { notFound } from "next/navigation";
 
 interface Props {
   params: {
@@ -47,7 +48,7 @@ async function Category({ params }: Props) {
     category: category._id,
   });
 
-  if (!category) return;
+  if (!category) return notFound();
 
   return (
     <article>
