@@ -8,7 +8,7 @@ import { getPosts, getPostsByPage } from "../lib/api";
 export const revalidate = 60;
 
 export default async function Home() {
-  const posts = await getPostsByPage(1, 6);
+  const posts = await getPostsByPage(1, 2);
   const totalPosts: Post[] = await getPosts();
 
   return (
@@ -23,7 +23,7 @@ export default async function Home() {
             </Suspense>
           </article>
 
-          <Pagination itemsLength={totalPosts.length} numberPerPage={6} />
+          <Pagination itemsLength={totalPosts.length} numberPerPage={2} />
         </div>
 
         {/* @ts-expect-error Async Server Component */}

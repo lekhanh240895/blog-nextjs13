@@ -25,8 +25,6 @@ function Sidebar() {
   const { data: session } = useSession();
   const sidebarRef = useRef<HTMLElement | null>(null);
 
-  console.log({ pathname });
-
   useOnClickOutside(sidebarRef, () => dispatch(setSidebarOpened(false)));
 
   const handleCloseSidebar = () => dispatch(setSidebarOpened(false));

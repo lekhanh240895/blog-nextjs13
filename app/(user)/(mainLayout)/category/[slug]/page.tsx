@@ -84,7 +84,7 @@ async function Category({ params }: Props) {
       <Pagination
         itemsLength={postsByCategory.length}
         numberPerPage={2}
-        destination={`/category/${category.slug}`}
+        destination={`/category/${category.slug}/page/`}
       />
     </article>
   );

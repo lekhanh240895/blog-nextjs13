@@ -42,8 +42,6 @@ function SearchBar() {
 
   useOnClickOutside(searchBarRef, () => setShowSearchBar(false));
 
-  useEffect(() => {}, []);
-
   useEffect(() => {
     dispatch(fetchPosts());
     dispatch(fetchUsers());
@@ -100,7 +98,7 @@ function SearchBar() {
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    router.push(`/search?q=${query}`);
+    router.replace(`/search?q=${query}&tab=popularPosts&perPage=2&page=1`);
     setShowSearchBar(!showSearchBar);
   };
 
