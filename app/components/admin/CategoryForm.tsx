@@ -257,7 +257,7 @@ export default function CategoryForm({ categories, editedCategory }: Props) {
                       property.values
                     )}
                   </td>
-                  <td className="space-y-1 space-x-1">
+                  <td className="min-w-[160px] flex flex-col gap-2">
                     {editIndex === index ? (
                       <button
                         className="btn grow"
@@ -274,7 +274,10 @@ export default function CategoryForm({ categories, editedCategory }: Props) {
                     ) : (
                       <button
                         className="btn grow"
-                        onClick={() => setEditIndex(index)}
+                        onClick={() => {
+                          setEditIndex(index);
+                          setValue("editedPropertyValues", property.values);
+                        }}
                         type="button"
                       >
                         Edit

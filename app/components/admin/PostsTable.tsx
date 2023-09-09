@@ -42,13 +42,14 @@ function PostsTable() {
                   ? `, ${post.category?.parent?.title}`
                   : ""}
               </td>
-              <td className="space-y-1 space-x-1 text-center min-w-[160px]">
+              <td className="min-w-[160px] flex flex-col gap-2">
                 <button className="btn" onClick={() => handleEdit(post)}>
                   Edit
                 </button>
                 <button
                   className="btn"
                   onClick={() => dispatch(openDeletePostModal(post))}
+                  type="button"
                 >
                   Delete
                 </button>

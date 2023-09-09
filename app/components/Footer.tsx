@@ -2,12 +2,14 @@ import Image from "next/image";
 import { BookOpenIcon, ClockIcon, EyeIcon } from "@heroicons/react/24/outline";
 import { format } from "date-fns";
 import ClientSiteRoute from "./ClientSiteRoute";
-import { getCategories, getPopularPosts } from "../lib/api";
+import { getCategories, getPopularPosts, getProducts } from "../lib/api";
 import { vi } from "date-fns/locale";
+import Link from "next/link";
 
 async function Footer() {
   const posts: Post[] = await getPopularPosts();
   const categories: Category[] = await getCategories();
+  const products: Product[] = await getProducts();
 
   return (
     <footer className="max-w-7xl mx-auto px-4 pt-6 pb-12 md:px-6 md:pt-12 md:pb-24">
@@ -121,7 +123,7 @@ async function Footer() {
                 <ClientSiteRoute
                   route={`/category/${category.slug}`}
                   key={category._id}
-                  className={`px-3 py-1 text-white text-sm ${background} ${focusBg}`}
+                  className={`btn px-3 py-1 text-white text-sm ${background} ${focusBg}`}
                 >
                   {category.title}
                 </ClientSiteRoute>
@@ -167,33 +169,21 @@ async function Footer() {
           </div>
 
           <div className="grid grid-cols-2 lg:grid-cols-3 gap-2">
-            <div className="relative  w-auto min-h-[128px] h-auto">
-              <Image
-                src="/logo.png"
-                alt="Advetising Image"
-                fill
-                sizes="100%"
-                className="object-cover object-center"
-              />
-            </div>
-            <div className="relative  w-auto min-h-[128px] h-auto">
-              <Image
-                src="/logo.png"
-                alt="Advetising Image"
-                fill
-                sizes="100%"
-                className="object-cover object-center"
-              />
-            </div>
-            <div className="relative  w-auto min-h-[128px] h-auto">
-              <Image
-                src="/logo.png"
-                alt="Advetising Image"
-                fill
-                sizes="100%"
-                className="object-cover object-center"
-              />
-            </div>
+            {products.map((product) => (
+              <Link
+                href={`/product/${product.slug}`}
+                className="relative w-auto min-h-[128px] h-auto"
+                key={product._id}
+              >
+                <Image
+                  src={product.images[0]}
+                  alt="Advetising Image"
+                  fill
+                  sizes="100%"
+                  className="object-cover object-center"
+                />
+              </Link>
+            ))}
           </div>
         </section>
       </div>

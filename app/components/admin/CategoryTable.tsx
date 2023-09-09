@@ -38,7 +38,7 @@ function CategoryTable({ categories }: Props) {
             <tr key={category._id}>
               <td className="min-w-[120px]">{category.title}</td>
               <td className="min-w-[120px]">{category.parent?.title}</td>
-              <td className="space-y-1 space-x-1 min-w-[160px]">
+              <td className="min-w-[160px] flex flex-col gap-2">
                 <button
                   className="btn grow"
                   onClick={() => handleEdit(category)}

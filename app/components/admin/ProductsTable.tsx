@@ -35,7 +35,7 @@ function ProductsTable() {
             <tr key={product._id}>
               <td className="min-w-[160px]">{product.title}</td>
 
-              <td className="align-middle space-y-1 space-x-1 text-center min-w-[160px]">
+              <td className="align-middle min-w-[160px] flex flex-col gap-2">
                 <button className="btn" onClick={() => handleEdit(product)}>
                   Edit
                 </button>

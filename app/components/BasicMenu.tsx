@@ -3,7 +3,7 @@
 import { Menu, Transition } from "@headlessui/react";
 import { ChevronLeftIcon, ChevronUpIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 
 interface Item {
   title: string;
@@ -35,6 +35,10 @@ export default function BasicMenu({
     }[]
   >([{ data: items }]);
   const current = history[history.length - 1];
+
+  useEffect(() => {
+    setHistory([{ data: items }]);
+  }, [items]);
 
   const handleBack = () => {
     setHistory((prevState) => prevState.slice(0, history.length - 1));
@@ -88,7 +92,7 @@ export default function BasicMenu({
                 return (
                   <div className="p-1" key={item.title + index}>
                     <Menu.Item as="li">
-                      {({ active }) =>
+                      {({ active, close }) =>
                         item.slug ? (
                           <Link
                             href={
@@ -99,6 +103,7 @@ export default function BasicMenu({
                             className={`${
                               active ? "bg-primary text-white" : "text-gray-900"
                             } flex w-full items-center rounded-md px-2 py-2 transition-all gap-2`}
+                            onClick={close}
                           >
                             {item.icon}
                             {item.title}

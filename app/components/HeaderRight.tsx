@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import {
-  Bars3Icon,
   EllipsisHorizontalIcon,
   ShoppingCartIcon,
 } from "@heroicons/react/24/outline";

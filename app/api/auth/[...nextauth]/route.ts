@@ -59,7 +59,7 @@ const authOptions: NextAuthOptions = {
   ],
   adapter: MongoDBAdapter(clientPromise),
   callbacks: {
-    async jwt({ token, account, user }) {
+    async jwt({ token, account, user, trigger, session }) {
       if (account) {
         token.accessToken = account.access_token;
       }
@@ -69,10 +69,13 @@ const authOptions: NextAuthOptions = {
         token.username = user.username;
       }
 
-      console.log("jwt", { account, user });
+      if (trigger === "update" && session?.user.username) {
+        // Note, that `session` can be any arbitrary object, remember to validate it!
+        token.username = session?.user.username;
+      }
       return token;
     },
-    async session({ session, token, user }) {
+    async session({ session, token, user, trigger, newSession }) {
       if (token) {
         session.user._id = token.id;
         session.user.username = token.username;
@@ -85,7 +88,14 @@ const authOptions: NextAuthOptions = {
         }
       }
 
-      console.log("session", { session, user, token });
+      if (trigger === "update" && newSession?.user.username) {
+        // You can update the session in the database if it's not already updated.
+        // await adapter.updateUser(session.user.id, { name: newSession.name })
+
+        // Make sure the updated value is reflected on the client
+        session.user.username = newSession.user.username;
+      }
+
       return session;
     },
   },

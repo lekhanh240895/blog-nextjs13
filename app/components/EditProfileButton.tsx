@@ -4,16 +4,20 @@ import { useSession } from "next-auth/react";
 import { setEditProfileModalOpened } from "../features/appSlice";
 import { useDispatch } from "react-redux";
 import { PencilIcon } from "@heroicons/react/24/outline";
+import { notFound, useParams } from "next/navigation";
 
 function EditProfileButton() {
   const { data: session } = useSession();
   const dispatch = useDispatch();
+  const params = useParams();
 
-  if (!session) return null;
+  const { username } = params;
+
+  if (!session || username !== session.user.username) return null;
 
   return (
     <button
-      className="btn btn-primary py-1 px-[6px] gap-1"
+      className="btn btn-primary p-[6px] gap-1"
       type="button"
       onClick={() => dispatch(setEditProfileModalOpened(true))}
     >
