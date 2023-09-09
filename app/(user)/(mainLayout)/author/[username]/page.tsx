@@ -81,7 +81,7 @@ async function Author({ params }: Props) {
         <Pagination
           itemsLength={userPosts.length}
           numberPerPage={6}
-          destination={`/author/${user.username}`}
+          destination={`/author/${user.username}/page/`}
         />
       )}
     </article>

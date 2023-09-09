@@ -2,7 +2,7 @@
 
 import React from "react";
 import { ArrowRightIcon, ArrowLeftIcon } from "@heroicons/react/24/outline";
-import { useParams, useRouter } from "next/navigation";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
 
 type Props = {
   itemsLength: number;
@@ -12,19 +12,21 @@ type Props = {
 export default function Pagination({
   itemsLength,
   numberPerPage = 6,
-  destination = "",
+  destination = "/page/",
 }: Props) {
   const params = useParams();
+  const searchParams = useSearchParams();
+  const page = searchParams.get("page") as string;
   const { number } = params;
   const router = useRouter();
-  const active = parseInt(number, 10) || 1;
+  const active = parseInt(number || page, 10) || 1;
   const numberOfPage = Math.ceil(itemsLength / numberPerPage) || 1;
   const pageArr = Array.from({ length: numberOfPage }, (_, i) => i + 1);
 
   const next = () => {
     if (active === numberOfPage) return;
 
-    router.push(destination + "/page/" + (active + 1));
+    router.push(destination + (active + 1));
   };
 
   const prev = () => {
@@ -34,14 +36,11 @@ export default function Pagination({
       return router.push("/");
     }
 
-    router.push(destination + "/page/" + (active - 1));
+    router.push(destination + (active - 1));
   };
 
   const handleSelectPage = (page: number) => {
-    if (page === 1) {
-      return router.push(destination);
-    }
-    router.push(destination + "/page/" + page);
+    router.push(destination + page);
   };
 
   return (
