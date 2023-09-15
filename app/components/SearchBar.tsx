@@ -98,7 +98,7 @@ function SearchBar() {
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    router.replace(`/search?q=${query}&tab=popularPosts&perPage=2&page=1`);
+    router.replace(`/search?q=${query}&tab=popularPosts&perPage=6&page=1`);
     setShowSearchBar(!showSearchBar);
   };
 

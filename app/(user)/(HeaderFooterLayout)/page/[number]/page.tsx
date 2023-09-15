@@ -16,7 +16,7 @@ export const revalidate = 60;
 export default async function Home({ params }: Props) {
   const { number } = params;
   const totalPosts: Post[] = await getPosts();
-  const posts: Post[] = await getPostsByPage(parseInt(number, 10), 2);
+  const posts: Post[] = await getPostsByPage(parseInt(number, 10), 6);
 
   return (
     <section>
@@ -30,7 +30,7 @@ export default async function Home({ params }: Props) {
             </Suspense>
           </article>
 
-          <Pagination itemsLength={totalPosts.length} numberPerPage={2} />
+          <Pagination itemsLength={totalPosts.length} numberPerPage={6} />
         </div>
 
         {/* @ts-expect-error Async Server Component */}

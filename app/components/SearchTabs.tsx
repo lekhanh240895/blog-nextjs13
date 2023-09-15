@@ -72,7 +72,7 @@ export default function SearchTabs() {
               }
               onClick={() =>
                 router.push(
-                  `/search?q=${query}&tab=popularPosts&perPage=2&page=1`
+                  `/search?q=${query}&tab=popularPosts&perPage=${numberPerPage}&page=1`
                 )
               }
             >
@@ -90,7 +90,9 @@ export default function SearchTabs() {
                 )
               }
               onClick={() =>
-                router.push(`/search?q=${query}&tab=posts&perPage=2&page=1`)
+                router.push(
+                  `/search?q=${query}&tab=posts&perPage=${numberPerPage}&page=1`
+                )
               }
             >
               Bài viết
@@ -106,7 +108,9 @@ export default function SearchTabs() {
                 )
               }
               onClick={() =>
-                router.push(`/search?q=${query}&tab=authors&perPage=2&page=1`)
+                router.push(
+                  `/search?q=${query}&tab=authors&perPage=${numberPerPage}&page=1`
+                )
               }
             >
               Tác giả
@@ -123,7 +127,7 @@ export default function SearchTabs() {
               }
               onClick={() =>
                 router.push(
-                  `/search?q=${query}&tab=categories&perPage=2&page=1`
+                  `/search?q=${query}&tab=categories&perPage=${numberPerPage}&page=1`
                 )
               }
             >
@@ -182,7 +186,7 @@ export default function SearchTabs() {
                 {totalPopularPosts && totalPopularPosts?.length > 0 && (
                   <Pagination
                     itemsLength={totalPopularPosts.length}
-                    numberPerPage={2}
+                    numberPerPage={6}
                     destination={`/search?q=${query}&tab=popularPosts&perPage=${numberPerPage}&page=`}
                   />
                 )}
@@ -237,7 +241,7 @@ export default function SearchTabs() {
                 {totalPosts && totalPosts?.length > 0 && (
                   <Pagination
                     itemsLength={totalPosts.length}
-                    numberPerPage={2}
+                    numberPerPage={6}
                     destination={`/search?q=${query}&tab=posts&perPage=${numberPerPage}&page=`}
                   />
                 )}
@@ -282,7 +286,7 @@ export default function SearchTabs() {
                 {totalAuthors && totalAuthors?.length > 0 && (
                   <Pagination
                     itemsLength={totalAuthors.length}
-                    numberPerPage={2}
+                    numberPerPage={6}
                     destination={`/search?q=${query}&tab=authors&perPage=${numberPerPage}&page=`}
                   />
                 )}
@@ -327,7 +331,7 @@ export default function SearchTabs() {
                 {totalCategories && totalCategories?.length > 0 && (
                   <Pagination
                     itemsLength={totalCategories.length}
-                    numberPerPage={2}
+                    numberPerPage={6}
                     destination={`/search?q=${query}&tab=categories&perPage=${numberPerPage}&page=`}
                   />
                 )}
