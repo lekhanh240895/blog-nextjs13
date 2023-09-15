@@ -36,7 +36,7 @@ function PhoneEmailLogin() {
       dispatch(setLoginModalOpened(false));
     } else {
       console.log(res?.error);
-      toast("Thông tin đăng nhập không chính xác !", {
+      toast("Thông tin đăng nhập không chính xác!", {
         type: "error",
       });
     }

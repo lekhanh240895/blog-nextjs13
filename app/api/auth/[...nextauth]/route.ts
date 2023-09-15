@@ -4,12 +4,9 @@ import GoogleProvider from "next-auth/providers/google";
 import GithubProvider from "next-auth/providers/github";
 import FacebookProvider from "next-auth/providers/facebook";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { MongoDBAdapter } from "@next-auth/mongodb-adapter";
-import clientPromise from "@/app/lib/mongodb";
 import User from "@/app/models/User";
 import bcrypt from "bcrypt";
-
-const admins = ["admin@gm.com", "lekhanh240895@gmail.com"];
+import { mongooseConnect } from "@/app/lib/mongoose";
 
 const authOptions: NextAuthOptions = {
   session: {
@@ -57,7 +54,7 @@ const authOptions: NextAuthOptions = {
       },
     }),
   ],
-  adapter: MongoDBAdapter(clientPromise),
+  // adapter: MongoDBAdapter(clientPromise),
   callbacks: {
     async jwt({ token, account, user, trigger, session }) {
       if (account) {
@@ -67,6 +64,7 @@ const authOptions: NextAuthOptions = {
       if (user) {
         token.id = user.id;
         token.username = user.username;
+        token.role = user.role;
       }
 
       if (trigger === "update" && session?.user.username) {
@@ -79,14 +77,14 @@ const authOptions: NextAuthOptions = {
       if (token) {
         session.user._id = token.id;
         session.user.username = token.username;
-
-        if (admins.includes(session.user.email)) {
-          session.user.role = "admin";
-          token.role = "admin";
-        } else {
-          session.user.role = "user";
-        }
+        session.user.role = token.role;
       }
+
+      const sessionUser = await User.findOne({ email: session.user.email });
+
+      session.user._id = sessionUser.id;
+      session.user.username = sessionUser.username;
+      session.user.role = sessionUser.role;
 
       if (trigger === "update" && newSession?.user.username) {
         // You can update the session in the database if it's not already updated.
@@ -97,6 +95,31 @@ const authOptions: NextAuthOptions = {
       }
 
       return session;
+    },
+    async signIn({ profile }) {
+      console.log({ profile });
+
+      if (profile) {
+        try {
+          await mongooseConnect();
+
+          const userExists = await User.findOne({ email: profile?.email });
+
+          if (!userExists) {
+            const user = await User.create({
+              email: profile?.email,
+              name: profile?.name,
+              image: profile?.image,
+            });
+          }
+          return true;
+        } catch (error) {
+          console.log(error);
+          return false;
+        }
+      }
+
+      return true;
     },
   },
   pages: {

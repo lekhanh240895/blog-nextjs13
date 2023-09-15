@@ -52,7 +52,9 @@ async function Account({ params }: Props) {
 
         <div className="px-4 py-6 flex flex-col gap-1 md:flex-row md:gap-2 md:items-center">
           <h2 className="w-32">Ngày tham gia</h2>
-          <p>{format(new Date(user.createdAt), "dd/mm/yyyy")}</p>
+          {user.createdAt && (
+            <p>{format(new Date(user.createdAt), "dd/mm/yyyy")} </p>
+          )}
         </div>
       </div>
     </div>

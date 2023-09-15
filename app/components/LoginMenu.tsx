@@ -48,7 +48,11 @@ export default function LoginMenu({ items, title, policy }: LoginMenuProps) {
               setHistory((prevState) => [...prevState, item.children!]);
             } else {
               if (item.title === "Continue with Facebook") {
-                await signIn("facebook");
+                try {
+                  await signIn("facebook");
+                } catch (error) {
+                  console.log(error);
+                }
               }
               if (item.title === "Continue with Google") {
                 try {
@@ -58,7 +62,11 @@ export default function LoginMenu({ items, title, policy }: LoginMenuProps) {
                 }
               }
               if (item.title === "Continue with Github") {
-                await signIn("github");
+                try {
+                  await signIn("github");
+                } catch (error) {
+                  console.log(error);
+                }
               }
             }
           }}

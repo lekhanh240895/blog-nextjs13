@@ -24,6 +24,7 @@ interface User extends Base {
   bio?: string;
   description?: string;
   username: string;
+  role: string;
 }
 
 interface Category extends Base {

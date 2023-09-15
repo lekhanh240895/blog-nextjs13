@@ -201,10 +201,18 @@ function EditProfileModal() {
                       </div>
 
                       <div className="p-6 flex gap-3 justify-end">
-                        <button className="btn btn-primary min-w-[120px]">
+                        <button
+                          className="btn btn-primary min-w-[120px]"
+                          type="submit"
+                        >
                           Save
                         </button>
-                        <button className="btn btn-secondary min-w-[120px]">
+
+                        <button
+                          className="btn btn-secondary min-w-[120px]"
+                          type="button"
+                          onClick={handleClose}
+                        >
                           Cancel
                         </button>
                       </div>

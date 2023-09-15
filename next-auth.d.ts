@@ -23,6 +23,10 @@ declare module "next-auth" {
     bio?: string;
     description?: string;
     username: string;
+    createdAt: string;
+    _id: string;
+    updatedAt: string;
+    role: string;
   }
   /**
    * Usually contains information about the provider being used
