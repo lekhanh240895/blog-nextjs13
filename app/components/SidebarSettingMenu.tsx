@@ -8,10 +8,13 @@ import {
 } from "@heroicons/react/24/outline";
 import { useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
+import { useDispatch } from "react-redux";
+import { setSidebarOpened } from "../features/appSlice";
 
 export default function SidebarSettingMenu() {
   const { data: session } = useSession();
   const pathname = usePathname();
+  const dispatch = useDispatch();
 
   return (
     <Menu
@@ -54,6 +57,9 @@ export default function SidebarSettingMenu() {
                           ? "bg-slate-300"
                           : "text-gray-900"
                       } flex w-full items-center rounded-md px-2 py-2 transition-all`}
+                      onClick={() => {
+                        dispatch(setSidebarOpened(false));
+                      }}
                     >
                       <UserIcon className="w-5 h-5 mr-2" />
                       Tài khoản

@@ -48,7 +48,7 @@ export default function SidebarCategoryMenu() {
             leaveFrom="transform opacity-100 translate-x-0"
             leaveTo="transform opacity-0 -translate-x-5"
           >
-            <Menu.Items className="absolute left-[150px] top-0 mt-2 w-40 divide-y divide-gray-100 rounded-md bg-gray-200 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+            <Menu.Items className="absolute left-[150px] top-0 mt-2 w-40 divide-y divide-gray-100 rounded-md bg-gray-200 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none z-10">
               {categories.length > 0 &&
                 categories.map((category) => (
                   <div className="p-1" key={category._id}>

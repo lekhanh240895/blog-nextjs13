@@ -97,8 +97,6 @@ const authOptions: NextAuthOptions = {
       return session;
     },
     async signIn({ profile }) {
-      console.log({ profile });
-
       if (profile) {
         try {
           await mongooseConnect();

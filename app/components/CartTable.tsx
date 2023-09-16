@@ -51,7 +51,7 @@ function CartTable() {
                     <td className="min-w-[160px]">{product?.title}</td>
 
                     <td>
-                      <div className="flex gap-3 items-center justify-center min-w-[160px]">
+                      <div className="flex gap-2 md:gap-3 items-center justify-center md:min-w-[160px]">
                         <button
                           type="button"
                           className="btn py-1 text-gray-700"
@@ -69,6 +69,7 @@ function CartTable() {
                         </button>
                       </div>
                     </td>
+
                     <td>
                       {(product?.price * productQuantity).toLocaleString()}
                     </td>

@@ -86,6 +86,7 @@ async function Post({ params }: Props) {
                 className="!w-10 !h-10"
                 src={post.user.image}
                 alt={post.user.name}
+                href={`/author/${post.user.username}`}
               />
 
               <h3 className="text-lg font-bold">{post.user.name}</h3>

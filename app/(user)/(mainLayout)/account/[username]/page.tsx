@@ -3,7 +3,6 @@ import EditProfileButton from "@/app/components/EditProfileButton";
 import { getUsers } from "@/app/lib/api";
 import { format } from "date-fns";
 import { notFound } from "next/navigation";
-import React from "react";
 
 interface Props {
   params: {

@@ -11,6 +11,14 @@ export default withAuth(
       return NextResponse.redirect(
         new URL("/auth/login?message=Only admin can access this page!", req.url)
       );
+    } else if (
+      req.url.includes("/account") &&
+      req.nextauth.token?.username !==
+        req.nextUrl.pathname.replace("/account/", "")
+    ) {
+      return NextResponse.redirect(
+        new URL("/auth/login?message=Only owner can access this page!", req.url)
+      );
     }
   },
   {
@@ -20,4 +28,4 @@ export default withAuth(
   }
 );
 
-export const config = { matcher: ["/dashboard/:path*"] };
+export const config = { matcher: ["/dashboard/:path*", "/account/:path*"] };
