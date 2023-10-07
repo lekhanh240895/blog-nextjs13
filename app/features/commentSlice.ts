@@ -18,6 +18,9 @@ export const commentSlice = createSlice({
     setSelectedComment: (state, action) => {
       state.selectedComment = action.payload;
     },
+    setComments: (state, action) => {
+      state.comments = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchComments.fulfilled, (state, action) => {
@@ -35,6 +38,6 @@ export const fetchComments = createAsyncThunk(
 );
 
 // Action creators are generated for each case reducer function
-export const { setSelectedComment } = commentSlice.actions;
+export const { setSelectedComment, setComments } = commentSlice.actions;
 
 export default commentSlice;

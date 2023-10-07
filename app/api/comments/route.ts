@@ -25,6 +25,10 @@ export async function GET(req: Request) {
         model: User,
       },
       {
+        path: "replies",
+        model: Comment,
+      },
+      {
         path: "post",
         model: Post,
         populate: [
@@ -80,9 +84,16 @@ export async function POST(req: Request) {
 
   const request = await req.json();
 
-  const { text, post, user, replies } = request;
+  const { text, post, user, replies, name, email, comment } = request;
 
-  const newComment = await Comment.create({ text, post, user, replies });
+  const newComment = await Comment.create({
+    text,
+    post,
+    user,
+    replies,
+    name,
+    email,
+  });
 
   await Post.findByIdAndUpdate(post, {
     $push: {
@@ -101,22 +112,24 @@ export async function PUT(req: Request) {
 
   const res = await req.json();
 
-  const { text, post, user, replies } = res;
+  const { text, post, user, replies, name, email } = res;
 
-  const updatedUser = await Comment.findByIdAndUpdate(
+  const updatedComment = await Comment.findByIdAndUpdate(
     id,
     {
       text,
       post,
       user,
       replies,
+      name,
+      email,
     },
     {
       new: true,
     }
   );
 
-  return NextResponse.json(updatedUser);
+  return NextResponse.json(updatedComment);
 }
 
 export async function DELETE(req: Request) {

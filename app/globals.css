@@ -55,7 +55,7 @@
   }
 
   .btn-secondary {
-    @apply bg-gray-300 hover:bg-slate-300 text-black focus-visible:ring-gray-300;
+    @apply bg-gray-300 hover:bg-slate-300 text-gray-500 focus-visible:ring-gray-300;
   }
   .btn-primary {
     @apply bg-primary/90 hover:bg-primary/100 text-white focus-visible:ring-primary/100;

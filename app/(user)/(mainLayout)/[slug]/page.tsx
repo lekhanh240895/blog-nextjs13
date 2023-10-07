@@ -9,6 +9,7 @@ import "react-quill/dist/quill.snow.css";
 import { vi } from "date-fns/locale";
 import EditPostButton from "@/app/components/EditPostButton";
 import { notFound } from "next/navigation";
+import Link from "next/link";
 
 interface Props {
   params: {
@@ -98,7 +99,7 @@ async function Post({ params }: Props) {
 
             <div className="flex items-center justify-end space-x-2 mt-auto">
               <ClientSiteRoute
-                route={`/category/${post.category?.title.toLowerCase()}`}
+                route={`/category/${post.category?.slug}`}
                 className="btn btn-primary bg-primary"
               >
                 {post.category?.title}
@@ -106,7 +107,7 @@ async function Post({ params }: Props) {
 
               {post.category?.parent && (
                 <ClientSiteRoute
-                  route={`/category/${post.category?.title.toLowerCase()}`}
+                  route={`/category/${post.category?.slug}`}
                   className="btn btn-primary bg-primary"
                 >
                   {post.category?.parent.title}
@@ -152,9 +153,12 @@ async function Post({ params }: Props) {
                 {post.user.description}
               </p>
 
-              <button className="btn btn-primary rounded-full py-2 md:py-1 text-gray-100 max-w-[250px] self-center md:self-start">
+              <Link
+                href={`/author/${post.user.username}`}
+                className="btn btn-primary rounded-full py-2 md:py-1 text-gray-100 max-w-[250px] self-center md:self-start"
+              >
                 Xem tất cả bài viết
-              </button>
+              </Link>
             </div>
           </div>
         </section>

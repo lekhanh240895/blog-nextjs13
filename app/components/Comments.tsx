@@ -3,6 +3,11 @@
 import Comment from "./Comment";
 import useSwr, { Fetcher } from "swr";
 import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { commentSelector } from "../redux/selector";
+import { useEffect } from "react";
+import { fetchComments, setComments } from "../features/commentSlice";
+import { AppDispatch } from "../redux/store";
 
 type Props = {
   postId: string;
@@ -15,8 +20,19 @@ const fetcher: Fetcher<Comment[], string> = async (url) => {
 
 function Comments({ postId }: Props) {
   const apiUrl: string = "/api/comments?post=" + postId;
+  const { comments } = useSelector(commentSelector);
+  const { data: updatedComments, error } = useSwr(apiUrl, fetcher);
+  const dispatch = useDispatch<AppDispatch>();
 
-  const { data: comments, error } = useSwr(apiUrl, fetcher);
+  useEffect(() => {
+    if (updatedComments && updatedComments?.length > comments.length) {
+      dispatch(setComments(updatedComments));
+    }
+  }, [comments.length, dispatch, updatedComments]);
+
+  useEffect(() => {
+    dispatch(fetchComments(postId));
+  }, [dispatch, postId]);
 
   return (
     <section className="pt-4 pb-6">

@@ -6,6 +6,9 @@ const CommmentSchema = new Schema(
     user: { type: Schema.Types.ObjectId, ref: "User" },
     post: { type: Schema.Types.ObjectId, ref: "Post" },
     replies: [{ type: Schema.Types.ObjectId, ref: "Comment" }],
+    name: { type: String },
+    email: { type: String },
+    comment: { type: Schema.Types.ObjectId, ref: "Comment" },
   },
   {
     timestamps: true,

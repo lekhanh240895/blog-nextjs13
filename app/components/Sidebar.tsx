@@ -38,7 +38,7 @@ function Sidebar() {
     >
       <div className="relative">
         <span
-          className="btn btn-secondary p-1 w-8 h-8 absolute -top-8 right-0"
+          className="btn btn-secondary p-1 w-8 h-8 absolute -top-8 right-0 cursor-pointer"
           onClick={handleCloseSidebar}
         >
           <XMarkIcon />

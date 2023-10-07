@@ -2,7 +2,7 @@
 
 import axios from "axios";
 import { useSession } from "next-auth/react";
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { fetchComments } from "../features/commentSlice";
@@ -12,10 +12,13 @@ import Spinner from "./Spinner";
 interface FormData {
   name: string;
   email: string;
-  webstite?: string;
   text: string;
   saveInfo?: boolean;
-  website?: string;
+}
+
+interface GuestInfo {
+  name: string;
+  email: string;
 }
 
 function PostCommentForm({ postId }: { postId: string }) {
@@ -23,22 +26,55 @@ function PostCommentForm({ postId }: { postId: string }) {
     register,
     handleSubmit,
     reset,
+    setValue,
     formState: { isSubmitting },
   } = useForm<FormData>();
   const { data: session } = useSession();
   const dispatch = useDispatch<AppDispatch>();
 
+  useEffect(() => {
+    const guestInfo = localStorage.getItem("guestInfo");
+
+    if (guestInfo) {
+      const info: GuestInfo = JSON.parse(guestInfo);
+      setValue("email", info.email);
+      setValue("name", info.name);
+    }
+  }, [setValue]);
+
   const onSubmit = async (data: FormData) => {
-    const formData = {
-      ...data,
-      post: postId,
-      user: session?.user._id,
-    };
+    let formData;
+
+    if (session) {
+      formData = {
+        ...data,
+        post: postId,
+        user: session?.user._id,
+      };
+    } else {
+      formData = {
+        ...data,
+        post: postId,
+      };
+    }
 
     await axios.post("/api/comments", formData);
-    dispatch(fetchComments(postId));
 
-    reset();
+    if (formData.saveInfo) {
+      localStorage.setItem(
+        "guestInfo",
+        JSON.stringify({
+          name: data.name,
+          email: data.email,
+        })
+      );
+    }
+
+    dispatch(fetchComments(postId));
+    reset({
+      text: "",
+      saveInfo: false,
+    });
   };
 
   return (
@@ -55,29 +91,31 @@ function PostCommentForm({ postId }: { postId: string }) {
           className="h-40"
           {...register("text", { required: true })}
         />
-        <div className="flex gap-x-4">
-          <input
-            type="text"
-            placeholder="Name"
-            {...register("name", { required: true })}
-          />
-          <input
-            type="text"
-            placeholder="Email"
-            {...register("email", { required: true })}
-          />
-        </div>
-        <input type="text" placeholder="Website" {...register("website")} />
+        {!session && (
+          <>
+            <div className="flex gap-x-4">
+              <input
+                type="text"
+                placeholder="Name"
+                {...register("name", { required: true })}
+              />
+              <input
+                type="email"
+                placeholder="Email"
+                {...register("email", { required: true })}
+              />
+            </div>
 
-        <label className="block mt-4 text-gray-500">
-          <input
-            type="checkbox"
-            className="w-auto mr-2"
-            {...register("saveInfo")}
-          />
-          Save my name, email, and website in this browser for the next time I
-          comment.
-        </label>
+            <label className="block mt-4 text-gray-500">
+              <input
+                type="checkbox"
+                className="w-auto mr-2"
+                {...register("saveInfo")}
+              />
+              Save my name, email in this browser for the next time I comment.
+            </label>
+          </>
+        )}
 
         <button
           type="submit"
