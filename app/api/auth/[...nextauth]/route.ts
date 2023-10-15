@@ -80,19 +80,20 @@ const authOptions: NextAuthOptions = {
         session.user.role = token.role;
       }
 
-      const sessionUser = await User.findOne({ email: session.user.email });
+      const sessionUser = await User.findOne({
+        email: session.user.email,
+      }).select("-password");
 
-      session.user._id = sessionUser.id;
-      session.user.username = sessionUser.username;
-      session.user.role = sessionUser.role;
+      session.user = sessionUser;
+      token.role = sessionUser.role;
 
-      if (trigger === "update" && newSession?.user.username) {
-        // You can update the session in the database if it's not already updated.
-        // await adapter.updateUser(session.user.id, { name: newSession.name })
+      // if (trigger === "update" && newSession?.user.username) {
+      //   // You can update the session in the database if it's not already updated.
+      //   // await adapter.updateUser(session.user.id, { name: newSession.name })
 
-        // Make sure the updated value is reflected on the client
-        session.user.username = newSession.user.username;
-      }
+      //   // Make sure the updated value is reflected on the client
+      //   session.user.username = newSession.user.username;
+      // }
 
       return session;
     },

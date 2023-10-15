@@ -16,12 +16,12 @@ export async function GET(req: Request) {
   if (conditions.length > 0) {
     const user = await User.findOne({
       $or: conditions,
-    });
+    }).select("-password");
 
     return NextResponse.json(user);
   }
 
-  return NextResponse.json(await User.find({}));
+  return NextResponse.json(await User.find({}).select("-password"));
 }
 
 export async function POST(req: Request) {
@@ -70,7 +70,7 @@ export async function PUT(req: Request) {
 
   const res = await req.json();
 
-  const { name, image, email, username, password } = res;
+  const { name, image, email, username, password, description } = res;
 
   if (password) {
     const salt = await bcrypt.genSalt(10);
@@ -86,11 +86,12 @@ export async function PUT(req: Request) {
       email,
       username,
       password,
+      description,
     },
     {
       new: true,
     }
-  );
+  ).select("-password");
 
   return NextResponse.json(updatedUser);
 }

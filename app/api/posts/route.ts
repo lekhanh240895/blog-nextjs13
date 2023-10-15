@@ -22,6 +22,7 @@ export async function GET(req: Request) {
       {
         path: "user",
         model: User,
+        select: "-password",
       },
       {
         path: "category",
@@ -37,7 +38,8 @@ export async function GET(req: Request) {
         populate: [
           {
             path: "user",
-            model: "User",
+            model: User,
+            select: "-password",
           },
         ],
       },
@@ -54,6 +56,7 @@ export async function GET(req: Request) {
       {
         path: "user",
         model: User,
+        select: "-password",
       },
       {
         path: "category",
@@ -69,7 +72,8 @@ export async function GET(req: Request) {
         populate: [
           {
             path: "user",
-            model: "User",
+            model: User,
+            select: "-password",
           },
         ],
       },

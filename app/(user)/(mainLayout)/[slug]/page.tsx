@@ -138,7 +138,7 @@ async function Post({ params }: Props) {
 
           <div className="flex flex-col md:flex-row gap-3 md:gap-6 items-center md:items-start text-sm text-gray-500">
             <Avatar
-              href={`/author/${post.user.username}}`}
+              href={`/author/${post.user.username}`}
               src={post.user.image}
             />
 

@@ -14,6 +14,7 @@ export async function GET() {
         {
           path: "user",
           model: User,
+          select: "-password",
         },
         {
           path: "category",

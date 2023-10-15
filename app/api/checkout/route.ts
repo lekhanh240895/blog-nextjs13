@@ -56,17 +56,18 @@ export async function POST(req: Request) {
       metadata: { orderId: orderDoc._id.toString() },
     };
 
-    try {
-      const checkoutSession: Stripe.Checkout.Session =
-        await stripe.checkout.sessions.create(params);
+    const checkoutSession: Stripe.Checkout.Session =
+      await stripe.checkout.sessions.create(params);
 
-      return NextResponse.json({
-        url: checkoutSession.url,
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  } catch (error) {
-    console.log(error);
+    return NextResponse.json({
+      url: checkoutSession.url,
+    });
+  } catch (error: any) {
+    return NextResponse.json(
+      { message: error.message },
+      {
+        status: 400,
+      }
+    );
   }
 }

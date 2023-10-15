@@ -82,7 +82,7 @@ function Comment({ comment }: { comment: Comment }) {
     <div className="flex gap-3 md:gap-x-6 text-sm text-gray-500 py-4">
       {comment.user ? (
         <Avatar
-          href={`/author/${comment.user.username}}`}
+          href={`/author/${comment.user.username}`}
           src={comment.user.image}
           alt={comment.user.name}
           className="w-20 h-20"

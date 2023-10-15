@@ -17,6 +17,7 @@ export const getPost = async (options?: Options) => {
     {
       path: "user",
       model: User,
+      select: "-password",
     },
     {
       path: "category",
@@ -32,7 +33,8 @@ export const getPost = async (options?: Options) => {
       populate: [
         {
           path: "user",
-          model: "User",
+          model: User,
+          select: "-password",
         },
       ],
     },
@@ -52,6 +54,7 @@ export const getPosts = async (options?: Options) => {
       {
         path: "user",
         model: User,
+        select: "-password",
       },
       {
         path: "category",
@@ -68,6 +71,7 @@ export const getPosts = async (options?: Options) => {
           {
             path: "user",
             model: "User",
+            select: "-password",
           },
           {
             path: "post",
@@ -97,6 +101,7 @@ export const getPostsByPage = async (
       {
         path: "user",
         model: User,
+        select: "-password",
       },
       {
         path: "category",
@@ -124,6 +129,7 @@ export const getPopularPosts = async () => {
       {
         path: "user",
         model: User,
+        select: "-password",
       },
       {
         path: "category",
@@ -236,6 +242,7 @@ export const getComments = async (postId?: string, options?: Options) => {
       {
         path: "user",
         model: User,
+        select: "-password",
       },
       {
         path: "post",
@@ -244,6 +251,7 @@ export const getComments = async (postId?: string, options?: Options) => {
           {
             path: "user",
             model: User,
+            select: "-password",
           },
           {
             path: "category",
@@ -268,6 +276,7 @@ export const getComments = async (postId?: string, options?: Options) => {
       {
         path: "user",
         model: User,
+        select: "-password",
       },
       {
         path: "post",
@@ -276,6 +285,7 @@ export const getComments = async (postId?: string, options?: Options) => {
           {
             path: "user",
             model: User,
+            select: "-password",
           },
           {
             path: "category",

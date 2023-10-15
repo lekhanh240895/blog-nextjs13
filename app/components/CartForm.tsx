@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { appSelector } from "../redux/selector";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 type FormData = {
   name: string;
@@ -20,11 +21,30 @@ function CartForm() {
 
   const onSubmit = async (data: FormData) => {
     const formData = { ...data, cartProductIds };
-    const response = await axios.post("/api/checkout", formData);
-    const { url } = response.data;
+    try {
+      const res = await axios.post("/api/checkout", formData);
 
-    if (url) {
-      router.push(url);
+      if (res.status === 400) {
+        const { message } = res.data;
+
+        toast(message, {
+          type: "error",
+          autoClose: 200,
+        });
+      }
+
+      const { url } = res.data;
+
+      if (url) {
+        router.push(url);
+      }
+    } catch (error: any) {
+      const { message } = error.response.data;
+      toast(message, {
+        type: "error",
+        autoClose: 3000,
+      });
+      console.log(error);
     }
   };
 

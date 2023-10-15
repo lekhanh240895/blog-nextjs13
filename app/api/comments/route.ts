@@ -23,6 +23,7 @@ export async function GET(req: Request) {
       {
         path: "user",
         model: User,
+        select: "-password",
       },
       {
         path: "replies",
@@ -35,6 +36,7 @@ export async function GET(req: Request) {
           {
             path: "user",
             model: User,
+            select: "-password",
           },
           {
             path: "category",
@@ -56,6 +58,7 @@ export async function GET(req: Request) {
       {
         path: "user",
         model: User,
+        select: "-password",
       },
       {
         path: "post",
@@ -64,6 +67,7 @@ export async function GET(req: Request) {
           {
             path: "user",
             model: User,
+            select: "-password",
           },
           {
             path: "category",
