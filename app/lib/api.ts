@@ -238,7 +238,7 @@ export const getComments = async (postId?: string, options?: Options) => {
   await mongooseConnect();
 
   if (options) {
-    const commennt = await Order.findOne(options).populate([
+    const comment = await Order.findOne(options).populate([
       {
         path: "user",
         model: User,
@@ -265,7 +265,7 @@ export const getComments = async (postId?: string, options?: Options) => {
       },
     ]);
 
-    return JSON.parse(JSON.stringify(commennt));
+    return JSON.parse(JSON.stringify(comment));
   }
 
   const comments = await Comment.find({ post: postId })

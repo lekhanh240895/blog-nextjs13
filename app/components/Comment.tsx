@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Avatar from "./Avatar";
 import { format } from "date-fns";
 import { vi } from "date-fns/locale";
@@ -10,6 +10,11 @@ import { useForm } from "react-hook-form";
 import { useSession } from "next-auth/react";
 import axios from "axios";
 import { AppDispatch } from "../redux/store";
+import {
+  HandThumbDownIcon,
+  HandThumbUpIcon,
+} from "@heroicons/react/24/outline";
+import { setLoginModalOpened } from "../features/appSlice";
 interface FormData {
   name: string;
   email: string;
@@ -27,6 +32,8 @@ function Comment({ comment }: { comment: Comment }) {
   const { selectedComment } = useSelector(commentSelector);
   const { handleSubmit, register, setValue, reset } = useForm<FormData>();
   const { data: session } = useSession();
+
+  console.log({ comment });
 
   useEffect(() => {
     const guestInfo = localStorage.getItem("guestInfo");
@@ -78,6 +85,42 @@ function Comment({ comment }: { comment: Comment }) {
     });
   };
 
+  const handleLike = async ({
+    postId,
+    comment,
+  }: {
+    postId: string;
+    comment: Comment;
+  }) => {
+    if (!session) {
+      dispatch(setLoginModalOpened(true));
+    } else {
+      await axios.put(`/api/comments/${comment._id}/like`, {
+        userId: session.user._id,
+      });
+
+      dispatch(fetchComments(postId));
+    }
+  };
+
+  const handleDislike = async ({
+    postId,
+    comment,
+  }: {
+    postId: string;
+    comment: Comment;
+  }) => {
+    if (!session) {
+      dispatch(setLoginModalOpened(true));
+    } else {
+      await axios.put(`/api/comments/${comment._id}/dislike`, {
+        userId: session.user._id,
+      });
+
+      dispatch(fetchComments(postId));
+    }
+  };
+
   return (
     <div className="flex gap-3 md:gap-x-6 text-sm text-gray-500 py-4">
       {comment.user ? (
@@ -103,14 +146,84 @@ function Comment({ comment }: { comment: Comment }) {
         </div>
 
         <p className="text-gray-500 tracking-wider">{comment.text}</p>
+        <div className="flex gap-3">
+          <span className="flex gap-1 items-center">
+            <span className="text-sm">{comment.likes.length}</span>
+            <HandThumbUpIcon
+              className="w-3 h-3 cursor-pointer"
+              onClick={() => handleLike({ postId: comment.post._id, comment })}
+            />
+          </span>
+          <span className="flex gap-1 items-center">
+            <span className="text-sm">{comment.dislikes.length}</span>
+            <HandThumbDownIcon
+              className="w-3 h-3 cursor-pointer"
+              onClick={() =>
+                handleDislike({ postId: comment.post._id, comment })
+              }
+            />
+          </span>
+        </div>
 
         {/* Replies */}
         {!!comment.replies.length && (
           <div className="pl-10">
             <p>{comment.replies.length} Câu trả lời</p>
 
-            {comment.replies.map((comment) => (
-              <div key={comment._id}>{comment.text}</div>
+            {comment.replies.map((reply) => (
+              <div
+                key={reply._id}
+                className="flex flex-wrap gap-3 md:gap-x-6 text-sm text-gray-500 py-4"
+              >
+                {reply.user ? (
+                  <Avatar
+                    href={`/author/${reply.user.username}`}
+                    src={reply.user.image}
+                    alt={reply.user.name}
+                    className="w-20 h-20"
+                  />
+                ) : (
+                  <Avatar src="" alt={reply.name} className="w-20 h-20" />
+                )}
+
+                <div className="space-y-2">
+                  <div className="flex flex-wrap gap-x-2">
+                    <h1>{reply.user ? reply.user.name : reply.name}</h1>
+                    <span>
+                      {format(new Date(reply.createdAt), "MM/dd/yyyy HH:mm", {
+                        locale: vi,
+                      })}
+                    </span>
+                  </div>
+                  <p className="text-gray-500 tracking-wider">{reply.text}</p>
+                  <div className="flex gap-3">
+                    <span className="flex gap-1 items-center">
+                      <span className="text-sm">{reply.likes.length}</span>
+                      <HandThumbUpIcon
+                        className="w-3 h-3 cursor-pointer"
+                        onClick={() =>
+                          handleLike({
+                            postId: comment.post._id,
+                            comment: reply,
+                          })
+                        }
+                      />
+                    </span>
+                    <span className="flex gap-1 items-center">
+                      <span className="text-sm">{reply.dislikes.length}</span>
+                      <HandThumbDownIcon
+                        className="w-3 h-3 cursor-pointer"
+                        onClick={() =>
+                          handleDislike({
+                            postId: comment.post._id,
+                            comment: reply,
+                          })
+                        }
+                      />
+                    </span>
+                  </div>
+                </div>
+              </div>
             ))}
           </div>
         )}

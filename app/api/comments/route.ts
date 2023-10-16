@@ -28,6 +28,13 @@ export async function GET(req: Request) {
       {
         path: "replies",
         model: Comment,
+        populate: [
+          {
+            path: "user",
+            model: User,
+            select: "-password",
+          },
+        ],
       },
       {
         path: "post",
@@ -47,6 +54,14 @@ export async function GET(req: Request) {
             },
           },
         ],
+      },
+      {
+        path: "likes",
+        model: User,
+      },
+      {
+        path: "dislikes",
+        model: User,
       },
     ]);
 
@@ -88,13 +103,12 @@ export async function POST(req: Request) {
 
   const request = await req.json();
 
-  const { text, post, user, replies, name, email, comment } = request;
+  const { text, post, user, name, email } = request;
 
   const newComment = await Comment.create({
     text,
     post,
     user,
-    replies,
     name,
     email,
   });
@@ -116,7 +130,7 @@ export async function PUT(req: Request) {
 
   const res = await req.json();
 
-  const { text, post, user, replies, name, email } = res;
+  const { text, post, user, name, email, replies, likes, dislikes } = res;
 
   const updatedComment = await Comment.findByIdAndUpdate(
     id,
@@ -124,9 +138,11 @@ export async function PUT(req: Request) {
       text,
       post,
       user,
-      replies,
       name,
       email,
+      replies,
+      likes,
+      dislikes,
     },
     {
       new: true,

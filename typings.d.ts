@@ -75,6 +75,8 @@ interface Comment extends Base {
   name: string;
   email: string;
   comment: Comment;
+  likes: [User];
+  dislikes: [User];
 }
 
 interface Property {

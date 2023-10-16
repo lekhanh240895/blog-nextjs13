@@ -9,6 +9,18 @@ const CommmentSchema = new Schema(
     name: { type: String },
     email: { type: String },
     comment: { type: Schema.Types.ObjectId, ref: "Comment" },
+    likes: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "User",
+      },
+    ],
+    dislikes: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "User",
+      },
+    ],
   },
   {
     timestamps: true,
