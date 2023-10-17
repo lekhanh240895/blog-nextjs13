@@ -33,8 +33,6 @@ function Comment({ comment }: { comment: Comment }) {
   const { handleSubmit, register, setValue, reset } = useForm<FormData>();
   const { data: session } = useSession();
 
-  console.log({ comment });
-
   useEffect(() => {
     const guestInfo = localStorage.getItem("guestInfo");
 

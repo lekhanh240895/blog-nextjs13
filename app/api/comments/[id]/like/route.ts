@@ -14,8 +14,6 @@ export async function PUT(
 
   const comment = await Comment.findById(id);
 
-  console.log(comment.likes.includes(userId));
-
   if (!comment.likes.includes(userId)) {
     const updatedComment = await Comment.findByIdAndUpdate(
       id,
